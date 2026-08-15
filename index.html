@@ -443,7 +443,49 @@ body:not(.light) .header-clock .clock-date{
     <div class="login-hint">
       Todos os dados ficam guardados neste dispositivo e, quando há internet, também no servidor. Exporte uma cópia de segurança regularmente em Definições.
     </div>
+    <div style="text-align:center;margin-top:10px;">
+      <a href="javascript:void(0)" onclick="abrirRecuperarSenha()" style="font-size:12px;color:var(--brass);text-decoration:underline;">Esqueci a senha</a>
+    </div>
     <div id="fbStatusIndicator" style="margin-top:10px;font-size:11px;text-align:center;color:var(--text-dim);">A verificar ligação online…</div>
+  </div>
+</div>
+
+<!-- ============ RECUPERAÇÃO DE SENHA ============
+     Envia um link por email (mesmo serviço automático já configurado
+     para vendedores) para o Administrador ou Vendedor definir uma nova
+     senha, sem precisar saber a antiga. -->
+<div id="recuperarScreen" class="hidden">
+  <div class="login-box">
+    <div class="login-title">Recuperar Acesso</div>
+    <div class="login-sub" style="margin-bottom:14px;">Indique o seu utilizador — enviaremos um link por email para definir uma nova senha.</div>
+    <div class="login-error" id="recuperarError"></div>
+    <div class="field">
+      <label>Utilizador</label>
+      <input type="text" id="recuperarUser" placeholder="ex: admin" autocomplete="username">
+    </div>
+    <button class="btn btn-brass btn-full" onclick="solicitarRecuperacaoSenha()">Enviar Link por Email</button>
+    <div style="text-align:center;margin-top:10px;">
+      <a href="javascript:void(0)" onclick="fecharRecuperarSenha()" style="font-size:12px;color:var(--text-dim);text-decoration:underline;">Voltar ao login</a>
+    </div>
+    <div class="login-hint">O link chega ao email registado dessa conta e expira em 1 hora, por segurança.</div>
+  </div>
+</div>
+
+<!-- ============ DEFINIR NOVA SENHA (a partir do link recebido) ============ -->
+<div id="novaSenhaScreen" class="hidden">
+  <div class="login-box">
+    <div class="login-title">Definir Nova Senha</div>
+    <div class="login-sub" id="novaSenhaSub" style="margin-bottom:14px;"></div>
+    <div class="login-error" id="novaSenhaError"></div>
+    <div class="field">
+      <label>Nova senha (mín. 6 carateres, letras e números)</label>
+      <input type="password" id="novaSenhaCampo" placeholder="••••••••" autocomplete="new-password">
+    </div>
+    <div class="field">
+      <label>Confirmar nova senha</label>
+      <input type="password" id="novaSenhaConfirmar" placeholder="••••••••" autocomplete="new-password">
+    </div>
+    <button class="btn btn-brass btn-full" onclick="submitNovaSenha()">Guardar Nova Senha</button>
   </div>
 </div>
 
@@ -462,6 +504,10 @@ body:not(.light) .header-clock .clock-date{
       <input type="text" id="setupUser" placeholder="ex: gerencia" autocomplete="username">
     </div>
     <div class="field">
+      <label>Email de recuperação (opcional)</label>
+      <input type="email" id="setupEmail" placeholder="ex: o-seu-email@gmail.com" autocomplete="email">
+    </div>
+    <div class="field">
       <label>Senha (mín. 6 carateres, letras e números)</label>
       <input type="password" id="setupPass" placeholder="••••••••" autocomplete="new-password">
     </div>
@@ -470,7 +516,7 @@ body:not(.light) .header-clock .clock-date{
       <input type="password" id="setupPassConfirm" placeholder="••••••••" autocomplete="new-password">
     </div>
     <button class="btn btn-brass btn-full" onclick="submitConfiguracaoInicial()">Criar conta e continuar</button>
-    <div class="login-hint">Esta conta terá acesso total ao sistema. Guarde a senha num local seguro — só o Administrador consegue redefinir senhas de vendedores.</div>
+    <div class="login-hint">Esta conta terá acesso total ao sistema. Guarde a senha num local seguro. Se não indicar um email, o link de "Esqueci a senha" será enviado para o email geral da cooperativa.</div>
   </div>
 </div>
 
@@ -686,7 +732,23 @@ try{
   window.fbLogout = function(){ try{ fbAuth.signOut(); }catch(e){} };
 
   const authProntoBase = new Promise(resolve=>{
-    const unsub = fbAuth.onAuthStateChanged(()=>{ unsub(); resolve(); });
+    const unsub = fbAuth.onAuthStateChanged(async (user)=>{
+      unsub();
+      if(!user){
+        /* Nenhuma sessão ainda (dispositivo novo ou acabado de abrir). As Regras
+           de Segurança do Firestore exigem autenticação até para LER os dados —
+           e para o login do próprio sistema funcionar, precisamos de conseguir
+           ler os dados primeiro (para comparar a senha). Um login anónimo
+           resolve esse impasse: autentica o dispositivo sem exigir credenciais,
+           só para permitir a leitura inicial. Depois, quando o login real
+           (fbLogin) acontece, substitui esta sessão anónima pela sessão real.
+           Requer "Anónimo" ativado em Authentication → Sign-in method na
+           Consola Firebase. */
+        try{ await fbAuth.signInAnonymously(); }
+        catch(e){ console.warn('Login anónimo indisponível (ative "Anónimo" em Authentication → Sign-in method na Consola Firebase):', e); }
+      }
+      resolve();
+    });
   });
   window.fbAuthPronto = Promise.race([
     authProntoBase,
@@ -13185,12 +13247,19 @@ const PESOS_PADRAO = [1, 0.5, 0.2, 0.1, 0.05]; /* 1kg, 500g, 200g, 100g, 50g */
 /* O preço/kg de cada sabor é definido pelo Administrador em Definições → Tabela de Preços,
    e pode ser alterado a qualquer momento (os preços variam ao longo do tempo).
    Enquanto não houver preço definido para um sabor, o preço fica para preenchimento manual. */
+/* O preço de cada embalagem (sabor + peso) é definido manualmente pelo
+   Administrador em Definições → Tabela de Preços — não é calculado
+   automaticamente a partir de um preço por kg, porque cada tamanho de
+   embalagem pode ter uma margem diferente. */
 function getTipoConfig(tipo){
   if(!TIPOS.includes(tipo) || tipo==='Outro') return null;
-  const precoKg = (DB.precosTipo && DB.precosTipo[tipo]) || null;
-  const opcoes = PESOS_PADRAO.map(p=>({embalagem:EMBALAGEM_PADRAO, peso:p, precoKg}));
-  opcoes.push({embalagem:'Tigela Retangular', peso:null, precoKg:null, manual:true});
-  opcoes.push({embalagem:'Tigela Circular', peso:null, precoKg:null, manual:true});
+  const precos = (DB.precosTipo && DB.precosTipo[tipo]) || {};
+  const opcoes = PESOS_PADRAO.map(p=>{
+    const precoEmbalagem = precos[String(p)];
+    return { embalagem:EMBALAGEM_PADRAO, peso:p, precoEmbalagem: (precoEmbalagem>0?precoEmbalagem:null) };
+  });
+  opcoes.push({embalagem:'Tigela Retangular', peso:null, precoEmbalagem:null, manual:true});
+  opcoes.push({embalagem:'Tigela Circular', peso:null, precoEmbalagem:null, manual:true});
   return { opcoes };
 }
 function produtoFromTipo(tipo){
@@ -13217,6 +13286,20 @@ async function loadDB(){
     if(!d.historicoPrecos) d.historicoPrecos = [];
     if(d.precosTipo && d.precosTipo['Açucaradas']!==undefined){ d.precosTipo['Caramelizadas'] = d.precosTipo['Açucaradas']; delete d.precosTipo['Açucaradas']; }
     (d.historicoPrecos||[]).forEach(h=>{ if(h.tipo==='Açucaradas') h.tipo='Caramelizadas'; });
+    /* Migração: preço passou de "um valor por kg por sabor" para "um valor
+       manual por embalagem (sabor + peso)". Uma entrada antiga (número) não
+       tem forma segura de virar preços por embalagem sem inventar valores —
+       por isso fica preservada em precosTipoAntigo (só para referência/consulta)
+       e o Administrador preenche a nova tabela manualmente em Definições. */
+    TIPOS.forEach(t=>{
+      if(typeof d.precosTipo[t] === 'number'){
+        d.precosTipoAntigo = d.precosTipoAntigo || {};
+        d.precosTipoAntigo[t] = d.precosTipo[t];
+        d.precosTipo[t] = {};
+      } else if(!d.precosTipo[t]){
+        d.precosTipo[t] = {};
+      }
+    });
     if(d.margemAlvo===undefined) d.margemAlvo = 30;
     if(d.instanceInfo===undefined) d.instanceInfo = null;
     return d;
@@ -13505,7 +13588,7 @@ ${sharedStrings.map(s=>`<si><t xml:space="preserve">${xmlEscape(s)}</t></si>`).j
 </borders>
 <cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>
 <cellXfs count="9">
-  <xf numFmtId="0" fontId="0" fillId="0" borderId="1" xfId="0" applyBorder="1"/>
+  <xf numFmtId="0" fontId="0" fillId="0" borderId="1" xfId="0" applyBorder="1"><alignment wrapText="1" vertical="top"/></xf>
   <xf numFmtId="0" fontId="1" fillId="2" borderId="1" xfId="0" applyFont="1" applyFill="1" applyBorder="1"><alignment vertical="center"/></xf>
   <xf numFmtId="164" fontId="0" fillId="0" borderId="1" xfId="0" applyNumberFormat="1" applyBorder="1"/>
   <xf numFmtId="165" fontId="0" fillId="0" borderId="1" xfId="0" applyNumberFormat="1" applyBorder="1"/>
@@ -13636,6 +13719,7 @@ async function submitAdminCred(){
   errBox.textContent = '';
   const senhaAtual = document.getElementById('credSenhaAtual').value;
   const novoUser = document.getElementById('credNovoUser').value.trim().toLowerCase();
+  const novoEmail = document.getElementById('credEmail').value.trim();
   const novaSenha = document.getElementById('credNovaSenha').value;
   const confirmaSenha = document.getElementById('credConfirmaSenha').value;
 
@@ -13644,9 +13728,11 @@ async function submitAdminCred(){
   const recAtual = adminRec(session.user);
   if(!recAtual || recAtual.hash !== hashAtual){ errBox.textContent = 'Senha atual incorreta.'; return; }
 
-  if(!novoUser && !novaSenha){ errBox.textContent = 'Preencha o novo utilizador e/ou a nova senha.'; return; }
+  const emailMudou = novoEmail !== (DB.adminCred.email || '');
+  if(!novoUser && !novaSenha && !emailMudou){ errBox.textContent = 'Altere pelo menos um campo.'; return; }
   if(novoUser && !/^[a-z0-9._-]+$/.test(novoUser)){ errBox.textContent = 'Utilizador inválido. Use apenas letras minúsculas, números, ponto, traço ou underscore.'; return; }
   if(novoUser && (novoUser==='operador' || DB.vendedores.some(v=>v.user===novoUser))){ errBox.textContent = 'Esse nome de utilizador já está em uso.'; return; }
+  if(novoEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(novoEmail)){ errBox.textContent = 'Email de recuperação inválido.'; return; }
   if(novaSenha){
     const erroSenha = senhaFraca(novaSenha);
     if(erroSenha){ errBox.textContent = erroSenha; return; }
@@ -13655,8 +13741,8 @@ async function submitAdminCred(){
 
   const userFinal = novoUser || session.user;
   const hashFinal = novaSenha ? await sha256Hex(novaSenha) : recAtual.hash;
-  DB.adminCred = { user: userFinal, hash: hashFinal };
-  pushAudit('Credenciais de administrador alteradas', `Utilizador: ${session.user} → ${userFinal}${novaSenha?' (senha também alterada)':''}`);
+  DB.adminCred = { user: userFinal, hash: hashFinal, email: novoEmail || null };
+  pushAudit('Credenciais de administrador alteradas', `Utilizador: ${session.user} → ${userFinal}${novaSenha?' (senha também alterada)':''}${emailMudou?' (email de recuperação atualizado)':''}`);
   saveDB();
   session.user = userFinal;
   sessionStorage.setItem('acervo_session', JSON.stringify(session));
@@ -13670,16 +13756,18 @@ async function submitConfiguracaoInicial(){
   const errBox = document.getElementById('setupError');
   errBox.textContent = '';
   const novoUser = document.getElementById('setupUser').value.trim().toLowerCase();
+  const emailRecuperacao = document.getElementById('setupEmail').value.trim();
   const novaSenha = document.getElementById('setupPass').value;
   const confirmaSenha = document.getElementById('setupPassConfirm').value;
   if(!novoUser || !/^[a-z0-9._-]+$/.test(novoUser)){ errBox.textContent = 'Utilizador inválido. Use apenas letras minúsculas, números, ponto, traço ou underscore.'; return; }
+  if(emailRecuperacao && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailRecuperacao)){ errBox.textContent = 'Email de recuperação inválido.'; return; }
   const erroSenha = senhaFraca(novaSenha);
   if(erroSenha){ errBox.textContent = erroSenha; return; }
   if(novaSenha !== confirmaSenha){ errBox.textContent = 'As senhas não coincidem.'; return; }
   if(!DB) DB = await loadDB();
   if(DB.adminCred){ errBox.textContent = 'Já existe uma conta de Administrador configurada. Recarregue a página.'; return; }
   const hash = await sha256Hex(novaSenha);
-  DB.adminCred = { user: novoUser, hash };
+  DB.adminCred = { user: novoUser, hash, email: emailRecuperacao || null };
   session = { user: novoUser, level: 'Administrador', pontoVenda: null };
   pushAudit('Configuração inicial: conta de Administrador criada', `Utilizador: ${novoUser}`);
   saveDB();
@@ -13754,6 +13842,119 @@ async function doLogin(){
     err.textContent = 'Utilizador ou senha incorretos.';
   }
 }
+/* ---------- Recuperação de senha ---------- */
+function abrirRecuperarSenha(){
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('recuperarScreen').classList.remove('hidden');
+  document.getElementById('recuperarError').textContent = '';
+  document.getElementById('recuperarUser').value = '';
+}
+function fecharRecuperarSenha(){
+  document.getElementById('recuperarScreen').classList.add('hidden');
+  document.getElementById('loginScreen').classList.remove('hidden');
+}
+async function solicitarRecuperacaoSenha(){
+  const errBox = document.getElementById('recuperarError');
+  errBox.textContent = '';
+  const u = document.getElementById('recuperarUser').value.trim().toLowerCase();
+  if(!u){ errBox.textContent = 'Indique o utilizador.'; return; }
+  if(!DB) DB = await loadDB();
+  const token = 'RST'+Date.now()+Math.floor(Math.random()*100000);
+  const expira = new Date(Date.now() + 60*60*1000).toISOString(); // 1 hora
+  let nome = null, email = null;
+  if(DB.adminCred && DB.adminCred.user===u){
+    DB.adminCred.tokenReset = token;
+    DB.adminCred.resetExpira = expira;
+    nome = 'Administrador';
+    email = DB.adminCred.email || EMAIL_REMETENTE_COOPERATIVA;
+  } else {
+    const v = (DB.vendedores||[]).find(x=>x.user===u);
+    if(v && v.email){
+      v.tokenReset = token;
+      v.resetExpira = expira;
+      nome = v.nome;
+      email = v.email;
+    }
+  }
+  // Mensagem genérica sempre igual, para não revelar se o utilizador existe ou não.
+  const mensagemFinal = 'Se esse utilizador existir e tiver um email registado, enviámos um link de recuperação — verifique a caixa de entrada (e o spam).';
+  if(!nome || !email){
+    errBox.style.color = '';
+    errBox.textContent = mensagemFinal;
+    return;
+  }
+  saveDB();
+  const link = location.origin + location.pathname + '?resetSenha=' + token;
+  if(EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID && EMAILJS_PUBLIC_KEY){
+    const r = await enviarEmailValidacao({nome, email}, link);
+    errBox.textContent = mensagemFinal + (r.ok ? '' : ' (se o email não chegar, contacte o Administrador diretamente.)');
+  } else {
+    errBox.textContent = 'Envio automático de email ainda não está configurado — peça ao Administrador para o ajudar a repor a senha manualmente.';
+  }
+}
+function abrirDefinirNovaSenha(token, tipo){
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('recuperarScreen').classList.add('hidden');
+  document.getElementById('setupScreen').classList.add('hidden');
+  document.getElementById('novaSenhaScreen').classList.remove('hidden');
+  document.getElementById('novaSenhaScreen').dataset.token = token;
+  document.getElementById('novaSenhaScreen').dataset.tipo = tipo;
+  document.getElementById('novaSenhaError').textContent = '';
+  document.getElementById('novaSenhaCampo').value = '';
+  document.getElementById('novaSenhaConfirmar').value = '';
+  document.getElementById('novaSenhaSub').textContent = tipo==='admin' ? 'A repor a senha do Administrador.' : 'A repor a senha do seu utilizador.';
+}
+async function submitNovaSenha(){
+  const errBox = document.getElementById('novaSenhaError');
+  errBox.textContent = '';
+  const scr = document.getElementById('novaSenhaScreen');
+  const token = scr.dataset.token, tipo = scr.dataset.tipo;
+  const novaSenha = document.getElementById('novaSenhaCampo').value;
+  const confirmar = document.getElementById('novaSenhaConfirmar').value;
+  const erroSenha = senhaFraca(novaSenha);
+  if(erroSenha){ errBox.textContent = erroSenha; return; }
+  if(novaSenha !== confirmar){ errBox.textContent = 'As senhas não coincidem.'; return; }
+  if(!DB) DB = await loadDB();
+  const hash = await sha256Hex(novaSenha);
+  const agora = new Date();
+  if(tipo==='admin'){
+    if(!DB.adminCred || DB.adminCred.tokenReset!==token || !DB.adminCred.resetExpira || new Date(DB.adminCred.resetExpira) < agora){
+      errBox.textContent = 'Este link expirou ou já foi utilizado. Solicite um novo.'; return;
+    }
+    DB.adminCred.hash = hash;
+    delete DB.adminCred.tokenReset;
+    delete DB.adminCred.resetExpira;
+  } else {
+    const v = (DB.vendedores||[]).find(x=>x.tokenReset===token);
+    if(!v || !v.resetExpira || new Date(v.resetExpira) < agora){
+      errBox.textContent = 'Este link expirou ou já foi utilizado. Solicite um novo.'; return;
+    }
+    v.hash = hash;
+    delete v.tokenReset;
+    delete v.resetExpira;
+  }
+  saveDB();
+  history.replaceState({}, '', location.pathname);
+  document.getElementById('novaSenhaScreen').classList.add('hidden');
+  document.getElementById('loginScreen').classList.remove('hidden');
+  document.getElementById('loginError').textContent = '';
+  toast('Senha atualizada. Já pode entrar com a nova senha.');
+}
+(function tratarLinkResetSenha(){
+  const params = new URLSearchParams(location.search);
+  const token = params.get('resetSenha');
+  if(!token) return;
+  (async ()=>{
+    if(window.fbAuthPronto) try{ await window.fbAuthPronto; }catch(e){}
+    DB = await loadDB();
+    if(DB.adminCred && DB.adminCred.tokenReset===token){
+      abrirDefinirNovaSenha(token, 'admin');
+    } else if((DB.vendedores||[]).some(v=>v.tokenReset===token)){
+      abrirDefinirNovaSenha(token, 'vendedor');
+    }
+    // se o token não corresponder a nada (expirado/inválido), fica no login normal.
+  })();
+})();
 function doLogout(){
   session = null;
   sessionStorage.removeItem('acervo_session');
@@ -13804,6 +14005,20 @@ function iniciarRelogioPainel(){
   atualizar();
   window._relogioPainelInterval = setInterval(atualizar, 1000);
 }
+/* ---------- Reset total de emergência (apaga TUDO neste dispositivo) ----------
+   Acionado por um link especial: ?resetTotal=CONFIRMAR
+   Usar só quando a pessoa concorda em perder todos os dados locais (vendedores,
+   stock, vendas, histórico) e recomeçar do zero — por exemplo, se esqueceu as
+   credenciais de Administrador e não tem cópia de segurança. Não apaga nada no
+   servidor (Firestore); se nunca chegou a sincronizar, também não havia nada lá. */
+(function resetTotalEmergencia(){
+  const params = new URLSearchParams(location.search);
+  if(params.get('resetTotal') !== 'CONFIRMAR') return;
+  localStorage.removeItem(STORE_KEY);
+  sessionStorage.removeItem('acervo_session');
+  history.replaceState({}, '', location.pathname);
+  location.reload();
+})();
 (async function tryRestoreSession(){
   if(window.fbAuthPronto) try{ await window.fbAuthPronto; }catch(e){}
   DB = await loadDB();
@@ -14133,9 +14348,12 @@ function gerarAlertas(){
       itens: pendentes.map(v=>({texto:`${v.nome} (${v.user}) aguardando aprovação`, cor:'var(--brass)'}))});
 
     const precoItens = [];
-    TIPOS.filter(t=>t!=='Outro' && DB.precosTipo && DB.precosTipo[t]).forEach(t=>{
-      const dias = diasDesdeUltimoPreco(t);
-      if(dias!=null && dias>=60) precoItens.push({texto:`Preço de "${t}" não é revisto há ${dias} dias`, cor:'var(--brass)'});
+    TIPOS.filter(t=>t!=='Outro').forEach(t=>{
+      PESOS_PADRAO.forEach(p=>{
+        if(!DB.precosTipo || !DB.precosTipo[t] || !DB.precosTipo[t][String(p)]) return;
+        const dias = diasDesdeUltimoPreco(t, p);
+        if(dias!=null && dias>=60) precoItens.push({texto:`Preço de "${t}" (${fmtKg(p)}) não é revisto há ${dias} dias`, cor:'var(--brass)'});
+      });
     });
     categorias.push({chave:'precos', label:'Preços Desatualizados', cor:'var(--brass)', itens: precoItens});
   }
@@ -14368,26 +14586,29 @@ function updateOpcaoSelecionada(){
   if(o.manual){
     row.innerHTML = `
       <div class="form-group"><label>Peso (kg) *</label><input id="fPesoManualOpcao" type="number" min="0" step="0.01" placeholder="0.0" oninput="updatePrecoManualPreview()"></div>
-      <div class="form-group"><label>Preço de venda por kg (MT) *</label><input id="fPrecoManual" type="number" min="0" step="0.01" placeholder="0.00" oninput="updatePrecoManualPreview()"></div>
-      <div class="form-group"><label>Preço da Embalagem (calculado)</label><input id="fPrecoEmbalagemPreview" disabled style="opacity:0.75;"></div>`;
-  } else if(o.precoKg!=null){
+      <div class="form-group"><label>Preço da Embalagem (MT) *</label><input id="fPrecoEmbalagemManualTigela" type="number" min="0" step="0.01" placeholder="0.00" oninput="updatePrecoManualPreview()"></div>
+      <div class="form-group"><label>Equivale a por kg</label><input id="fPrecoKgPreview" disabled style="opacity:0.75;"></div>`;
+  } else if(o.precoEmbalagem!=null){
+    const precoKgDerivado = o.precoEmbalagem / o.peso;
     row.innerHTML = `
-      <div class="form-group"><label>Preço de venda por kg (automático)</label><input id="fPrecoPreview" disabled style="opacity:0.75;" value="${fmtMT(o.precoKg)}/kg"></div>
-      <div class="form-group"><label>Preço da Embalagem (automático)</label><input id="fPrecoEmbalagemPreview" disabled style="opacity:0.75;" value="${fmtMT(o.precoKg*o.peso)} por embalagem"></div>`;
+      <div class="form-group"><label>Preço da Embalagem (definido em Definições)</label><input id="fPrecoEmbalagemPreview" disabled style="opacity:0.75;" value="${fmtMT(o.precoEmbalagem)} por embalagem"></div>
+      <div class="form-group"><label>Equivale a por kg</label><input disabled style="opacity:0.75;" value="${fmtMT(precoKgDerivado)}/kg"></div>`;
   } else {
     row.innerHTML = `
-      <div class="form-group"><label>Preço de venda por kg (MT) *</label><input id="fPrecoManual" type="number" min="0" step="0.01" placeholder="0.00" oninput="updatePrecoManualPreview()"></div>
-      <div class="form-group"><label>Preço da Embalagem (calculado)</label><input id="fPrecoEmbalagemPreview" disabled style="opacity:0.75;"></div>`;
+      <div class="form-group"><label>Preço da Embalagem (MT) * <span style="font-weight:400;color:var(--text-dim);">— ainda não definido em Definições para ${fmtKg(o.peso)}</span></label><input id="fPrecoEmbalagemManual" type="number" min="0" step="0.01" placeholder="0.00" oninput="updatePrecoEmbalagemDireta()"></div>`;
   }
   updateTotalPreview();
 }
+function updatePrecoEmbalagemDireta(){
+  // (sem cálculo — o valor introduzido já é o preço final da embalagem)
+}
 function updatePrecoManualPreview(){
   const o = opcaoSelecionada();
-  if(!o) return;
-  const peso = o.manual ? Number(document.getElementById('fPesoManualOpcao')?.value || 0) : o.peso;
-  const precoKg = Number(document.getElementById('fPrecoManual')?.value || 0);
-  const el = document.getElementById('fPrecoEmbalagemPreview');
-  if(el) el.value = (peso>0 && precoKg>0) ? fmtMT(precoKg*peso) + ' por embalagem' : '';
+  if(!o || !o.manual) return;
+  const peso = Number(document.getElementById('fPesoManualOpcao')?.value || 0);
+  const precoEmbalagem = Number(document.getElementById('fPrecoEmbalagemManualTigela')?.value || 0);
+  const el = document.getElementById('fPrecoKgPreview');
+  if(el) el.value = (peso>0 && precoEmbalagem>0) ? fmtMT(precoEmbalagem/peso) + '/kg' : '';
   updateTotalPreview();
 }
 function updateTotalPreview(){
@@ -14414,19 +14635,19 @@ function submitRegisto(){
     grau = o.embalagem;
     if(o.manual){
       const pesoManual = document.getElementById('fPesoManualOpcao').value;
-      const precoManual = document.getElementById('fPrecoManual').value;
+      const precoEmbalagemManual = document.getElementById('fPrecoEmbalagemManualTigela').value;
       if(pesoManual==='' || isNaN(pesoManual) || Number(pesoManual)<=0){ toast('Indique o peso da embalagem, maior que zero.'); return; }
-      if(precoManual==='' || isNaN(precoManual) || Number(precoManual)<0){ toast('Indique um preço por kg válido.'); return; }
+      if(precoEmbalagemManual==='' || isNaN(precoEmbalagemManual) || Number(precoEmbalagemManual)<0){ toast('Indique o preço da embalagem.'); return; }
       peso = Number(pesoManual);
-      preco = Number(precoManual);
-    } else if(o.precoKg!=null){
+      preco = Number(precoEmbalagemManual) / peso; // guardado internamente como preço/kg equivalente, para os relatórios continuarem a funcionar
+    } else if(o.precoEmbalagem!=null){
       peso = o.peso;
-      preco = o.precoKg;
+      preco = o.precoEmbalagem / o.peso; // guardado internamente como preço/kg equivalente, para os relatórios continuarem a funcionar
     } else {
-      const precoManual = document.getElementById('fPrecoManual').value;
-      if(precoManual==='' || isNaN(precoManual) || Number(precoManual)<0){ toast('Indique um preço por kg válido.'); return; }
+      const precoManual = document.getElementById('fPrecoEmbalagemManual').value;
+      if(precoManual==='' || isNaN(precoManual) || Number(precoManual)<0){ toast('Indique o preço da embalagem.'); return; }
       peso = o.peso;
-      preco = Number(precoManual);
+      preco = Number(precoManual) / o.peso; // guardado internamente como preço/kg equivalente
     }
   } else {
     peso = document.getElementById('fPeso').value;
@@ -16800,17 +17021,19 @@ function renderSparkline(pontos, width, height){
     <polyline points="${pts}" fill="none" stroke="var(--brass)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
   </svg>`;
 }
-function setPrecoTipo(tipo, valor){
+function setPrecoEmbalagem(tipo, peso, valor){
   if(!DB.precosTipo) DB.precosTipo = {};
-  if(valor==='' || isNaN(valor) || Number(valor)<0){ delete DB.precosTipo[tipo]; }
+  if(!DB.precosTipo[tipo]) DB.precosTipo[tipo] = {};
+  const chave = String(peso);
+  if(valor==='' || isNaN(valor) || Number(valor)<0){ delete DB.precosTipo[tipo][chave]; }
   else {
-    DB.precosTipo[tipo] = Number(valor);
+    DB.precosTipo[tipo][chave] = Number(valor);
     if(!DB.historicoPrecos) DB.historicoPrecos = [];
-    DB.historicoPrecos.push({ tipo, valor:Number(valor), ts:new Date().toISOString(), user:session.user });
+    DB.historicoPrecos.push({ tipo, peso:Number(peso), valor:Number(valor), ts:new Date().toISOString(), user:session.user });
   }
-  pushAudit('Preço atualizado', `${tipo}: ${valor?fmtMT(Number(valor))+'/kg':'removido'}`);
+  pushAudit('Preço atualizado', `${tipo} (${fmtKg(peso)}): ${valor?fmtMT(Number(valor))+' por embalagem':'removido'}`);
   saveDB();
-  toast(`Preço de "${tipo}" atualizado.`);
+  toast(`Preço de "${tipo}" (${fmtKg(peso)}) atualizado.`);
   if(document.getElementById('tabelaPrecosCard')) renderConfig();
 }
 function custoMedioMateriaPrimaKg(){
@@ -16834,8 +17057,8 @@ function setMargemAlvo(valor){
   saveDB();
   renderConfig();
 }
-function diasDesdeUltimoPreco(tipo){
-  const historico = (DB.historicoPrecos||[]).filter(h=>h.tipo===tipo);
+function diasDesdeUltimoPreco(tipo, peso){
+  const historico = (DB.historicoPrecos||[]).filter(h=>h.tipo===tipo && (peso==null || Number(h.peso)===Number(peso)));
   if(!historico.length) return null;
   const ultima = historico.reduce((a,b)=>new Date(a.ts)>new Date(b.ts)?a:b);
   return Math.floor((new Date()-new Date(ultima.ts))/86400000);
@@ -16880,37 +17103,40 @@ function renderConfig(){
       <input type="file" id="importFile" accept=".json" class="hidden" onchange="importJSON(event)">
     </div>
     ${isAdmin() ? `<div class="card" id="tabelaPrecosCard">
-      <div class="card-title"><span class="lbl">Tabela de Preços por Sabor</span></div>
+      <div class="card-title"><span class="lbl">Tabela de Preços por Sabor e Embalagem</span></div>
       <p style="font-size:12.5px;color:var(--text-dim);margin-bottom:10px;line-height:1.5;">
-        Preço de venda por kg de cada sabor. Ao registar stock, o preço de cada peso (1kg, 500g, 250g, 120g, 60g) é calculado automaticamente a partir daqui. Atualize sempre que o preço mudar — não afeta o stock já registado.
+        Preço final de cada embalagem, definido manualmente para cada combinação de sabor e peso — não é calculado automaticamente, porque cada tamanho pode ter uma margem diferente. Ao registar stock, o sistema usa o preço daqui; se faltar algum, pede para o indicar na hora.
       </p>
-      <div class="form-row" style="margin-bottom:10px;">
+      <div class="form-row" style="margin-bottom:14px;">
         <div class="form-group">
           <label>Margem alvo para sugestão de preço (%)</label>
           <input type="number" min="0" step="1" value="${DB.margemAlvo!=null?DB.margemAlvo:30}" onchange="setMargemAlvo(this.value)">
         </div>
       </div>
       ${TIPOS.filter(t=>t!=='Outro').map(t=>{
-        const dias = diasDesdeUltimoPreco(t);
-        const historico = (DB.historicoPrecos||[]).filter(h=>h.tipo===t).sort((a,b)=>new Date(a.ts)-new Date(b.ts));
-        const sugestao = precoSugerido();
+        const sugestaoKg = precoSugerido();
         return `
         <div style="padding:12px 0;border-bottom:1px solid var(--line);">
-          <div class="form-row" style="margin-bottom:0;">
-            <div class="form-group">
-              <label>${t} (MT/kg)</label>
-              <input type="number" min="0" step="0.01" value="${(DB.precosTipo&&DB.precosTipo[t])||''}" placeholder="Ainda não definido" onchange="setPrecoTipo('${t}', this.value)">
-            </div>
-            <div style="flex-shrink:0;padding-top:22px;">${renderSparkline(historico,90,32)}</div>
+          <div style="font-weight:600;margin-bottom:8px;">${t}</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;">
+            ${PESOS_PADRAO.map(p=>{
+              const valorAtual = (DB.precosTipo && DB.precosTipo[t] && DB.precosTipo[t][String(p)]) || '';
+              const dias = diasDesdeUltimoPreco(t, p);
+              return `
+              <div class="form-group">
+                <label style="font-size:11px;">${fmtKg(p)}</label>
+                <input type="number" min="0" step="0.01" value="${valorAtual}" placeholder="Não definido" onchange="setPrecoEmbalagem('${t}', ${p}, this.value)">
+                <div style="font-size:10px;color:${dias!=null&&dias>=60?'var(--danger)':'var(--text-dim)'};margin-top:2px;">
+                  ${dias==null?'sem histórico':(dias>=60?`⚠ há ${dias}d`:`há ${dias}d`)}
+                </div>
+              </div>`;
+            }).join('')}
           </div>
-          <div style="font-size:11px;color:${dias!=null&&dias>=60?'var(--danger)':'var(--text-dim)'};margin-top:4px;">
-            ${dias==null?'Sem histórico de alteração ainda.':(dias>=60?`⚠ Preço não é revisto há ${dias} dias.`:`Última alteração há ${dias} dia(s).`)}
-            ${sugestao!=null?` · Sugestão baseada no custo: <b style="color:var(--text);">${fmtMT(sugestao)}/kg</b>`:''}
-          </div>
+          ${sugestaoKg!=null?`<div style="font-size:11px;color:var(--text-dim);margin-top:8px;">Custo estimado + margem: <b style="color:var(--text);">${fmtMT(sugestaoKg)}/kg</b> — só como referência para ajudar a decidir o preço de cada embalagem.</div>`:''}
         </div>`;
       }).join('')}
       <div style="font-size:11px;color:var(--text-dim);margin-top:10px;">
-        A sugestão de preço usa o custo médio de Matéria-Prima registado em Despesas este mês, dividido pelo peso de stock registado no mesmo período, mais a margem alvo definida acima.
+        A sugestão de preço/kg usa o custo médio de Matéria-Prima registado em Despesas este mês, dividido pelo peso de stock registado no mesmo período, mais a margem alvo definida acima.
       </div>
     </div>` : ''}
     ${syncCard}
@@ -16927,6 +17153,10 @@ function renderConfig(){
       <div class="field" style="margin-top:10px;">
         <label style="font-size:11.5px;color:var(--text-dim);">Novo utilizador (opcional — deixe em branco para manter)</label>
         <input id="credNovoUser" placeholder="ex: admin" style="width:100%;background:var(--bg);border:1px solid var(--line);border-radius:3px;color:var(--text);padding:9px 10px;margin-top:4px;">
+      </div>
+      <div class="field" style="margin-top:10px;">
+        <label style="font-size:11.5px;color:var(--text-dim);">Email de recuperação (para "Esqueci a senha")</label>
+        <input id="credEmail" type="email" value="${esc((DB.adminCred&&DB.adminCred.email)||'')}" placeholder="ex: o-seu-email@gmail.com" style="width:100%;background:var(--bg);border:1px solid var(--line);border-radius:3px;color:var(--text);padding:9px 10px;margin-top:4px;">
       </div>
       <div class="field" style="margin-top:10px;">
         <label style="font-size:11.5px;color:var(--text-dim);">Nova senha (opcional — deixe em branco para manter, mínimo 6 caracteres)</label>
