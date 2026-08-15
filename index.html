@@ -494,15 +494,6 @@ body:not(.light) .header-clock .clock-date{
      Administrador própria (DB.adminCred). Substitui as antigas
      credenciais fixas "admin/admin123", que eram visíveis a
      qualquer pessoa que abrisse o código-fonte da página. -->
-<div id="syncErrorScreen" class="hidden">
-  <div class="login-box">
-    <div class="login-title">Não foi possível ligar ao servidor</div>
-    <div class="login-sub" style="margin-bottom:14px;">Este dispositivo não conseguiu confirmar se já existe uma conta configurada (ligação à internet instável, ou o servidor está temporariamente indisponível). Para evitar criar uma conta duplicada e desligada dos dados da cooperativa, tente novamente antes de continuar.</div>
-    <div class="login-error" id="syncErrorMsg" style="display:block;">Verifique a ligação à internet deste dispositivo e tente novamente.</div>
-    <button class="btn btn-brass" style="width:100%;margin-top:10px;" onclick="location.reload()">Tentar novamente</button>
-    <button class="btn btn-ghost" style="width:100%;margin-top:8px;" onclick="prosseguirSemSync()">Continuar mesmo assim (avançado)</button>
-  </div>
-</div>
 <div id="setupScreen" class="hidden">
   <div class="login-box">
     <div class="login-title">Configuração Inicial</div>
@@ -691,26 +682,15 @@ try{
     }
   };
 
-  /* Lê o DB do Firestore uma vez (usado no arranque, antes de haver sessão).
-     IMPORTANTE: distinguimos "documento não existe" (primeira utilização
-     legítima, devolve null) de "a leitura falhou" (sem internet, sem
-     autenticação, regras do Firestore a bloquear, etc. — lança erro).
-     Antes isto devolvia null nos dois casos, o que fazia o sistema tratar
-     falhas de sincronização como se fosse a primeira vez a usar o sistema
-     neste dispositivo, oferecendo para criar um Administrador novo mesmo
-     quando já existia uma conta — por isso o login "não reconhecia" o
-     utilizador em dispositivos diferentes. */
+  /* Lê o DB do Firestore uma vez (usado no arranque, antes de haver sessão). */
   window.fbLoadDB = async function(instanceId){
     try{
       const snap = await fbDb.collection('instancias').doc(instanceId).get();
       if(snap.exists && snap.data().dados) return { dados: JSON.parse(snap.data().dados), rev: snap.data().rev||0 };
-      return null; // documento realmente não existe
     }catch(e){
-      console.warn('Leitura inicial do Firestore falhou:', e);
-      const erro = new Error('firestore-leitura-falhou');
-      erro.causaOriginal = e;
-      throw erro;
+      console.warn('Leitura inicial do Firestore falhou (a usar cópia local):', e);
     }
+    return null;
   };
 
   /* Escuta mudanças em tempo real (outro ponto de venda a gravar) e chama o callback do app principal. */
@@ -13328,17 +13308,12 @@ async function loadDB(){
   let local = null;
   if(raw){ try{ local = JSON.parse(raw); }catch(e){} }
   const instId = (local && local.instanceInfo && local.instanceInfo.pontoVendaId) ? ('ponto_'+local.instanceInfo.pontoVendaId) : 'central';
-  window._ultimoSyncFalhou = false;
   if(window.fbLoadDB){
     try{
       const timeoutSeguranca = new Promise((_, reject)=>setTimeout(()=>reject(new Error('timeout')), 4000));
       const remoto = await Promise.race([window.fbLoadDB(instId), timeoutSeguranca]);
       if(remoto){ dbRev = remoto.rev||0; return completar(remoto.dados); }
-      // remoto === null: o documento realmente não existe no servidor (primeira utilização legítima)
-    }catch(e){
-      console.warn('Sem ligação ao Firestore (ou demorou demasiado), a usar dados locais.', e);
-      window._ultimoSyncFalhou = true; // falha real de leitura — não confundir com "primeira utilização"
-    }
+    }catch(e){ console.warn('Sem ligação ao Firestore (ou demorou demasiado), a usar dados locais.', e); }
   }
   if(local) return completar(local);
   return { items:[], suppliers:[], history:[], nextCode:1, vendedores:[], pontosVenda:[], despesas:[], despesasRecorrentes:[], orcamentos:{}, buyers:[], metas:{vendedores:{},pontos:{}}, auditoria:[], adminCred:null, turnos:[], turnosAtivos:{}, precosTipo:{}, historicoPrecos:[], margemAlvo:30, instanceInfo:null };
@@ -13442,18 +13417,8 @@ function makeZip(files){
   return out;
 }
 
-function xmlSanitize(s){
-  // Remove caracteres de controlo inválidos em XML 1.0 (ex.: colados de PDFs, WhatsApp,
-  // leitores de código de barras). Sem isto, o XML fica corrompido e o Excel mostra
-  // "Encontramos um problema em um conteúdo de..." ao tentar abrir o ficheiro.
-  return String(s).replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '');
-}
 function xmlEscape(s){
-  return xmlSanitize(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;');
-}
-function safeNum(v){
-  const n = Number(v);
-  return Number.isFinite(n) ? n : 0;
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;');
 }
 function colLetter(n){ // 0-indexed
   let s='';
@@ -13481,7 +13446,9 @@ function buildXLSX(opts){
   // Shared strings
   const sharedStrings = [];
   const sstIndex = {};
+  let sstTotalRefs = 0; // total de referências (com repetições) — o Excel espera isto em <sst count="...">
   function sstRef(str){
+    sstTotalRefs++;
     if(sstIndex[str] !== undefined) return sstIndex[str];
     const idx = sharedStrings.length;
     sharedStrings.push(str);
@@ -13540,7 +13507,7 @@ function buildXLSX(opts){
       let val = r[ci];
       if(val==null) val='';
       if(type==='currency' || type==='number'){
-        const num = safeNum(val);
+        const num = Number(val)||0;
         const styleIdx = type==='currency' ? 2 : 3;
         cells += `<c r="${ref}" s="${styleIdx}"><v>${num}</v></c>`;
       } else {
@@ -13565,7 +13532,7 @@ function buildXLSX(opts){
       } else if(typeof cell === 'number'){
         const type = columnTypes[ci];
         const styleIdx = type==='currency' ? 5 : 6;
-        cells += `<c r="${ref}" s="${styleIdx}"><v>${safeNum(cell)}</v></c>`;
+        cells += `<c r="${ref}" s="${styleIdx}"><v>${cell}</v></c>`;
       } else {
         const idx = sstRef(String(cell));
         cells += `<c r="${ref}" t="s" s="4"><v>${idx}</v></c>`;
@@ -13595,7 +13562,7 @@ ${mergeCells?`<mergeCells count="${(title?1:0)+(subtitle?1:0)}">${mergeCells}</m
 </worksheet>`;
 
   const sstXml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" count="${sharedStrings.length}" uniqueCount="${sharedStrings.length}">
+<sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" count="${sstTotalRefs}" uniqueCount="${sharedStrings.length}">
 ${sharedStrings.map(s=>`<si><t xml:space="preserve">${xmlEscape(s)}</t></si>`).join('')}
 </sst>`;
 
@@ -14058,18 +14025,9 @@ function iniciarRelogioPainel(){
   if(window.fbAuthPronto) try{ await window.fbAuthPronto; }catch(e){}
   DB = await loadDB();
   if(!DB.adminCred){
-    if(window._ultimoSyncFalhou){
-      /* Não sabemos se já existe conta noutro dispositivo — a leitura ao
-         servidor falhou. Nunca avançar direto para "criar Administrador"
-         neste caso, ou um utilizador com conta noutro dispositivo acaba
-         por criar uma segunda conta desligada dos dados reais, pensando
-         que o sistema "não reconhece" o seu login. */
-      document.getElementById('loginScreen').classList.add('hidden');
-      document.getElementById('syncErrorScreen').classList.remove('hidden');
-      return;
-    }
-    /* Confirmado: o servidor respondeu e realmente não existe conta
-       nenhuma (primeira utilização, ou instalação local-only). */
+    /* Primeira utilização (ou instalação antiga ainda com as credenciais
+       fixas removidas nesta atualização): obriga a criar o Administrador
+       antes de dar acesso a qualquer dado. */
     document.getElementById('loginScreen').classList.add('hidden');
     document.getElementById('setupScreen').classList.remove('hidden');
     return;
@@ -14077,10 +14035,6 @@ function iniciarRelogioPainel(){
   const raw = sessionStorage.getItem('acervo_session');
   if(raw){ try{ session = JSON.parse(raw); boot(); }catch(e){} }
 })();
-function prosseguirSemSync(){
-  document.getElementById('syncErrorScreen').classList.add('hidden');
-  document.getElementById('setupScreen').classList.remove('hidden');
-}
 (async function tratarLinkValidacao(){
   const params = new URLSearchParams(location.search);
   const token = params.get('validarVendedor');
