@@ -750,10 +750,12 @@ try{
       resolve();
     });
   });
-  window.fbAuthPronto = Promise.race([
-    authProntoBase,
-    new Promise(resolve=>setTimeout(resolve, 4000))
-  ]);
+  /* Sem limite de tempo aqui também: se a autenticação anónima demorar mais
+     que uns segundos, mas ainda estiver a decorrer, não vale a pena avançar
+     sem ela — porque a leitura seguinte ao Firestore seria recusada pelas
+     Regras de Segurança por falta de autenticação, mostrando por engano a
+     Configuração Inicial a alguém que já tem conta. */
+  window.fbAuthPronto = authProntoBase;
 }catch(e){
   console.warn('Firebase indisponível — sistema a funcionar apenas offline (localStorage):', e);
   window._fbIndisponivel = true;
@@ -13310,10 +13312,14 @@ async function loadDB(){
   const instId = (local && local.instanceInfo && local.instanceInfo.pontoVendaId) ? ('ponto_'+local.instanceInfo.pontoVendaId) : 'central';
   if(window.fbLoadDB){
     try{
-      const timeoutSeguranca = new Promise((_, reject)=>setTimeout(()=>reject(new Error('timeout')), 4000));
-      const remoto = await Promise.race([window.fbLoadDB(instId), timeoutSeguranca]);
+      /* Sem limite de tempo aqui de propósito: espera a resposta real do
+         servidor, por mais lenta que a ligação esteja, em vez de desistir
+         cedo e mostrar "Configuração Inicial" por engano a alguém que já
+         tem conta — como aconteceu quando o navegador limpou os dados
+         locais e a ligação demorou mais de 4 segundos a responder. */
+      const remoto = await window.fbLoadDB(instId);
       if(remoto){ dbRev = remoto.rev||0; return completar(remoto.dados); }
-    }catch(e){ console.warn('Sem ligação ao Firestore (ou demorou demasiado), a usar dados locais.', e); }
+    }catch(e){ console.warn('Sem ligação ao Firestore, a usar dados locais.', e); }
   }
   if(local) return completar(local);
   return { items:[], suppliers:[], history:[], nextCode:1, vendedores:[], pontosVenda:[], despesas:[], despesasRecorrentes:[], orcamentos:{}, buyers:[], metas:{vendedores:{},pontos:{}}, auditoria:[], adminCred:null, turnos:[], turnosAtivos:{}, precosTipo:{}, historicoPrecos:[], margemAlvo:30, instanceInfo:null };
