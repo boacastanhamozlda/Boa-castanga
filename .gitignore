@@ -1,0 +1,17 @@
+# Dados locais / backups
+*.json
+*.xlsx
+*.xls
+*.csv
+*.log
+
+# Sistema operacional / editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Temporários
+*.tmp
+*.bak
+~$*
