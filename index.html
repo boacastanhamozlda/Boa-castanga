@@ -65,7 +65,7 @@ input,select,button,textarea{font-family:inherit;}
 .hidden{display:none !important;}
 
 /* ---------- LOGIN ---------- */
-#loginScreen{
+#loginScreen,#setupScreen,#estadoScreen{
   min-height:100vh;
   display:flex;
   align-items:center;
@@ -424,7 +424,7 @@ body:not(.light) .header-clock .clock-date{
 <body>
 
 <!-- ================= LOGIN ================= -->
-<div id="loginScreen">
+<div id="loginScreen" class="hidden">
   <div class="login-box">
     <div class="login-seal"><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAEEAQQDASIAAhEBAxEB/8QAHAAAAgIDAQEAAAAAAAAAAAAAAAcFBgMECAEC/8QAUxAAAQMEAAQCBgMMBgcHAgcAAQIDBAAFBhEHEiExE0EUIlFhcYEIMpEVFhgjQlJWYpShsdIkJTNygsFDU3OSorLwRGODk8LR4RfxNDVFdLPT4//EABsBAQACAwEBAAAAAAAAAAAAAAADBAECBQYH/8QANxEAAQMBBAYKAgICAgMAAAAAAQACAxEEEiExQVFhcaHRBRMiMoGRscHh8BQjBjNCUqLxJGJy/9oADAMBAAIRAxEAPwDsqiiiiIooooiKKKKIiiiiiIoqOvt7tVihmXdpzMRrsCtXVR9iR3UfcKo2S59cEW1VwbELF7Oe10viuRTg/wC6Y+so+zf2VBJaGMN3M6hifjxUjInOFchrTFkyGIzKn5LzbLSeqluKCUj4k9KqsniDY1PqjWZudfpKehRbY5dSD719Ej7aRb2eNZRczHw3Fr/xIuSFa9NugLMBk77hoaAH94pqzROHHGTKmUoyvO4+K24ggWywNBHKPzSpPKP+JVaf+Q/U0eZ5Ditv1N28Bz9Fcsgzu+QEKXcPvYxVrl2FXm5pU7r3No8/dul5eeNONNL8OVxSuE5fmzYbMED4Bbg6/bVwx76OvDO2LD8+3S77KPVT1ylKXzH2lKeVJ+YNMS1Y3i+Psg2yx2m2IQPrMxW2tfPVPxge+4nxp6UTriO6APDnVc6q4jQbor+rMP4r5ED2U7IU2lXybBr7+616f6s/R3yZ7f5Uu6yNn7UiuhZ2XYtC/wDxWRWts+wykk/YDUcviPhAOvvgjL/uIWv+CahcywtPau+NPdSh1pOVfCqRXp2RJ6r+jhdNfqXV7f8ACvHMnmQfWlcE+IVrA7rh3F9WvhtOqeg4kYR53tCfjHdH/prPH4gYU+oJRktuST5Ld5P+bVYA6POVzglbUM73FIdjjHjMNSW5N74k446D1TcIyJDafketXHHeK8e4LCbRxJxK7kjozdGF290+7Z0N03Wp1jvDRZamW64Nq7oS6h0H5bNVnJOEnDfIAo3LDrVzqH9ow14C/jzN8pqYWaIirCRuJ50UZmfk4eYH/a9j5tc4zCXr1ik9Ecp36XbXEzWSPb6nrAfKp2w5Vj199W13WM+75slXK6n4oVpQ+ylLJ+j0izPKl8O87yHF3+4a8Yusk+wgFJ18eaq/kDPFvHxz5tg9pz2A13uNqHhTUAD620AK35/U+dZuTs7rr2/DiOSxeidmKbuR5rpSiuf8B4o2+4PJiY1ly0yknlNiygeG7v8ANbf8z5AEn4U1LVnEFc1Nsv0V+wXJXRLMzQbc/wBm6PVV+41kWkA0kF07cvPL32IYSRVhr91K2UV5XtWVCiiiiiIooooiKKKKIiiiiiIooooiKKKKIiiitC/Xe32O2O3G5yUsR2+5PUqPklI7knyArDnBoqTgsgEmgW6tSUIUtaglKRsknQA9tUK/52uRHlfe2uI3Cig+l3ycrkhRgO/KT/aK9w6fGqRxVz6LDhNTMvEliJJ0bbjEZeplw69FvkfUQT5fLqelR+N8MMs4lPxbzxScVaLEwQq34vCJaQ2ny8TX1T/xn2p7VVrJP3ey3ieQ47lNRsWeJ4Dn6KGYy+75RkDsThXZ5GUXhJ5ZGU3lvUeN/sW1eqgezfX2JNXTGOAcGVcRf+J17l5leldSl5xSYrf6qU91Aezon9WmiPvcwzHUNoTCs9qip5UIQkIQn3ADuT8yagRdsrynpYIv3Ctav/1Gc1t90e1pryHvVWb8Vn7DBjqGe88ylHy9pxw1nL7sCsEuZjuJ2ltDzsC0QWxpppIS2ge5KB3+QqD+/C73YaxXGJcto/VmTz6Kx8QD66h8BW9Y8JslulCfIQ7dLmeqps9fjOb92+ifkBVmpdnk7xujZifM4cPFYrGzIV35eXyqYLDmVz63jLRAbJ6sWiOEa/8AEXtX7qyNcOcXKvEuEeXdnfNyfLceJ+ROv3Vb6Kz+HEe8L2/H1Tr36DTdgomFjWPQgBEsdtY12KIqAft1XzfrtZ8dgiRM5Gkk6bbbQOdZ9gH/AEKlJDrcdhx95YQ22krWo9gANk1znnGSvXu8PzHCrwieVlI6+Ggdhr9599V7ZaGWRnYAqclTtNoLBnUq53XjOxDkJSMcW4yoApKpASsg+7lI/fVjw3MsNzZRitR46JvLtUSWyjnUPMp7hQ+HX3VzZkr5W1EcQrpyuNqI3pPKrfn7lj/o1GxnZEWQiZGecYdaUHELQrSkEfVIPka803pq0xyVf2m6qBUG22VjscV13PwTD5quZ7HbelX5zLfhK+1Gq0fvFMMbsGTX21EHaW/SPSGR/gc3/GsXB3MvvwxcOSikXOGQ1MSBrmOvVWB5BQ/eDV3r1MUVmtDBKxox0jA8F2I7S9zQQ7BUzxuIVn6vRbXkccdzHV6LI1/dVtB+RFbNrzuxyZaYFwMiy3A9PRri2WVE/qqPqq+Rq1VqXW2W+6xFRLlCYlsK7oeQFD9/at+pkZ/W/wADjxz9Vv1jHd5vl9p6Kr8QOGOE52wfu/ZWHZJTpExn8XIT7NLHf4K2PdSlvGE8T+HUFbFkeb4h4gjquz3FHNJZR/3Z77G+nIf8FNdWKXiwEvYZd1IYHU2u4KU7HPuQr6zf7xW7Y8yiyZ6bPe4jtjvB7RpJHI772nPqrH76deD2JhSviD4+xodiz1Z70Zr6pXcLuIUa5As4bPfedZ36Ri14c5ZTIH1vR3T9cDr6p7eYFODF8mteQtOehrW1KYOpER9PI8wr2KSf49qqXFXhBjOdkXHS7Pf2tKj3WGOR1Kh25wNc4HyUPIilRIyHIcOv0Sx8Wg9DlpPh2nNIIJCwOyX9D109tgjmHmCPWrHVPhxixGrkdG7Lcl9smD89fP7XeunqKpmK5e6uXHs2Rejszn0BUObHWFRLijyU0rtsjry/ZVzqeKVsoq35G9RvYWGhRRRRUi0RRRRREUUUURFFFFERRRWhf7vBsdpfudxeDUdlOye5UfJIHmSegFYc4NBJyWQCTQLDlF+gY9a1TpylEFQQ002OZx5w9kIHmTSM4i5rcYN/iRUwE3zPpp1abG3+MYtCVDYcdHZTuuvXWu50BRxHzS7wbvDEWEbhn13HJY7SAFptDCuzzg7eKRs9e2iToCr/AME+F0TBYLtzub/3Uyq47cuNxcJWoqUdlCCevLvue6j1PkBUYwzkPeOzoHufYaN+U7nCIXW56T7D7wUdwh4RN2CerMMzl/d/M5R8V2W8edEUn8lvfmO3NoexIA73PJsrEGcmyWWIbrfHE7TGQrSGR+e6r8hP7zWpkF+uN2uruM4ktIktnU+4lPM1CB/JH5zp8h5efum8Wx63Y7AMaEhSnHFc8iQ6eZ19fmpavM/uFZdI6YlsWA0n2G3bkNqwGNYLz89XNRFkw8rnovWVShebsOrfMnUeL7mm+3+I9at1FFTxRMiFGj53qN73PNSvCQBs9BS2y/jLi1ifXGiB67PtnS/RiA2k/wB89D8gaw/SGyh+y40zaYayh+5lSFrTvaWk65gNeZ2B8N1zVJZUttRZJUfDO2ldFnXX1R+UPd391ee6X6Zks8nUw4HSVzrTaXMdcYnS79IOSXtM4wyE7I0uYd9PgmpC2fSCtjhR90cdmMJJ0VMPpc18iE1z604lUlPb+0H+Vfcdtcp1mM3oLce5QT5dq4zOmLcDi+vgOSqC1TVzXSWW8TcayDCZTVhuPPJeUlt1lxCkONoJ2SQfLprY33pK3CT6+1Etq8lp7H/r3VqRoabNMfiI8RQkaUHXNAEAe7sevb4ViuPOwpSSVN+0K6pNT2i1yWmjn500JOXvNXL5nqfftCtqQtLUlKyvfYKSRs+fdI+2osSubp3QntvzPv8A+vdU1YrSudFkSJiVsQnNJ2FfXKVBXq+7oRv39K+LoiDLebhQ4iUMtp2lSU60PLr5+dc0Ql5K16ouaCrHwDyJVk4iRW3HCIty/oj2z02o7bPx5v3E11fXCCJDsWYh/wAQIfZcCkJSNcqgdg/aK7hsE9N0scG5I1yyo7bw1+skH/OvTfx6Yljojox81csL8C1b1FFFejV9FR9+s1svkBUG6w2pTB6gLHVJ9qT3SfeKkKK1c0OFHCoWQSDUKhqdv+DdZK5N+xtP+lI5pcJP63+sQPb3FWC5QcbzjGFRZjMS72iajej6yVewg90qHtGiDU2etUm62G4Y1Pdv2IM+Iy4rnn2cHSH/AGra/Mc9w6Gqpa+z4txbq0jdrGzPVqU9Wy54O4H7rSXyOxXjgutyFPYlZNwvlvA8u9ybQtR6LQr8kgnoRpKvPlUfWbOC5glpuBDuF0bulquAH3HvaT6skeTTv5ro7de+vbVutVws2W4+p1lLcyDJQpp9h5AOumlNuIPY+RBrnzMcckcFrtJfahyLvwvvLwE+DsqctjpOg4g9wQdcqvPXKevKTs9nWUliOPAjUfuCw113sPGHoum6KoHD7JghcSyT7ki4xpbIesl1B2mcxrokn/WpHcefxq/1LDKJW1yOkaio5GFhoiiiipVoiiiiiIooooi+VqShBWtQSlI2SToAe2kXxS4gRYcIZdLa9KiMvKj4zbSD/WEsdDIUnuUJPb93UirvxOvDMhxWN+miHCRHMy+S+bQjQ09SnfkpetfDftpccFrI7xKzpfFK8wzHsNsUYeL29SdJbQg68XXtHt/P3+YKqH98l3/FvE8h67lOP1MrpPAfPorbwE4cS7A1JzPMFqm5netuy3XepioV18JPsPbm17AkdE9bRld4n3O7HEcaeLUwpCrhOA2ILR9ntcV5Dy71uZzfpFrjx7baG0v3u4qLUJo9Qn851X6qR1NbmIWCPj1pEVtan5Dqi7Lkr6rkOn6y1H+A8hSVxld1TchmfYbTwG8IwBjb7vDmtjHbNb7DamrbbWfDZb6kk7UtR7qUfNR8zUjRRVlrQ0BrRQBQklxqUUUUVssJKfSogOKtNnuqEnkZdcYcV16cwBHb+6a54cktg65wD+onZ38TXbGbWCPk+MTbLIISJDf4tf8Aq1jqlXyOv31xpPxfIG8hk2TwFCXGUpLqeoCNflE60B57ryHTdluT9bod6qhNZJJpgIxUnUtdLrU55tUkiK9zhRlOq0l3/aew/rDfv33rPYV+j5HCYlJLK0ygk7/WHQjyIPkexq4YXwvYIFyyF9Uhv8iOAUJV71HuR7ulTOWiztsItUWwwgyyQE6aA8I99gjqPl/GuKyMHFpwXVj/AI5aj/ZRrhtr50wVbzpgtKWpCkqKk6SoK1ynWgdefv8AdULaZ5uNzNskNjmcdbYUFHejykqPyANT8znvVzFqtylSnFpA0pIIT7Sd+Q9tWTHuHNotjrUmc8JUxI68ilIbB5SO29nQJGyfZ0q7GW3KHPQtW9E2h8pYRSnkqllVzSy2mFDWhttADbSe3Lrqn9wIquY1I8ac68yXFMqV+LU50SEDtodz8acyYGKrlGIm3w33B9blYCvb02f+utZFYdjMoF6NakxHvJxscvN79f8AxUkd0MLdKsP6DlAreCQM1wKvUoNns8dk9An4V2RwPfL/AAqsKlEkojlv/dWpI/cK5kyWzQrDKcU7bYs2OVnmdPMlxBJ/KG/PyIpqcGOJsC22lNmnxFR7ZHQTHcbaWpQUVElJB6kdT115Vc6MeyzSmSRwDSKcQubBYJ2WnqbtXHIDTuT7oqsWvPsSuLgbYvLKHD+S+lTX/MAKsqFJWgLQoKSRsEHYNeninimFY3AjYaq7PZprObsrC07QR6r6oooqVQIooooipeT2idY7o5luMslx1XW529PRMxA/LSPJ0eR8/wCM5HesmYYwTyMz7XcGShxtxOwpJ6KQoeR8iPI1MVQ7shWDZAq+RkkY9cXQLmykdIrxOhISPJJ7K+2qbx+O6+O6c9m3n561Yb+0XT3hlt2cvJJp+2K4UZacEv0uR9497kePYbopW12qXvY2ry0SAr2ghX59PvBb9JuDUm03lKGr3bVBuWhPQOg/VeT+qodfcaOJGIWnPsMmY/ctFmSjnYfSAosuAeo4n4b+YJHnSQ4Z36/RJEjH7wknNsJBbUnZ3dLYNbSCfrFIIKT7Ck991mZpjPXN8do5j4WIzfHVu8N/yulaK1LPcIl2tca5QXQ7GkthxtXtB/zrbq0CHCoUJBBoUUUUVlYRUdkl2jWOxy7tLP4mM0VkDuo+SR7ydD51I0teKV7gouoauCv6nx6MbxdBvotSd+Az8Srrrz6VBaJCxnZzOA3nlmpImBzschmlVn7V3yi/WzhZEeUi8ZE8m7ZTIR/2aOPWbZ+CU6OvbyD8quiYzNoxPFm2GUNwbVbIoSlI7NtoH7z0+ZPvpVfRbsU2VbbtxOv6ea9ZTIU6gn/RRgr1Uj2Akf7qUVdMu3kuWQsRR1gxgmfdtdlJB/FMn+8obI9grR1LPEGsxOQ2k/anxWw/a+rstO77gFmwCDJnyJGZXdoonXFITFZV/wBli72hHxV9ZXxq414AANAaAr2pYYhEy79J1rSR5e6qKKKKlWiKKKKIozJru1ZLS5NcQXFAhDbY7rWToD4eZ9wpSWaczd5sqXcEhcx9YcWVj62hoDXsT00Pn5VK8ar+iBcW2XlhDTLHMCo6HMTs/DoAKStt4n2tGawYL0hKm3ngjmGuUHXf5/xry3Ss75J7rcQ3R7r3vQnRJFhM1O07I+gG9O65Mp8NTaPW8PSk+W9dx9lUHNLO99zHZ1ua5lp5nFoGyo9PIeY/fV9kzUKZBWSpIAKVp6lWu2/4dO9QU2WEFbrZKSTvRPt66rkuc1pxyVaO9RU76PrLT1kl3Vag5KlvkbUfWCR0Cfd/17KsGUzpD85NstIU/IfUpttpo+sT8e3kT7Nda135cBaXiG0IdWnSnWPxRKj57Hf518cIyU5dfHpLvjOsw0JiFY9cJUpXN/BI2O9GhsrrgOa2eXMBkOhQkvC80xyMq6pfgz1JXzvRGXilaR/eVpJ15jp86m7BmaZ9mdalMOx5IBQ6h1J0hQ6EdO58v30wlQPSo7ynFnboKevZOxSvzPCrx9037xjVx+5851ITLjOn8VIIHf3H2Hz8+1WH2egq3BQRWnrDSRVWaWrm/IaekNqdUnlSyeqlgnW9eYHffuppY7ike12oQY6WJb40XVusE7PyVtKfYKp2DYhk9wlMqvwZbDLnMhtpSVFZ33UR+T7qe0SHHaYRHb17SR3UfNRqSz2esZaRVa2idkUolA7Qy2D77pTT7G0/KWh2MI7qPNl1Wvjyq3/GtmySL9ir6fudOdCFH1Wlnmjvfq6P1F/Pr5EVv5bcosLLRb3HQ1IcaStrm6DfXoD7SNdK1Zk5ldvkeK2FLZSS80PzfaPdUDLPFGTI03XDVh6L1EcstogYJW1a4ZHH1TUwHMYGVQ3A3picx0kRyeo8uZPtTvp7Qehqz1y5bbvJtuZRbzaw4pwJUXCOz4HfYH5wAB9/WunYb7cqIzJa/s3UJWn4Ebr0XRHSP5jC13ebp17ea8d/I+hm9HStdH3HioGo6RyWaiiiuwvNorDMjMTIjsSU0l1h5BQ4hQ6KSRog1morBFcCmSpWCyH7JdZGEXF1TnoyPGtbyz1ei7+qT5qQeh92qov0lcen2mRa+LeLtAXjHVgzEJ6ekxN6UFa7hOyD+qpXsFMbiNa5Mm2M3m1J/ra0OelRf+8AHrtH3KTsfHVStsl2/JcbalIQl+DcI/rNrGwpKhpSFfvBqtAercYToy3fGW6inl7QEg057/nmqNwrv0D0xhi2uE2HIGDc7Pv/AESz/bx/ilWzry60za5ewmDOxLJ8l4Vh1RlWd/7vYs4s9VoHrLaB8+ZHce0LrpLHrpHvVjh3WKdsymkuJHs33B94Ox8qQfreYdGY3avA8CEl7bRJ4Hf881v0UUVaUCxSnmo0Z2Q8oIaaQVrUfJIGyfsrmHie5OydjH8NjqW3cs9uwuM3W+ZmA2dNA+4JBX/gp68V33VYyizxlcsm8ymregg9QlZ9c/7gVSw4RR2sq+kNl+VISDbsbZRY7YAdpTyjlUU/JC//ADKq9+0bGjieQ9VN3Yt/oPn0TrWbdjeN7SlMe3W2LpKR2Q22noB8gBULwxgyEWR293BBTcb06Zr++6Eq/s0fBKNfaawcTCq5Ks+KNk/1vLHpGvKM167n26SPnVySkJSEpAAA0APKg/ZOTob6nkKeaHsRb/QfPovaKKKtKFFFFFERUZeb5b7UkmU6djulPU1J0gOPMi+2O+uyGELciP8A41vqdH2j5H/Kq1qlfEyrQrdigZPJdcVuZvlmOS8lQY8NdxkyVI8MLiF0ga1pCSNA7SdqPalLxzuKWoDiXoEVDh+qhXIVIPwFZofE95iMuPIZksHWj4Sinf8AlS6zfJo9wafPgPr5t+s85uuL1Ze68QvWQOMdADgBQJuYnlq14XZ7i+lxaHYiFOnSiUua9Yg+XwB6Vrz8ts8hsIbeQ3yjZSF/++jUFYZU5zh1ZAIoYbTFCfAZ0kJHvT0Oz3+dZoPDXIL416SIEWEhQ2gy1FKle/lTsgfHVecNTM5gGAXrXdHWIwNmnfcJ01z8M6q6R8OyKTa2LggQmw+gLbZck8rgB9uxoeXT31EYPAySyZiLwu2SHGnWyxISkFxTiN7BBHToR0A6d/M02ITD7cYIkhsKcQA4EkkBWuoBOum96r4jQFF11xl+S2EdHOR4oSv3Edt6866UQawijV4aSdzqgnBTsZxKEoQ4tDJdGwh1XKT561337qyIlsApbcbQo62ApO+ntFQrciMjRLICh1QpW1En27Pc1Schye5uZKRZLLcLlHgpLbrsdtRR4vdSQQNEgaB9+6nbK7OirdTeNBmm4wolnlQhKE+YGgK0chv9pxu1uTrjKQ02hJJUT7uw9pqkC6ZZLVHjKbgWwvoCvxzpecSD7UJ0N+4mlF9IKy5RZ7tFlXa6u3a0y9iM7y+GEKA2UKT1APmNdx8DWXWqrTcGS6HRHQwt1rbBJIG147tq30ZLGzS+TZbqub0jf9GdOinl+oUH26+fxr7k3NxUJD0p4xm2kFpTjqtKUk9Dv/ruN1ScHjNKf8UMnYH1ucdPiKrNzyQ5DlYS6U/c+I8UMtnqlwgkc6vbvy91cuKzPtTyNGlfSulJbN0UxrGDAUDRuz4J8YPeIkuHFaixZCQ2FKD7jSkpXs+RI69P410ZhhBxa3kdvBGvhs6rmbDc8t1sbi2i5Q0ssymvEZJUOVY5uVQB9o+0V0pik62JsVvjMy2QQwgJbU4Obt5j216LoqHqXkaKL5l/I7X+UwG7Q1rr1qdooorvLyCKKKKIiqVh/wDUGYXbFVerFf3craPIIWdOtj+6vrr2GrrVM4nJNuTacraB57RLSX9ecd3SHB8tg/Kqtq7IEo/x9NPDHwU0PaJZr9dCX/0pIUiwS8X4rWtomXj05DcwJ7uRlnsfdslP/iGrvwxmR49yuljiuBcFzkutrUOyo0gc2h7grf21YM6sMfK8Lu2PvFJbuERbKVHsFEeor5K5T8qRfAS/PnFMUnTDyy7FcXsbuIJ6hpfVrfuSrQ+VLT2bsuo8Dgefgsw9qrNfqPtPFdIUV5RVpQJa8TrwmBkonrUjwscsku7KCu3ilPI2Pj0OqjPoj2ZVs4NQp743KvEh6e8o91cyuVJP+FAPzqn/AEjLmprDuIUpvfPLlwLKyfcNOLA+PWnrhVsRY8Ns1pCQhMGAywf8KAD+8GqtlxDn6yeGHsppsKN1Ac/dQtn/AK14pXiedKatMRqAyfLxF/jHCPfrlFXOqdwlBexuRd3NeJdrhIme8pKylP8AwpFXGljxiv8A+2Pnlwok+D7urDy+UUUUVaUKKKKKIio7ILLbr7blwLnHDzKu3kpJ9oPkakaKwQCKFZDi01CRGW8AozrL8i1XRxakpKkMOMjmV7goHv8AKkPf+HT5m+EJLYZbO18yTzHSta0e3Y13fVC4jcP49+DlxtnJHuXLpaVdG5A69Ffmq69FfbuuZbLG67egz1L0/QnS0LJblsFQcjq37ElcFkW6Tk8dm4KSyGmleGhY9XxABo6+GzTUl3K0xIfjpkokgeaFdPtrnXOYd5x64lm8W+VBdQr1FrQU9j0KVDofiCaycMMskSs/t0Sbc3JLa0PNttuO7SFFBI6e3pXlLO50TixzcV7TpvokWxn5cUgLQ3LPLHDeuiLFdrdeNtRg4hwd23B9Ye41vS0eiMqkJ+qjRWPaO1UbHLsxa8ikPPoWplwL5Ejslfkfsq5QpQyBK4r7PoUVP9qS8CtzXYDXYdt7roxuDwKZrwkkZYdi2Tp+MpvwW3ELGtnWiPeNfvry3sR7fFTFitJbaSOgSNJT130FbZtj0ZjUd2O40BsLccKT89A1T8qubzTKmfujDbTv1wxzK6e9R/y1W7z1ONMVowGTAKrZLIjw7sp5hxzlWopCUq+qje+nx7fCveIaW8l4QXBt86VEQiQ2o9eVSFDt/hKx86rl3lolTAllPTfUnuqpPL5zNp4ay2XDr0xCWEg9NlSh2/wpUflXPjJBJXesDHflQ3c7zfVK/GWWYsd9kyVFS0EJVvQSdd9ClLamlRZT0dCvFDDqmyoDvo6386Z0ebGSgoQkIBGjrufnUNHxovXvxoJBTIV66O3L0+t/CrfR0ojLgdK9r/JrBJamtkZmPdWbE8zg260oiSozMptCudLUhpLvKrXUjmHSrRiGeeivOIt0BLLTiispU4eVOz7Ki7Bwhye+yHkWqO1JQwR4iw8hKQT2Gz5+6m3w24BKgzmp2UyWVNNHmTCjqKuc/rr6dPcO/trrNgMuLQvnNonZZyWyZ6tKcHD6ZMn4hAmTUkOOoKk77lGzyn7NVP18toQ2hLaEhKEgBKQNAAeQr6rsMbdaAvLPdecXAZoooorZaorSvtvautmm214AtymFsq3+sCN1u14SACSQAPM1hzQ4EFZBINQq1wwnu3DB7cqQf6VGQYr++4caJQd/7oPzpFtQFWjjBxTxBkhtu6QUX6CnX+mbIcPL79qWP8NOnBf6FlOW2bYCETkTWx+q+gE6/wASTS64ttiz/SY4dXsoHg3Vh+1PexW9pAP/AJo+yqkLets1x2og+GCnebk14b/dOewT0XSxwLkgjllR23un6yQaKr/B9SvvHjwnP7S3vvw1f+G4oD92qKms8hkia46QFHK0NeW7UiuL6lXS2Y3bO4vmfOuKH5yUKDY/jXRuZS/QMSu8zm0WYTywfeEHX7651v34/IuCbJG/FvkySr3n0hJ/ypz8Y7hJbxh+zx7e9JcujC2WlMqSVBY9Yjk+sRyBR2N61171UbJ1dhD/AP14n5U7m3rTd2+iq7cw4w5jk16NJfTbrKhmLCZPryHXEhTrhHXlbSNAqI6qOh2po45cjeLHEuZYDBkN8/hh1LnL7uZPQ1VG4stRlzrLEVcY91isehzY0oNFgob5QlRJB5AfX6b6lQI3UxhiNSru6wtDkRySnlW2NIceDaQ8pI9hWPL8oKrSyB0b7ug/a104AZbNKzOQ9tdI+04qyUUUV1FTRRRRREUUUURFFFFEWKTHYktFmQy282e6HEhST8jUYMYx1BWpmxWxlxSSPEaiNpWNjWwQN7qYorBaDmFs17m4ApEZdYXoEt1gp9dtYO/zk+Sh7qjIVxm25pLbRPJrXT26Pf5097/ZYl4jeG+ORxI9R1I6p/8Ace6lNlGJX+2lZTbnJrAO0uxE85HxT9YfYa81bLA+F15gqNi7tltbJRdeaFQ0nLJyoPJ46+ZXcFWqqk+4vydocBT36DXU1nubjallDzEltwdClbC0n7NVnsWMXm7upFvtE55JP11MqQgf4laFc+7I80AJXQAYwVJAWjaYKnn0qWnlSnqVE9qkOKPC/iPlcK1Gxw4Jt7bZd8N2WG3StXQEpI0AEga6/lGm7g/Dlq2qal3lTT7qNKRHR1bSfao/lH3dvjTDrr2LoqoLptOhUz04+yTNks1CRpK4qh/R/wCK7jgQu322OD+W5cEED/d2f3Uz+Hv0d5kF9ErK8kS7rvGtyCAfcXV9dfBI+NdDUVfZ0ZZ2GtKqe1fzPpW0MuXw3cOdVp2e2QLPb24FsitxYzY9VCB+8nuT7z1rcooq+AAKBeXc5zyXONSUUUUVlaoooooiKXXE3JGFOTsRmRH2Y8qKEquLTgWmOVfVU4hPrJQCBsnXTZA1TEqiWdM+OsuNQnrg80/IFwjMvpac9IU5tDiwogLQUaA2dBOtA+VO2Xi0MaaVzwrhq/6Viz0BvHQtfFHZCOIEJyagtyJ+OoD3rBQW6y5oqCh0UCFbB8wRVP8Apbc0FjBMhR0VbskZ9b2BXU//AMYqamurxW+44pUcSpEGJJRLYjLARH9IcHgoK1aCU8x5ATroneqivpmBSuDbEhSORbN2iua3vlOljv8AOtLA7BzDmD6ge9VtaW4h2g+3xRWSw3tNju2SwFEJH3aedSPctDav8zRS+4mXBcXO7mUK0HvBePxUw3RXEf0m6B7oxoJHFdFtiErQ/WAvLlgeZZRYOH9/w2Zao0ywKmLCpylaC1PeqQkJIV9U737qll2L6Sa5DUhd/wAHU80FBtwxtqQFa2AfD6b0N/CmLwf9TEFRT3iz5TJHs08o/wCdXKvQWPGzsB1Bcq0f2u3lc7Kwbj8XnHRdMGQXTzOJQytCHCe5UgICSfiOtSjNl+ksy0hpnJMJbbQAlCExtBIHYABvoKetFWGsa3uiijLicykZ9yPpNfpRhn7P/wD51PYBbuOUfK4juZ37GpdjAX6Q1DZ5XVHkPJo8g/K1vr2pq0VstUUUUURFFFFEVPm52zbZ7ka8Y/fIDaVlKZJi+Kyob+tzNk9KsVnu9rvEf0i1z48tvzLawSn3Edwfca+7nLMJlL58AMoPNIW67yBtoAlS+x3rp06d+9QVv+7Fy3MitxreysHklyooVJdSTsHkHKEJ125iTobIBqoHSMfdJveGPnWnBT0a5tQKeKtFFQyLbdSnZySUSevqxmAn/l/zr6U3forfMiVFngfkLYLayP7ySR/w1P1h0tPDmo7o1qXoqvt5PGbdDFxjPQnT5L7H4b0T8hUk1dYDuvDkBRPYBKt/ZqjZmOyKwWOGhbv20VppmpbCzKC2RzHkK0EAp8v/ALHrWrNyK1RUcy5HN7gNfvVofvrJkaBUlAwnIKXoqCj3S6XFWoFvSw0eoek82te5IA38lVnMC8OEqcvy2z7GIjaR/wAfMa1EtcWgn7tWblMypUkAbJ0Kq95zzHbc8Y7ch65SgdFi3sl9QPsJT0HzNbj1uvYCktXxmTtPVmZCQpKh7Dycp19tYbVcpLUpdtehNRJaVJWY5WEshgaC3GlhPrgdykgEE6OhomKSV+AHZ3ivoVuxjczjw9lvY1dpF4hrkv2afawFaQiYEpWse3lBJA+Oqla8r2rDAQ0AmqicQTUBFFFFbLC8PalFmFu4/O5PcHMYv2KsWZTu4bclkl1KNDoo8h673503qKIkZ9yvpN/pLhf/AJB//rrSn4r9Iqc6HpV6whbwTyh1LSkOAezmSgHXu3XQFFYc0OFCFkEjJc+xsR+kJGhOwmbngKY75282YnMHT7V7bJUfed1H55w84/5vj67FkF+xB+EpxLpS0FNq5k9U9Q3uukq8PasNaG5BC4nNc0cXozic9mNdy0zHbUR22GUboq1ZJZ1XvM8glJTzBucGd/3WW6K8TabE+WZ7xpJ9V6OG0NZG1p1D0V94dH0e65ZbCNeBeVvJH6rqErH+dXGqbAJgcXLmwTpF1tjMlPvW0ooV89EVcq9fZMGFuokccOC4M+Lq6wPRFFFeVZUK9oryiiL2ivKKIvaK8ooir2ehCbOy++lJitS2FSyRvTAdSV7/AFeiSfcDWzlNkayO0tw1TpcVvxkPeJFXorCTvlPtSf8A2qXWlK0FKwFJI0QRsEVBDEbEEltDEltg/wDZ25jyGfh4YVyge7WqryREk4AgjcpWPAAxoQvrHlsG83Rq3EGA2W06R/Zpf9bxAjy7cmwOnNvz3U2sFSCkKKSRoEdx76+IkePEjNxorLbDLY5UNtpCUpHsAFZKljaWtoVo41NVTr7brHjtkYVcrxNjQjJT6W84tTjktR2AHF9SE76nl0OmugrDab/jluMG32+fEvV0nPAIERKBoE9VHl6IQlPz6eZO6td6tcC82123XKMiRGdA50K9x2CCOoI9oqMxbDcdxpxb1pt6W31jlU8tZWvXsBJ6D4VUdBK2UdWAG+NRuGX0qcSMLDfrXhzWxlV6iWOA1MuLKlwFPJakOhPMGQrelqHmnegfZuqsubiq75HRb8qYbly5DZhIhpSspJ+s2rQIKFa7K6pJOj21fJLDMqO5HkNIeZcSUrQtO0qB7gjzquWPAcVst2F0t9sDclJJbKnVLS2T0JSCdA1m0RTPeLtCNtajdT7VYifG1prWqlbXZottmyZEN2ShuToqjl0qaSob9ZKT9UnfUDp0HSpI9uneivattaGigUBJJqVS7PZYl6btVyM6XHuVuklycltYC3H+y0O+fLvsO3KenQ1I5X4Tt5sEZsIXLMwr5NbPgeGsOk/q6IHxKa37nYbVcJXpb7CkSgnl8dh5bLhHkCpBBI9xr7tFlttrcddhsEPO6DjzrinXV67ArUSoj3b1VUQOAu0GNKnds1+KmMgJqpAdq9ryirigXtFeV7REUUV5RF7RXlFEXtFFaGQzk2uwz7itQAjRnHd/3Uk1hzg0ElZAqaBVrhgy1Ot13ubiOYTLzKdQfakL5B/yUVIcNILluwKzRl9HDFS65/eX65/eqiq1lZSFt4Y0UszqyOotDP8A+rsgxjIugRHmmHIV7G3xy7PuCgmrlUPm9o+7uKXG1p6OPMnwj+a4PWQf94CvnBrv93cUt9zV0ddZAeT5pdT6qwf8QNGdidzf9sfLA+yO7UQOrD3Huk/9LvLcksEDH4NhcvNuTKl8z1wgveGDoFPgb/OO+YbOvVpLxuIGfWq622W3leZD+nMoWLtJZdjKSpYCgtKCSenu/fquxc1w7Gszt7Nvye1NXKMy74zbbi1JCV8pTv1SPIkfOq3aeCnCy1XKPcoOGW9uVGcDjS1KcWEqB2DpSiDo9eoq0oUrvulf89z3LmrjxcewZiy3NcCJbY7iGlKbSSA6oqUnm5td+vyGqy4hxInYJfcztF8zL79LHZbW3Pj3FRSXA+tSUpjFaSQSoq13OtE9OoDby7hZw+y26m6ZDi0CdNKQlT55kLWB25ikjm9mzWJnhJw4Zs7dnaxOCiA3KTL8FJWAt1IISpfrbXoE6CtgbPTrRElsEznM8QzLH7pn2UCdbsrSpMuAuQCbM64rnZ23vbaSlSfIaCiD9XqyPpKZTe8esVig2a6psYvV1RBk3dSdiE2QSVdegPv9gPbuJe68FeGF1ucu53HE40mZLdU7IeW+9zOLUdkn16tl3xux3fHfvfuttYnWzw0t+jyAXBpI0nqeuxodd799ESbtOIymrpDdP0kLnMCJDajHM1kh7SgeTXidldvnWlxiynKMrzu4YvhGUnHoeNxFuT54khhD81Q/FReckDyI17ebY9WmDC4G8KYcxiZGwyE1IjupdaWHXdpWkhSSPX8iAa25nCHhxLtrlulYuw7FdmrnuIU+6fEkKGi4o8+1HW+56bOtbNES1yTiXkeW/Rzj5Bi04QL6iW1Eu6Wnm230FIPiBrnIHMocqgB15SddjSdfzXLozSn5+ZcS4sVP9q8JkdZbT22E8/X4V1KjgrwvRbH7YnEo3oT7rbzrPjvFKloCghWufuAtQ376wMcCeEjD6Hm8It/OhQUnmW6obHtBVoj3GiKh8a7HllrwS5cRLLxUyVEZiBFdZgoPhtr9RpBVvm2CrZWencmoi/uZphONWxMLiLf8iyTMojcS2QpShqIXORa5CTs6KUnlCj25t+RronI7DaMisEmw3mC3LtklAQ9HJKUqSCCB6pBHUDt7KiZvD3DptxauMqyodlM282xp0vObbjFJQW0+t6u0kjY0ep60RKjhTmt2tlxyrh3kOVJv0+NEdnWe7okB0yWvCJUkKBPrJPUDex63kBVa4NcR8yxKy2K/57c5d5xHJdoRcnlKcctklK1I5VnvyK5d/vHUEFyWngtwwtM9mfbcTjRZLBJbcbkPAp2Ck/l+YJHwNT8bCcVjYV95bVljfe/4am/QVFSkcqlFR6kk75jsHewe1EXMLvEjN43CHFZbU7IJ0mTk7/jT2pJJcbbd0mIVefiBXqjtpJ71ZeMfFzOpGGlpjBMuwxZmMf1m65yJSOfqjYSPrdqdjPDPBmcfhWBvHmE2yDOFwjR/Fc03IB2HAebe+vYnXuqYyzGrHlVpNqyC3onwi6h3wlqUkc6DtJ9Ug9DREneNGUZBkWcM8P8AD8lOPJtkUzr3dg+GUsqUnTLKl7GuZSk7G+6h+aRVw+j1nbmb4Ij7pOJN9ta/QrmkKB24noHOnQhYG9jpsK1UlO4T8Pp0a4R5mNsvt3KYJs0LfdJfeHNpajzbOuZWh2G96rbwrhzheFzX5mMWNq2vSGw06W3nFBaQdgEKUR0PY69vtoiSseRxHz225jndv4gzrAxYp0piBaozQLKkx0834z28w8yD135aFRS7lxQt/CSLxsXxGmSnVqRJcsrkdIiKZU74fJodAfgB7jvrXRtmw/GrPZrjZ7bam48C5uuuzGUrWQ6t0acJJJI2PZqsL2C4m9g6cJcszSseQhLaYXiL5QlKucDfNzfW696Ikrdr5fs64pZHaJPE57ALfZksCHFZcQ2uSHGwsuFSlJ5u48z0I6eZxWKdkjOdXXhu1xalXu2TLIucb6haFPWlxCxslwK0AQNHatesO3m4ss4YYDlT8d+/4xBnPR2gy24rmSsIHZJUkgkDy3utWNwg4bxrJJssbFYrECWtK5LTTjifG5fqhagrmUkHryk6311uiLnSzTMoyPOXLTj3Gy+CwRCBMvVynIjJUd9mGyvbnQdCdDzOhrbd44z52H4VhSLLk10DS8giNSJzs4rcksqCiouOb0Unuew120Knl8BeEawefCoStjXV94/+urPkuDYpkmPwrBe7MzMtkEoMaOpawlsoQUJ0QQeiSR1NEWC+cRsFssH0yflVrDRcS2PBfDyuZR0PVb2r560KR7AvmU8Tc8izOMl2xKNa7t4MSOJiEoUhQJ0kLUnQGvL200W+BHCRtaVowqElSSCCHnuhH+Otu+cGeGV7u8q73XEokqdLdLz7y3XQVrPc6CtD5URLLEc5n4HxAvFiu+fqzfHYtjXdXpq1JW7EcSoAN86SQSrYATs9VJ7ddwON8Q81xzILFnuX5H4ljyOS4iXZFSATa47pBjvBvewnlHNvX1e/1qd7PB/hqxYn7GziUFu3yXUPPtIU4PFUjfLzK5uZQBJISTrfXVY71wa4ZXq7SLrc8TiyZsgguuqedBVoAAaC9AAAAAdAAAKIr6hSVoC0KCkqGwQdgiqhxYWqRYI1haP428zWYYHnyFXM4f8AdSftqz2i3xLTa41sgNFqJFaSyy2VqVyISNAbUSTodOpqrH+uuKw7qjY/D+XpL/8AmED99VbXjH1Y/wAsOfCqmgwde1Y8uKuLaEttpQgBKUgBIHkB2or6oq0oUVSsZP3Bzy748v1Yty3c4Hs5j0eQPgrStew1daqnEm3ynLZHvtsQVXOyu+lsJHdxAGnG/wDEnfzAqtaQQBIM24+GnhxopoSCSw6foVroqg5NxewXGo9sfvVzfjN3ON6TFUmI64laexHMlJHMD0I7jpUH+EXwj/SZf7C9/LVhrg4VCiIINCm1RSl/CL4R/pMv9he/lo/CL4R/pMv9he/lrKwm1RSl/CL4R/pMv9he/lo/CL4R/pMv9he/loibVLji8xlU6+4vDxtu5hhl96bcnI0xyM0tltAAZUtAJKlqUOVOuvKe3UiM/CL4R/pMv9he/lo/CL4R/pMv9hf/AJaIvmBmnExoQPuniCnXfRGZclqPDdHiJcDq1oSrZCHGUpaSUK2VrWddNVk4c57xBumWxbJmGFIsrUph1bb+1Damm2isAdQdqd6dR0SQOYg6+fwi+Ef6TL/YXv5aPwi+Ef6TL/YX/wCWiKAz5fFy43O/S8bbu0WDdLNITAbTtCoaozg5FAHql+QCrl7EJI801OP5xnnhS1xMUuTcePEJQl21uuSFf0ZC0OgcwStSnlKa8LYUnlKifKvv8IvhH+ky/wBhe/lo/CL4R/pMv9hf/loi03M/4lRxEUMLmzUssJEvw7W6j0hxURx0Kb2doSHQhrRBP1idbSKh5/EHitPjv2GdhMq1SpGimRDC1OpZQ6026pKQFHqVL0odgpJAIHMbJ+EXwj/SZf7C/wDy0fhF8I/0mc/YX/5aIq5JzPiPi9njx5WPyWZT8liIJEkOymuZLUVoITtQ9Zx5xw8xPUIUfWJqVncQ+KCWZsaPw7nIfckLTCkriLWhDZfcQ2VoB2SEISSSU9XAdBI2dt36Q3B53l8XIufkUFp5re8dKHYj1Oh99ff4RfCP9Jl/sL/8tEW1nN4zq3ZU3LtttmTIsCweMYzEZxTMmW6+htWyk9fCQC4EfWIKtdTsZb7cs2uOI2NDUWVAlzMgbjypEaK5zpgodWQ8pG+ZoOJQgEH6ocIOvLQ/CL4R/pMv9he/lo/CL4R/pMv9he/loireO5VxcbmS1PYneESrvcGVtGa0t2PCYIcVyhKSAjpyJOz00SobIBk+IUniNH4hXA2yLfnsfE60rUuHtX4hIcLrbSR1JU5yeIfJIAJ0akfwi+Ef6TL/AGF7+Wj8IvhH+ky/2F7+WiLT++ni1EiqtTON+mXCOG4SpEiK4UFwpYAlladJcbUtx3aEaKUt7NTGIXTM7zxTU5erXcLdZYsCY1HQWFttLeTJQ2FqJOllSE86OnQLOt9TWn+EXwj/AEmX+wvfy0fhF8I/0mX+wvfy0RNqilL+EXwj/SZf7C9/LR+EXwj/AEmX+wvfy0RNqilL+EXwj/SZf7C9/LR+EXwj/SZf7C9/LRE2qKUv4RfCP9Jl/sL38tej6RXCUgkZI6ddTqA+f/TREzb3cY1otEu5y1crEVpTqz7gO3xPb51BcMrfIi456fcE8txuryp8rfdKnOqU/wCFPKKi8klt5febRjcTxPQXG27ncudBQoMjRaaUk9QVK0SD10Kvg6DVVW/tmLtDcPHT5Zeand2IwNJx8NH3cvaKKKtKBFeHrXtFESE4uYAi6wZ2FICWjIcXc8YfV0DUkDbsXfkFDsPeD5VN8AbrjGd4d/WWN2dnIbWr0W7R1W9pKkujYC+Xl6BWj8FBQ8qY2ZWFvIbIuH4pjyW1B6JIT9Zh5PVKx8+/uJrnvLHrvh+Wf/VqyQimZEcELM7S30Cx0HpCR+arQPN5KAPYqqpF+l/VHI933Hho2blO/wDY2+M9PP7p3p4X6FhNkegJuGOWxtua/wCjpeFuaLbayNjnVr1d9h76lPvUxf8ARuz/ALC1/LWKHJx/PcLbkx1on2i6McySOh0f+VSSPiCKicQusyzXROG5E8XJCUk2yaroJrI/JJ/1iR0I8+/x3dK6OSj+6cjt1Hfo8tS1DA9lW5hSF3smIW2J6Q/jVpVs8qUpgs7UdE9yAB0BJJOgAaxWS1YhdWVraxm0trQRzoVBZOt9iCBojofmCDoit/M20Ls/OppbnhuJUOUEpHcHm11CdEgqHUb35Vr4MG3I0qWhp9HjODSnFc4UnWxpezznalcyu3MSBsAUMjuuDdCBo6uqisnXw8xsLcutitjTLIbVKeTa0LbioWrlQt0hPqpJB6+WiToda2Mej8P7+qam1WezPrgv+jyUG2oQptfKFDopAJBSoEKHQg7BNRXG/Dmr3h1+m2u1uysgfthhMeE4oFxJWCElOwhWtq0pQ2kE6I2aqd2Yyd3iJmkSwMynUPXC3/dFER9LT5YVblJQULURpPjBHMQQeUK151YUSa/3qYv+jln/AGFr+WtG52rBrbJgRptlsrT1wkejREGA2S65yKXyjSfzUKOz06Us8bs/EFmBDTOx+6m4WuyRmrEpU9tMdic3HcafVICXPXStakqBIVtIH1eorSt1g4gt5HDuz+OXmUpu8RrgFzJrC1j+rXI6gfxnQeOoqKU6AQdj2UROf71MX/RyzfsLX8tH3qYv+jdn/YWv5aWvDuDxMi3q4TLjb3W51wt8EOyrpIS8wh5oOiQEoac2kKWtJQlIA5ep0ehgZp4i5DleTXPGVzDNtEi6wGnzISiOpPhMBhhDZVrnC+dfMpPfW1HsCJ0fepi/6N2f9ga/lrFGx3D5SFLjWOxPJQtTai3DZUApJ0pPRPcHoR5GltiOL5POvv3NvTV9i4s89NuTLLs9YfYX47BjoccSsqJ9V5fJzEDm6+QFecxTiKxbV45AtFxhR1Tpz7EiLLQ22mW5cUvMyFlK+YtJY5uhH1tjlJ0aInDkFgsNusc2dBwq2XOTHYU41EahspW+oDYQklOtmtXD2cByuyputnsVqW1zqadbdtrbbrDqfrNOIKdoWk9wf4VFcSsyNv4dXR65WyfbHJq51sjOD1whQQ8lp5SkfUSsoTyk9itPXzqiYva84j2JmPjUu43WwzfRlz1tuNtSfSDGWh0MvepztBxMfawdgBQSTo0RNyLaMKk3WZbGbBaVSoSW1PoNsSAkLBKdKKOVXY9ideeq3PvUxf8ARuz/ALC1/LSbxm08S44tVnmWi9MQpTVmgznDMbKW2GG3RM6pcKkc6+U8yeqge4J1UscYyuFbJs+K3fHZFsu6LfBZTOV4rtkSqOHAgFYBcKUOELJCySSD9WiJnfepi/6N2f8AYWv5arKX8HazpzELjitut0xxKXLc6/b2g1cE8gK/CVy6KknYKD63TeiKz8KbXl1oxu1QLy7HEZpp7nafWt2WgKdWppBc5ik8rZQk9z0PU96qybJf7vLumOXiyTxL++tF4j3lWjHRFbdQttTa97Cw2jweQDY2SemzREw5eO4fEjqkSrHYmGU65nHIbKUjZ0OpT5kgfOsv3qYv+jdn/YWv5aRt2xTiJcrcZVxsVxuL92hRJFwaMtvSJEe5eNrkWsBJ9H9VIT08jo9a+col8S8XtV3vsi3XiK2xHuqESFzGXEtLkTm3GXOXxD9VjaAdHlPQDXWiJ6fepi/6N2f9ha/lrTtdnwq5mWIVgtLnoklUZ7mtiUcridbA5kDmHUdRse+lDfMZ4mOYpdLRbrfeEW24OXN6HEFyR6RHWpxssJecU4TyFIfVypUr1lpCvduXyBxTnwr5bo9ovTMW5Tbi6gieyhxKXYyEw0cwc2htCwrnSkjR5QOYboib33qYv+jlm/YWv5ai8jhYTYmI65mOWxbkl9DDDLNuaU46tR1pKddddz7qz2W6psfD6HOyFh21iJDbQ628pKnAUpCdeqSOYkdACe4rSw+2TrvdvvyyBhTMhaCi2wlf9jZPmf8AvFeZ8h0qvNKbwjj7x4DXy1+aljYKX3ZeqmjiuLAbOOWYD/8AYtfy1znNXj+e8VJV/YtkJnBcLOk+jRkIFzmEjlQOUeuCoDQ6jlSPz6vX0gszuc+4x+E2EK8TIbwOWa8hXSDGI9YqI+qSnZPsT71Jre4U4hbENW+22tPNjGPOHwHFDRuU7/SSFe1KT0Hy10FZnkLQGs7xy57h8JEwE1dkPvFXfh7Z5cC2v3K7Dd5urnpM0/mE/VaHuQnp8d1Z6KK3ijEbA0aFo95e4uKKKKKkWqKKKKIiqZn2PyHHhkVmityZzTKmZkNYHJcIxHrMqHYnW+Xfwq50VHLEJW3T/wBbVux5YahcwY1e1cGMgauMFcibwvyCQdbBU5aJJ+shQ7gjsR+Ukeak+t0FfbVaMwx5oeOlxl1KZEOZHWCptWtodbUP+iKq/EDE0NIuFxh2xNztdxRy3uzkdJKf9a2PJ1Pfp317aVGJZJcOC0uO27KkX7hfc3iIU4Aqdtjij1bWPIg90+fdPXaTCx/WAwzDHgRrH3BSObdpJGcPTZ9zTrxfIp0O5pxfK+Vq6Af0WWBpqegflJ9i/an7KuA0B0qDuEKwZtjbKy41OgSUh6NJYc6pP5Ljax2I/wDg1AxL7dcQkItuXuKlW1SgiLekp6e5L4/JV+t2Nah7rP2ZDVug6th5+e3JaJcWZ6uXJXutU2+AbmLmYbHpwa8H0jwx4nJvfLzd9b66rO04262l1paVoWApKknYIPYg+dfdXFXXh0Bs6AFQVsye3XWdcYlqcbmuWx1LM1tpweIysp5gCj3pII67qbebDrK2lb0tJSde8Ur5WDZRbs3k5BiGQmzi5yGHrzDcgNSGZimhyc6FkhTRUgaI69eo699HE1WwCaDS0OtJdbIUhYBSR5g1XsjynGsTaCpzqGQ8sOuJjslZSlbiUF5YSOiOZQ2s1NIhp+5voTi18qmyhSm1lCuvfShopPXoR1FLWbw2lwJVij2iJbrtarcB4rd1nPJedX4oWCpQQrnQggKS0dI5uutgGthWmK1KsznECxtzpsZce6obhOeC7KVBWGC6XksobQs9FqU4rlATvsd6rckZnjzNhhXoy1rizXVMx+RlSlrcSFlaeXW9pDThPs5DS8vnDPIbgq4TlM2BMqQ2qNMZjbjt3ZhUxLyg4Uo/Fq8JJQF+srmWo83Y1nvfDrIJnCqxYo8i23FEN9apUJyWtlCmiHfAbS+lBX+KK2vW5QV+Gd9yDlFfomX2SddIUCA6/N9MRzJfYYWthv8AFB5KXHNaQpTagoA9wR7RvXfziys3yXa3G56UwUrVMmqiqTEjpQgKJU8fV8wNDZ35dDVKxDhnkNqzCLdbhcLe+WpqJ79xZUtEiSfQUx1xy2EhIbK0+JvfXSfVB6j4zThdeMnl3l5blmgPvsT2Y8uM0ULkofCA02+EpBIRybKiVEnRGu1EVxkcQ7BFZW9Mj3uM226404py0SNI5FJTs6QdBRWnl9u/jW9ecyx+0XmLaJ8txuVIUynQYWpLReUUNBxQBS3zrBSnmI2Qap1owLII8q2uuOW6PB++M3eZamX1qZZQI4Q2hpRSOYpdSHiOVIKjvuOu3meBSr/m4ltH0O3vpgOzX0Szt9cWQXUtqZ5dHodBQUNbOwrSaIpu38Q8SnPyWY1yUpbAQpO47iQ+lbhaQpnY/GguJKAUb2R8KyM5xZXY1teQzci7cC0BH9Bc8aOlxwtpW8jW2084KeY9Oh7gE0tBwgu7kZiWRDS9b3Y7cO1vzVvR1x2Ji3uTxOTmQFIUAAQoj8okdBkjcIL8xNhK9Pt6gWYyFyg86HrcWZrknlj9PWSUOeCNlOgPYeWiJ3VjkMMSWSzIZbebJBKHEhQOjsdD7wD8qyV7RF5WlfLrb7JbHbjc5CI8ZobUpXmfIAeZPkBWhleUW7H2223vEkz5HSLBjjmefV5AJ8h7z0qIsuN3G73JrIMyLa5DR5oVtQeZiH7z+e57+w8vdWknN7q4sXcBv5ZnipmRil5+A9d3NYbLbJ+W3RjI8jjrjW9hXPa7W53HsedHmv2J8qjeOXE1vCLcxabMz90ssummrbAQnnVtR0HFJH5O+w/KPTsCQcZ+KsLCGmrNaY5vGWT9Ig2xoFSgpXRK3AOoHsHdXlobIoHD7Dr3EyOTcLhMTduI1yHNcLgvTjNjZUNciddC7roAOgHQdNk47FmZU4k+ZP3wAWe1M6gwA8gFn4Z4JOgPTbQ5NVLyi6nxsrvIXzGMhR5vRW1+a1flEfwAAfdthRbbAYgQmUMRmEBDbaR0SBWpjFjg49aW7fBSrlBK3HFna3ln6y1HzUalK2hicCZH948BqH3FayPBF1uQ47UUUUVYUSKKKKIiiiiiIooooiKoOZ4cpInT7JBjzY85JF1sr4HgT0+ZSOyHfYfM++r9RUUsLZRjmMjpC3ZIWHBcvWZ3IuFDkm/4GZeQYR4pVdLDIJ9MtS/yjo9Rr88dDr1h+VT3wbMsU4i46qbZZbM6MtPJJjOpHiNEj6jiD2/eD5E1kyfFG7jNTebVLXab40nSJbSdhwfmOp7LT8eopH5Rgr0PKE3iwSRw/wA22ShbStWu6HeyAdaQVeaSCD5jfWoRMWdibz0HkdnkpDGHdqPy0jmm4vHb5iripOGuplW8nmcs0pw8o9vgrP1D+qelS+N5jabzIMFRdt90R0dgTE+G8k+4Hooe8bpZ4nxwetF0Ri/FyzOYveB6qJvITDk66cwI3yg+0Ep947U07xZcdy23MuSmI09lSeePJaWCpI8lNuJO/sNOofFjCcNRy8NXEbE6xr/7PPT8+qm6UfEziHk1ryKba8Zgx5LluDK3o6mluPPpc5tqQE/kp5RzHr9YVZvuXmuO/wD5Nc28ggp7RLkrkfSPYl4d/wDEKrt2cwS8X1ubm9mn2a6p0lCpyVIRofkpdR6qk9T377qta53uZdBuHbl4HEKvabLNIz9Bruz58FcYuZQEcOmszuLbzET0QSXEIbK1ga3oAf8A29uhUDKzq8S8xtdusNsTIgP8rzviNK8R2IplajIB2A0lLgS3yrG1qJ10G6vNuNskWxLMBUV+FyeGlLSkrbKda106a1ULcMHsk69ybs65c0uzE+HMZauDyGJKPD8MJW0FcpAT7q6MdboqaoAQKOzS0ncVsos1rnSLszEVcY8hpp2Cm3LQWEKjOuocSEvL8ZK1JCStKgG0pUojoatPEDiHPxx3G/R4kB1F2aStavG8RCVFxlIBWCAhrTiz4xBTsIGvWFb8rhZi78JhgG5MvMkBMtmapD/IGvB8PnH5Hhnl18+53W3fuHOMXhVvS/HksMQYggpYjyVNtvRQpKgw4kfWRtCeny3omt1lQ/DzNrrfM2u9mmehLgR23ZMJ9oaW616W6ygnrrQDR6+fQ+dVy18TMjmRbq0hdsVIakQDa1FGvS2pEt4DmG9DcdoK2O3VXupn2/FLBAv8i+Q7bHYmSIiIjhbQEp8JKlK1yga2So7PnoeytZjBsVZuNwnt2WGHZ7bTboLCCgJbCgnlTrST66uoHX5CiKjW3iDks9rDZ7/olvtV7ahGRJRAL48d5Sj4IUHQWgrSUBSkKGz330qQyPO73beJybFAix7hAXposjSXvSExJEgtIUSBtQQx1V25/f0nbNw3xS0PQlwYTraIbcdKGi8otqVHBDLix+UtPMdE+Z3rYBrdyDCsbvs9idcLa2qSz4unWvxayXGi0oqUnRJ5FEA76d+4FES2u/FjJbXjr97ctkB+G5PW1BfQy4A62IviHSCrmUhLwLanx6gSCvWhVixnObrcuKL2PK9AdtLqJLkd5s7XtluKFoBB0pIcecHNrry+6tPKcb4c26EzBuuR3VBYU4lhpN4eefQ04gIWwgbUoNqSAOX3DRGq9hQHZt8h3bDMHZtK4kRcSPcLigMIQ0sp5illPrLPqJAKvLftNV32qNpug1OoYn7vUrYXkVpQaymdOmRIEVcqbJajMNja3HVhKR8zVNdye9ZMsxsKh+HE3yrvMxspZH+yQerh9/atiFgseRKRcMquD+QzEHmQmQOWM0f1Gh6v27rziJxIw3h9AC77c2mnuT8TBYAW+4PIJQOw950PfWl2abvdkcfPIeFd62rHHl2jw+fuCkcXxS3WJxyatx2fdHh/SLhKPM6v3D81PuFLPiJximXC9KwjhNFTfchXtL01OlRYI7FRUfVUR7T6o/WPq1U8jvGfcUIPpV9kr4fYE6dJaOzOuKfzUp+sre+2gnr+XV7wHh82izJtVutjuL4wrSnGOb+n3Ij8p9zulJ/NHw6CheyH9cQqdQ9SdG857Uuuk7bzhr5Ks8MMGdgXSW5aLib1lElShecrfBcbjFX1243N9ZZ7c38BoB4YzYrfj1sTAt7ZCdlbjizzOOrPda1eajW3bYMS3QmoUCM1GjMp5W2206SkVs1vFCQ6/Iau4DYPuK1fJUXW4D13ooooqwokUUUURFFFFERRRRREUUUURFFFFERWpdbdBusFyDcojMqM4PWbdTsH/wCffW3RWCA4UKyCQahLLKOH8n7mLt0eNEyaxHr9x7sra2v9g/8AWQfZvt7aVVuxa+Ylc1//AEsy6XYpZPM7i+R9G3D7G1n1Fb8j0P61dRVoXqz2u9RDFusCPMZPZLqAde8HuD7xVbqHx/0nDUcvDSOI2KbrWv8A7B4jP5+4pNW3j3Jx+Wi18VsNueMSyeUS2Wi7Fc69x56/uldNTHsnxLMoBVZrvbLwwobW224lZA/WQeo+YqDn4JNjRFxrFefEgrGlWy8NCZFUPYOb1kj7aVeT8IsfMgy5uE3bHZadkXHFZXitA/neCeqR7gBT8i7hK0jiPMe9E6qvcNeB+7qpxTOHmMOPmRBjP2iSTvxbdIUwfsB5f3Vi+9vL4QP3Lzh55A7N3KGh7/jTo0mLWjiPZ1lnEONFtu6EDpByNksvf3duAnfwUKsbPEPjpaEpVeuFUO9M6/trPM3ze/QK/wCFaMgs0mMf/E09Fl0kzMH8RzTELvEyKAFRMZuAHmh11lR+0EV6m956j+0weK772ruj/NNL38IhEFXLkPDTM7Wod/6LzgfM8tZkfSc4cdno2RRz7HLeP8lGt/xnDKR3A+oK160aWjj7FX43/OD0TgKQfaq7ta/hXwbnxFeOmsXs0X3v3Ir18kpqjH6TnDHXqrvSz7Bbz/NWJz6TGHO+rbccy24L8g1ASN/8dPx36ZHf8eSda3/QceavxhcR5ivx98sNsSe/osNbyh81kCg4IqaP6/ym+3QE9Wg/6O0f8Lev40vjxqzu6I1jXBbI3+b6rs1RZR/ya/fUfdMg4/3AbnScLwOORvnkyEOOgfAlfX5CsOs0QFZCTvJp5ZLImeTRopuH0p02fHMbx5pTtvtcGEEjanuQc2vaVq6/vqmZtx14c4wpUf7si8TgeVMS2Dx1lXs5h6g+3fupTjBGMneSrKs6zLP3u/olrYU1FCvZzr9UD3gCmNhfDiVaEp+97G7BhregPSCn064Ea/1iuiT86w20QtF2EV/+Rh55cVl0TyayGm/7VVW85hxhzWGp+HGh8NMbWOtwua/6U4n9QEc2/ZypH96vrh5w2t0ab90setL9/ui1czmTZIklAV+cyyeqj7FHZ99N+04LZIktNwn+kXq4jr6VcXPGUD+qk+qn5CrQBrtW12aXvG6Nmfno8PNYvRsyFTty8vu5VnH8NhQJwu1ykPXm8HvNl9Sj3Np7IHw6++rPRRU0cTIxRooonvc81cUUUUVItUUUUURFFFFERRRRREUUUURFFFFERRRRREUUUURFFFFERXlFFEWldLRarm2UXK2w5ida0+ylf8RVdXw3xQq8SFElWxz86DLcZ/cFa/dRRVa0QxuaXOaCdymike00BKhcjs9wsiCqBl2SaA6JdlIdH/Eg1QLtnGWRFlH3ZVIA/wBfFYWf+SiivJWm0SxuoxxG4ld2GJjm1c0FaDHEPK1L0J0ZHXumCwD/AMlWrH7xkt6UlEnKLmyk+UcMt/wbooqGO1zudQvPmVI+CIDBo8lemMDgzmELud8yO4Ajqh65LCfsRy1IWzB8RtzvPGx+D4g/0jqPFX9q9miivU2KGNzbzmgnXRcS0SPa6gOCsSEIbQEISEpA0EgaA+VfVFFdNU0UUUURFFFFERRRRREUUUURFFFFERRRRRF//9k=" alt="Boa Castanha Moz Lda"></div>
     <div class="login-title">SICO</div>
@@ -432,8 +432,8 @@ body:not(.light) .header-clock .clock-date{
     <div class="login-sub">Controlo de Vendas — Castanha de Caju</div>
     <div class="login-error" id="loginError"></div>
     <div class="field">
-      <label>Utilizador</label>
-      <input type="text" id="loginUser" placeholder="ex: admin" autocomplete="username">
+      <label>Email</label>
+      <input type="email" id="loginUser" placeholder="o seu email" autocomplete="username">
     </div>
     <div class="field">
       <label>Senha</label>
@@ -441,9 +441,10 @@ body:not(.light) .header-clock .clock-date{
     </div>
     <button class="btn btn-brass btn-full" onclick="doLogin()">Entrar no Sistema</button>
     <div class="login-hint">
-      Todos os dados ficam guardados neste dispositivo e, quando há internet, também no servidor. Exporte uma cópia de segurança regularmente em Definições.
+      Entre com o email e a senha da sua conta. Os dados da empresa ficam guardados no servidor e são os mesmos em todos os dispositivos.
     </div>
-    <button class="btn btn-ghost btn-full" style="margin-top:10px;" onclick="mostrarCriacaoConta()">Criar nova conta (primeira utilização)</button>
+    <button class="btn btn-ghost btn-full" style="margin-top:10px;" onclick="recuperarSenhaLogin()">Esqueci a senha</button>
+    <button class="btn btn-ghost btn-full hidden" id="linkPrimeiraConfig" style="margin-top:10px;" onclick="mostrarCriacaoConta()">Primeira configuração da empresa</button>
     <div id="fbStatusIndicator" style="margin-top:10px;font-size:11px;text-align:center;color:var(--text-dim);">A verificar ligação online…</div>
   </div>
 </div>
@@ -459,8 +460,12 @@ body:not(.light) .header-clock .clock-date{
     <div class="login-sub" style="margin-bottom:14px;">Por segurança, crie a conta do Administrador antes de usar o sistema.</div>
     <div class="login-error" id="setupError"></div>
     <div class="field">
-      <label>Utilizador do Administrador</label>
+      <label>Nome de utilizador do Administrador</label>
       <input type="text" id="setupUser" placeholder="ex: gerencia" autocomplete="username">
+    </div>
+    <div class="field">
+      <label>Email do Administrador (para entrar e recuperar a senha)</label>
+      <input type="email" id="setupEmail" placeholder="email real" autocomplete="email">
     </div>
     <div class="field">
       <label>Senha (mín. 6 carateres, letras e números)</label>
@@ -475,6 +480,16 @@ body:not(.light) .header-clock .clock-date{
     <div class="login-hint">Esta conta terá acesso total ao sistema. Guarde a senha num local seguro — só o Administrador consegue redefinir senhas de vendedores.</div>
   </div>
 </div>
+
+<!-- ============ ECRÃ DE ESTADO (a carregar, sem rede, acesso negado…) ============ -->
+<div id="estadoScreen">
+  <div class="login-box">
+    <div class="login-title" id="estadoTitulo">A carregar…</div>
+    <div class="login-sub" id="estadoMsg" style="margin-bottom:14px;"></div>
+    <div id="estadoAcoes" style="display:flex;flex-direction:column;gap:10px;"></div>
+  </div>
+</div>
+<div id="bannerSync" class="hidden" style="position:fixed;top:0;left:0;right:0;z-index:9000;background:#7a4a1f;color:#fff;padding:8px 12px;font-size:12.5px;text-align:center;"></div>
 
 <!-- ================= APP ================= -->
 <div id="app" class="hidden">
@@ -576,13 +591,12 @@ async function enviarEmailValidacao(vendedor, link){
    ===================================================== */
 try{
   const firebaseConfig = {
-    apiKey: "AIzaSyAUFLHtQaqOp55Huc9OqVdgqyDqmZ6SdxA",
-    authDomain: "boa-castanha-moz-lda-b9e30.firebaseapp.com",
-    projectId: "boa-castanha-moz-lda-b9e30",
-    storageBucket: "boa-castanha-moz-lda-b9e30.firebasestorage.app",
-    messagingSenderId: "1033542963063",
-    appId: "1:1033542963063:web:5c5f1026d4004a41f19b72",
-    measurementId: "G-4QL3LQRGE0"
+    apiKey: "AIzaSyCKB9VW-odQg98UQndOXpkMJPW6cjJgk6U",
+    authDomain: "boa-castanha-moz-lda-official.firebaseapp.com",
+    projectId: "boa-castanha-moz-lda-official",
+    storageBucket: "boa-castanha-moz-lda-official.firebasestorage.app",
+    messagingSenderId: "195169168043",
+    appId: "1:195169168043:web:dca9aca6021227662065ee"
   };
 
   if(window._fbScriptFalhou || typeof firebase === 'undefined'){
@@ -592,24 +606,145 @@ try{
   firebase.initializeApp(firebaseConfig);
   const fbDb = firebase.firestore();
   const fbAuth = firebase.auth();
+  /* A sessão dura enquanto o separador/janela estiver aberto (como a versão original). */
+  const fbPersistenciaPronta = fbAuth.setPersistence(firebase.auth.Auth.Persistence.SESSION).catch(()=>{});
 
-  /* Utilizadores não têm email real — geramos um email técnico
-     interno a partir do nome de utilizador, invisível para quem usa o sistema. */
-  function utilizadorParaEmailTecnico(user){
-    return (user||'').trim().toLowerCase() + '@boa-castanha-moz-lda-b9e30.firebaseapp.com';
+  /* Segunda ligação ao mesmo projecto, usada SÓ para criar contas de vendedores.
+     createUserWithEmailAndPassword inicia sessão no objecto de autenticação onde corre;
+     numa instância separada, a sessão do administrador não é tocada. Sem persistência. */
+  const fbAuthCriador = firebase.initializeApp(firebaseConfig, 'criador').auth();
+  try{ fbAuthCriador.setPersistence(firebase.auth.Auth.Persistence.NONE); }catch(e){}
+
+  const F = (caminho)=>fbDb.doc(caminho);
+
+  /* Classifica um erro do Firebase: 'permissao' (regras recusaram), 'rede' (sem ligação) ou 'falha'. */
+  function classificar(e){
+    const c = (e && (e.code || e.message)) ? String(e.code || e.message) : '';
+    if(/permission-denied|insufficient-permissions/i.test(c)) return 'permissao';
+    if(/unavailable|network|deadline|offline|timeout/i.test(c)) return 'rede';
+    return 'falha';
   }
+  window.fbClassificarErro = classificar;
 
-  let fbSyncEmPausa = false; // evita eco: gravação recebida do Firestore não deve re-enviar para o Firestore
+  let fbSyncEmPausa = false; // evita eco: dados recebidos do servidor não voltam a ser enviados
 
-  /* Grava o DB completo no documento Firestore da instância (empresa/ponto de venda).
-     Usa uma transação com número de revisão (rev) para detetar gravações
-     concorrentes: se outro dispositivo tiver gravado entretanto, a gravação
-     é recusada (em vez de apagar silenciosamente os dados do outro) e quem
-     chamou fica a saber pelo campo "conflito" da resposta.
-     Não bloqueia — falhas ficam silenciosas no console, o localStorage já tem a cópia local. */
+  /* Espera o primeiro estado de autenticação. Resolve com o utilizador ou null (sem sessão).
+     Se demorar demasiado, rejeita com {tipo:'rede'} — NUNCA é tratado como "sem sessão". */
+  window.fbEsperarAuth = async function(ms){
+    await fbPersistenciaPronta;
+    return new Promise((resolve, reject)=>{
+      let feito = false;
+      const t = setTimeout(()=>{ if(!feito){ feito = true; reject({tipo:'rede'}); } }, ms || 15000);
+      const unsub = fbAuth.onAuthStateChanged(u=>{
+        if(feito) return;
+        feito = true; clearTimeout(t); unsub(); resolve(u || null);
+      });
+    });
+  };
+  window.fbQuandoSessaoMuda = function(cb){ return fbAuth.onAuthStateChanged(cb); };
+  window.fbUtilizadorActual = function(){ return fbAuth.currentUser; };
+
+  /* A empresa está configurada? Lê SEMPRE do servidor (nunca da cache).
+     Devolve 'configurada' ou 'nao-configurada'; qualquer falha é lançada com o seu tipo. */
+  window.fbEmpresaEstado = async function(){
+    try{
+      const s = await F('empresa/config').get({source:'server'});
+      return s.exists ? 'configurada' : 'nao-configurada';
+    }catch(e){ throw {tipo: classificar(e), e}; }
+  };
+
+  window.fbObterPerfil = async function(uid){
+    try{
+      const s = await F('perfis/'+uid).get({source:'server'});
+      return s.exists ? s.data() : null;
+    }catch(e){ throw {tipo: classificar(e), e}; }
+  };
+
+  /* Primeira configuração (uma única vez, protegida pelas regras do servidor):
+     cria a conta de autenticação e, no MESMO lote, empresa/config + perfis/{uid}.
+     As regras só aceitam o lote se empresa/config ainda não existir; um segundo pedido
+     (outro dispositivo, ou em simultâneo) é recusado e a conta acabada de criar é apagada. */
+  window.fbConfigurarEmpresa = async function(d){
+    let cred;
+    try{ cred = await fbAuth.createUserWithEmailAndPassword(d.email, d.pass); }
+    catch(e){ return { ok:false, motivo: e.code || String(e) }; }
+    const uid = cred.user.uid;
+    try{
+      const ts = firebase.firestore.FieldValue.serverTimestamp();
+      const lote = fbDb.batch();
+      lote.set(F('empresa/config'), { adminUid: uid, configurada: true, criadoEm: ts });
+      lote.set(F('perfis/'+uid), { role:'admin', ativo:true, status:'aceite', user:d.user, nome:d.user, pontoVenda:null, criadoEm: ts });
+      await lote.commit();
+      return { ok:true, uid, utilizador: cred.user };
+    }catch(e){
+      try{ await cred.user.delete(); }catch(_){}
+      try{ await fbAuth.signOut(); }catch(_){}
+      return { ok:false, motivo: classificar(e)==='permissao' ? 'ja-configurada' : (e.code || String(e)) };
+    }
+  };
+
+  window.fbLogin = async function(email, pass){
+    try{
+      const c = await fbAuth.signInWithEmailAndPassword(email, pass);
+      return { ok:true, utilizador: c.user };
+    }catch(e){
+      return { ok:false, motivo: e.code || String(e) };
+    }
+  };
+
+  /* Cria a conta de um vendedor SEM terminar a sessão do administrador (instância 'criador'). */
+  window.fbCriarContaVendedor = async function(email, pass){
+    try{
+      const c = await fbAuthCriador.createUserWithEmailAndPassword(email, pass);
+      const uid = c.user.uid;
+      try{ await fbAuthCriador.signOut(); }catch(_){}
+      return { ok:true, uid };
+    }catch(e){
+      return { ok:false, motivo: e.code || String(e) };
+    }
+  };
+
+  window.fbRecuperarSenha = async function(email){
+    try{ await fbAuth.sendPasswordResetEmail(email); return { ok:true }; }
+    catch(e){ return { ok:false, motivo: e.code || String(e) }; }
+  };
+
+  /* Confirma a senha do utilizador actual (reautenticação). */
+  window.fbConfirmarSenha = async function(senha){
+    try{
+      const u = fbAuth.currentUser;
+      if(!u || !u.email) return { ok:false, motivo:'sem-sessao' };
+      await u.reauthenticateWithCredential(firebase.auth.EmailAuthProvider.credential(u.email, senha));
+      return { ok:true };
+    }catch(e){ return { ok:false, motivo: e.code || String(e) }; }
+  };
+  window.fbMudarSenha = async function(senhaAtual, novaSenha){
+    const r = await window.fbConfirmarSenha(senhaAtual);
+    if(!r.ok) return r;
+    try{ await fbAuth.currentUser.updatePassword(novaSenha); return { ok:true }; }
+    catch(e){ return { ok:false, motivo: e.code || String(e) }; }
+  };
+
+  /* Perfis (função e estado de cada conta) e dados privados (BI, fotos…). Só o Administrador escreve. */
+  window.fbGravarPerfil = function(uid, dados){ return F('perfis/'+uid).set(dados, {merge:true}); };
+  window.fbApagarPerfil = function(uid){ return F('perfis/'+uid).delete(); };
+  window.fbListarPerfis = async function(){
+    const q = await fbDb.collection('perfis').get({source:'server'});
+    const o = {}; q.forEach(d=>{ o[d.id] = d.data(); }); return o;
+  };
+  window.fbGravarPrivado = function(uid, dados){ return F('perfis_privados/'+uid).set(dados); };
+  window.fbApagarPrivado = function(uid){ return F('perfis_privados/'+uid).delete(); };
+  window.fbLerPrivados = async function(){
+    const q = await fbDb.collection('perfis_privados').get({source:'server'});
+    const o = {}; q.forEach(d=>{ o[d.id] = d.data(); }); return o;
+  };
+
+  /* Grava o DB no documento da instância, numa transacção com número de revisão (rev):
+     se outro dispositivo gravou entretanto, a gravação é recusada (conflito) em vez de
+     apagar em silêncio os dados do outro. */
   window.fbSaveDB = async function(dbObj, instanceId, baseRev){
     if(fbSyncEmPausa) return { ok:true };
-    const docRef = fbDb.collection('instancias').doc(instanceId);
+    const docRef = F('instancias/'+instanceId);
     try{
       let novoRev;
       await fbDb.runTransaction(async (tx)=>{
@@ -633,88 +768,42 @@ try{
         console.warn('Conflito de gravação: outro dispositivo gravou entretanto.');
         return { ok:false, conflito:true, revAtual: e.revAtual };
       }
-      console.warn('Sincronização com Firestore falhou (dados continuam guardados localmente):', e);
-      return { ok:false };
+      console.warn('Gravação no servidor falhou:', e);
+      return { ok:false, tipo: classificar(e) };
     }
   };
 
-  /* Lê o DB do Firestore uma vez (usado no arranque, antes de haver sessão). */
+  /* Lê o DB do servidor. null = o documento ainda não existe (verdadeiramente vazio).
+     Qualquer falha de leitura é LANÇADA ({tipo}) — nunca é confundida com "vazio". */
   window.fbLoadDB = async function(instanceId){
     try{
-      const snap = await fbDb.collection('instancias').doc(instanceId).get();
+      const snap = await F('instancias/'+instanceId).get({source:'server'});
       if(snap.exists && snap.data().dados) return { dados: JSON.parse(snap.data().dados), rev: snap.data().rev||0 };
-    }catch(e){
-      console.warn('Leitura inicial do Firestore falhou (a usar cópia local):', e);
-    }
-    return null;
+      return null;
+    }catch(e){ throw {tipo: classificar(e), e}; }
   };
 
-  /* Escuta mudanças em tempo real (outro ponto de venda a gravar) e chama o callback do app principal. */
-  window.fbEscutarDB = function(instanceId, onChange){
+  /* Escuta mudanças em tempo real. onErro(tipo) é chamado se a escuta falhar. */
+  window.fbEscutarDB = function(instanceId, onChange, onErro){
     try{
-      return fbDb.collection('instancias').doc(instanceId).onSnapshot((snap)=>{
+      return F('instancias/'+instanceId).onSnapshot((snap)=>{
         if(snap.exists && snap.data().dados){
           fbSyncEmPausa = true;
-          onChange(JSON.parse(snap.data().dados), snap.data().rev||0);
-          fbSyncEmPausa = false;
+          try{ onChange(JSON.parse(snap.data().dados), snap.data().rev||0); }
+          finally{ fbSyncEmPausa = false; }
         }
-      }, (err)=>{ console.warn('Escuta em tempo real interrompida:', err); });
+      }, (err)=>{ console.warn('Escuta em tempo real interrompida:', err); if(onErro) onErro(classificar(err)); });
     }catch(e){ console.warn('Não foi possível iniciar escuta em tempo real:', e); return null; }
   };
 
-  /* Login: tenta autenticar no Firebase com o email técnico gerado a partir do utilizador.
-     Devolve {ok:true} ou {ok:false, motivo} — o app principal decide o que mostrar. */
-  window.fbLogin = async function(user, pass){
-    const email = utilizadorParaEmailTecnico(user);
-    try{
-      await fbAuth.signInWithEmailAndPassword(email, pass);
-      return { ok:true };
-    }catch(e){
-      return { ok:false, motivo: e.code||String(e) };
-    }
-  };
-
-  /* Cria a conta técnica no Firebase Auth para um novo vendedor/utilizador (feito pelo Administrador). */
-  window.fbCriarConta = async function(user, pass){
-    const email = utilizadorParaEmailTecnico(user);
-    try{
-      await fbAuth.createUserWithEmailAndPassword(email, pass);
-      return { ok:true };
-    }catch(e){
-      return { ok:false, motivo: e.code||String(e) };
-    }
-  };
-
   window.fbLogout = function(){ try{ fbAuth.signOut(); }catch(e){} };
-
-  const authProntoBase = new Promise(resolve=>{
-    const unsub = fbAuth.onAuthStateChanged(()=>{ unsub(); resolve(); });
-  });
-  window.fbAuthPronto = Promise.race([
-    authProntoBase,
-    new Promise(resolve=>setTimeout(resolve, 4000))
-  ]);
 }catch(e){
   console.warn('Firebase indisponível — sistema a funcionar apenas offline (localStorage):', e);
   window._fbIndisponivel = true;
   window.fbAuthPronto = Promise.resolve();
 }
 </script>
-<script>
-(function atualizarIndicadorFirebase(){
-  const el = document.getElementById('fbStatusIndicator');
-  if(!el) return;
-  setTimeout(()=>{
-    if(window._fbIndisponivel || typeof firebase === 'undefined'){
-      el.textContent = '⚠ Sem ligação online neste momento — a funcionar apenas offline, neste dispositivo.';
-      el.style.color = '#c98a5a';
-    } else {
-      el.textContent = '✓ Ligação online ativa — sincronização com o servidor disponível.';
-      el.style.color = '#7fb897';
-    }
-  }, 800);
-})();
-</script>
+
 
 <script>
 /* =====================================================
@@ -13135,9 +13224,11 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
    (c) 2009 Kazuhiko Arase), embutida acima, 100% offline.
    ========================================================= */
 
-const SICO_TESTE_RESET = true;
-const SICO_TESTE_INSTANCE_ID = 'central_teste_sincronizacao_20260830_v3';
-const STORE_KEY = 'acervo_caju_db_teste_v3';
+const SICO_TESTE_RESET = false; /* Fase 0: reset de teste DESACTIVADO. Nunca apagar dados para inicializar. */
+const SICO_INSTANCE_ID = 'central';        /* documento central da empresa (Fase 1) */
+const STORE_KEY = 'sico_cache_v2';          /* cache da última leitura do servidor — nunca é fonte de verdade */
+const STORE_UID_KEY = 'sico_cache_v2_uid';  /* de que conta é a cache (outra conta não a reutiliza) */
+try{ localStorage.removeItem('sico_admin_cred_v2'); }catch(e){} /* remove hashes de senha guardados por versões antigas */
 
 /* Modo de teste controlado: cria uma base nova sem apagar a base oficial.
    O reset acontece apenas uma vez por navegador/dispositivo. */
@@ -13159,6 +13250,10 @@ if(SICO_TESTE_RESET && !localStorage.getItem('sico_teste_reset_v3')){
    utilização (ver forçarConfiguracaoInicial/telaConfiguracaoInicial) e não
    existe mais nenhuma conta de "operador" partilhada — cada vendedor usa a
    sua própria conta individual (sistema de vendedores já existente). */
+/* Data civil em Africa/Maputo (YYYY-MM-DD). Substitui toISOString().slice(0,10), que usa UTC. */
+function maputoISO(d){
+  return new Intl.DateTimeFormat('en-CA',{timeZone:'Africa/Maputo',year:'numeric',month:'2-digit',day:'2-digit'}).format(d||new Date());
+}
 async function sha256Hex(text){
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
   return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
@@ -13218,79 +13313,137 @@ function produtoFromTipo(tipo){
 const PROVINCIAS_MZ = ['Cabo Delgado','Gaza','Inhambane','Manica','Maputo Cidade','Maputo Província','Nampula','Niassa','Sofala','Tete','Zambézia'];
 
 /* ---------- Persistence ---------- */
+/* MODELO (Fase 1): o servidor é a fonte de verdade. O localStorage é só uma cache da
+   última leitura bem sucedida: nunca decide se existe empresa ou administrador.
+   Dados pessoais dos vendedores (BI, fotos, NUIT, contactos…) NÃO vão no documento
+   partilhado: ficam em perfis_privados/{uid}, legíveis só pelo Administrador. */
+const PRIV_CAMPOS = ['bi','dataNasc','estadoCivil','nuit','filiacao','parentes','cidade','bairro','endereco','tel','email','authEmail','biFotoFrente','biFotoVerso'];
+let PRIV = {};            // uid -> dados privados (só em memória, só Administrador)
+let PRIV_GRAVADO = {};    // uid -> assinatura do último estado privado gravado
+let PERFIL_GRAVADO = {};  // uid -> assinatura do último perfil gravado
+let modoCache = false;    // true = a mostrar a cache porque o servidor não respondeu
+let primeiraConfigPendente = false;
+let dbNovoNoServidor = false; // o documento central ainda não existe: o Administrador tem de o criar
+
+function SicoErro(estado, detalhe){ const e = new Error(estado); e.estado = estado; e.detalhe = detalhe; return e; }
+
+function completarDB(d){
+  if(!d || typeof d !== 'object') d = {};
+  if(!Array.isArray(d.items)) d.items = [];
+  if(!Array.isArray(d.suppliers)) d.suppliers = [];
+  if(!Array.isArray(d.history)) d.history = [];
+  if(!d.nextCode) d.nextCode = 1;
+  if(!d.vendedores) d.vendedores = [];
+  if(!d.pontosVenda) d.pontosVenda = [];
+  if(!d.despesas) d.despesas = [];
+  if(!d.despesasRecorrentes) d.despesasRecorrentes = [];
+  if(!d.orcamentos) d.orcamentos = {};
+  if(!d.buyers) d.buyers = [];
+  if(!d.metas) d.metas = { vendedores:{}, pontos:{} };
+  if(!d.auditoria) d.auditoria = [];
+  if(d.adminCred===undefined) d.adminCred = null;
+  if(!d.turnos) d.turnos = [];
+  if(!d.turnosAtivos) d.turnosAtivos = {};
+  if(!d.precosTipo) d.precosTipo = {};
+  if(!d.historicoPrecos) d.historicoPrecos = [];
+  if(d.precosTipo && d.precosTipo['Açucaradas']!==undefined){ d.precosTipo['Caramelizadas'] = d.precosTipo['Açucaradas']; delete d.precosTipo['Açucaradas']; }
+  (d.historicoPrecos||[]).forEach(h=>{ if(h.tipo==='Açucaradas') h.tipo='Caramelizadas'; });
+  if(d.margemAlvo===undefined) d.margemAlvo = 30;
+  if(d.instanceInfo===undefined) d.instanceInfo = null;
+  delete d.adminCred;
+  d.vendedores.forEach(v=>{ delete v.hash; });
+  return d;
+}
+
+function dbVazio(){ return completarDB({}); }
+function instanciaId(d){
+  const x = d || DB;
+  return (x && x.instanceInfo && x.instanceInfo.pontoVendaId) ? ('ponto_'+x.instanceInfo.pontoVendaId) : SICO_INSTANCE_ID;
+}
+/* Versão do DB que vai para o servidor e para a cache: sem campos privados, sem hashes. */
+function dbPublico(){
+  const vend = (DB.vendedores||[]).map(v=>{
+    const o = {};
+    for(const k in v){ if(!PRIV_CAMPOS.includes(k) && k!=='hash') o[k] = v[k]; }
+    return o;
+  });
+  const pub = Object.assign({}, DB, { vendedores: vend });
+  delete pub.adminCred;
+  return pub;
+}
+function guardarCache(d){
+  try{
+    localStorage.setItem(STORE_KEY, JSON.stringify(d));
+    localStorage.setItem(STORE_UID_KEY, (session && session.uid) || '');
+  }catch(e){}
+}
+/* O Administrador junta aos vendedores os dados privados (só em memória). */
+function aplicarPrivados(d){
+  if(!d || !d.vendedores) return;
+  d.vendedores.forEach(v=>{
+    const p = v.uid && PRIV[v.uid];
+    if(p) PRIV_CAMPOS.forEach(c=>{ if(p[c]!==undefined) v[c] = p[c]; });
+  });
+}
+async function carregarPrivados(d){
+  PRIV = {}; PRIV_GRAVADO = {}; PERFIL_GRAVADO = {};
+  if(!isAdmin() || !window.fbLerPrivados) return;
+  try{
+    PRIV = await window.fbLerPrivados();
+    Object.keys(PRIV).forEach(uid=>{
+      const priv = {}; PRIV_CAMPOS.forEach(c=>{ const x = PRIV[uid][c]; if(x!==undefined && x!==null && x!=='') priv[c] = x; });
+      PRIV_GRAVADO[uid] = JSON.stringify(priv);
+    });
+    const perfis = await window.fbListarPerfis();
+    Object.keys(perfis).forEach(uid=>{ if(perfis[uid].role==='vendedor') PERFIL_GRAVADO[uid] = '?'; });
+    aplicarPrivados(d);
+  }catch(e){
+    console.warn('Não foi possível ler os dados privados dos vendedores:', e);
+    toast('Aviso: não foi possível carregar os dados pessoais dos vendedores (BI, contactos). Não os edite até recarregar.');
+  }
+}
+
 async function loadDB(){
-  function completar(d){
-    if(!d || typeof d !== 'object') d = {};
-    if(!d.vendedores) d.vendedores = [];
-    if(!d.pontosVenda) d.pontosVenda = [];
-    if(!d.despesas) d.despesas = [];
-    if(!d.despesasRecorrentes) d.despesasRecorrentes = [];
-    if(!d.orcamentos) d.orcamentos = {};
-    if(!d.buyers) d.buyers = [];
-    if(!d.metas) d.metas = { vendedores:{}, pontos:{} };
-    if(!d.auditoria) d.auditoria = [];
-    if(d.adminCred===undefined) d.adminCred = null;
-    if(!d.turnos) d.turnos = [];
-    if(!d.turnosAtivos) d.turnosAtivos = {};
-    if(!d.precosTipo) d.precosTipo = {};
-    if(!d.historicoPrecos) d.historicoPrecos = [];
-    if(d.precosTipo && d.precosTipo['Açucaradas']!==undefined){ d.precosTipo['Caramelizadas'] = d.precosTipo['Açucaradas']; delete d.precosTipo['Açucaradas']; }
-    (d.historicoPrecos||[]).forEach(h=>{ if(h.tipo==='Açucaradas') h.tipo='Caramelizadas'; });
-    if(d.margemAlvo===undefined) d.margemAlvo = 30;
-    if(d.instanceInfo===undefined) d.instanceInfo = null;
+  let local = null;
+  try{
+    const raw = localStorage.getItem(STORE_KEY);
+    if(raw && localStorage.getItem(STORE_UID_KEY) === ((session && session.uid) || '')) local = completarDB(JSON.parse(raw));
+  }catch(e){}
+  const instId = instanciaId(local);
+  if(!window.fbLoadDB) throw SicoErro('sem-rede');
+
+  let remoto;
+  try{
+    remoto = await window.fbLoadDB(instId);
+  }catch(e){
+    const tipo = e && e.tipo;
+    if(tipo==='permissao') throw SicoErro('acesso-negado');
+    if(tipo==='rede'){
+      /* Sem ligação: mostramos a última cópia lida (se houver), claramente assinalada. */
+      if(local){ modoCache = true; return local; }
+      throw SicoErro('sem-rede');
+    }
+    throw SicoErro('falha-leitura', e);
+  }
+  modoCache = false;
+  if(remoto && remoto.dados){
+    dbRev = remoto.rev || 0;
+    const d = completarDB(remoto.dados);
+    guardarCache(d);            // a cache guarda só a versão pública
+    await carregarPrivados(d);  // e os dados privados juntam-se só em memória
     return d;
   }
-
-  // A conta do Administrador tem uma cópia dedicada e persistente.
-  // Isto impede que uma sincronização remota sem adminCred faça o sistema
-  // voltar à Configuração Inicial.
-  function adminLocalSeguro(){
-    try{
-      const rawAdmin = localStorage.getItem('sico_admin_cred_v2');
-      if(!rawAdmin) return null;
-      const c = JSON.parse(rawAdmin);
-      if(c && typeof c.user==='string' && typeof c.hash==='string' && c.hash.length>0) return c;
-    }catch(e){}
-    return null;
+  /* O servidor responde e o documento central ainda não existe. */
+  dbRev = 0;
+  if(isAdmin()){
+    const d = local || dbVazio();
+    await carregarPrivados(d);
+    dbNovoNoServidor = true;
+    return d;
   }
-  function guardarAdminLocalSeguro(c){
-    try{ if(c && c.user && c.hash) localStorage.setItem('sico_admin_cred_v2', JSON.stringify({user:c.user,hash:c.hash})); }catch(e){}
-  }
-
-  const raw = localStorage.getItem(STORE_KEY);
-  let local = null;
-  if(raw){ try{ local = JSON.parse(raw); }catch(e){} }
-  local = local ? completar(local) : null;
-  const adminSeguro = adminLocalSeguro();
-  const instId = (local && local.instanceInfo && local.instanceInfo.pontoVendaId) ? ('ponto_'+local.instanceInfo.pontoVendaId) : SICO_TESTE_INSTANCE_ID;
-
-  if(window.fbLoadDB){
-    try{
-      const timeoutSeguranca = new Promise((_, reject)=>setTimeout(()=>reject(new Error('timeout')), 4000));
-      const remoto = await Promise.race([window.fbLoadDB(instId), timeoutSeguranca]);
-      if(remoto && remoto.dados){
-        dbRev = remoto.rev||0;
-        const d = completar(remoto.dados);
-        // Nunca aceitar uma base remota sem credenciais se já existem
-        // credenciais válidas neste computador.
-        if(!d.adminCred && adminSeguro) d.adminCred = adminSeguro;
-        // Se o servidor possui a conta, atualizamos também a cópia local.
-        if(d.adminCred) guardarAdminLocalSeguro(d.adminCred);
-        // Preserva localmente a conta mesmo quando o documento remoto está vazio.
-        if(d.adminCred || adminSeguro) localStorage.setItem(STORE_KEY, JSON.stringify(d));
-        return d;
-      }
-    }catch(e){ console.warn('Sem ligação ao Firestore (ou demorou demasiado), a usar dados locais.', e); }
-  }
-
-  if(local){
-    if(!local.adminCred && adminSeguro) local.adminCred = adminSeguro;
-    if(local.adminCred) guardarAdminLocalSeguro(local.adminCred);
-    return local;
-  }
-
-  return { items:[], suppliers:[], history:[], nextCode:1, vendedores:[], pontosVenda:[], despesas:[], despesasRecorrentes:[], orcamentos:{}, buyers:[], metas:{vendedores:{},pontos:{}}, auditoria:[], adminCred:adminSeguro||null, turnos:[], turnosAtivos:{}, precosTipo:{}, historicoPrecos:[], margemAlvo:30, instanceInfo:null };
+  throw SicoErro('falha-leitura', 'A empresa ainda não tem dados. Peça ao Administrador para entrar primeiro.');
 }
+
 /* ===== Motor XLSX embutido (offline, sem dependências externas) ===== */
 // Minimal XLSX writer: builds a valid .xlsx (OOXML zip) with styled header row,
 // auto column widths, and number formats, using only built-in browser APIs
@@ -13604,46 +13757,88 @@ function pushAudit(action, detalhe){
   if(DB.auditoria.length>500) DB.auditoria = DB.auditoria.slice(0,500);
 }
 let avisoTamanhoMostrado = false;
-async function saveDB(){
-  // Guardar as credenciais do Administrador numa chave dedicada, além da DB.
-  // Assim uma gravação/sincronização incompleta nunca força novo cadastro.
-  try{
-    if(DB && DB.adminCred && DB.adminCred.user && DB.adminCred.hash){
-      localStorage.setItem('sico_admin_cred_v2', JSON.stringify({user:DB.adminCred.user,hash:DB.adminCred.hash}));
+let avisoSyncMostradoEm = 0;
+/* Aviso visível (e não só no console) quando algo NÃO ficou gravado no servidor. */
+function falhaSync(tipo){
+  const agora = Date.now();
+  if(agora - avisoSyncMostradoEm < 8000) return;
+  avisoSyncMostradoEm = agora;
+  if(tipo==='permissao') toast('ATENÇÃO: o servidor recusou a gravação (sem permissão). A alteração NÃO foi guardada online.');
+  else if(tipo==='rede') toast('ATENÇÃO: sem ligação ao servidor. A alteração está só neste dispositivo e NÃO foi guardada online.');
+  else toast('ATENÇÃO: não foi possível gravar no servidor. A alteração NÃO foi guardada online.');
+}
+/* Perfis e dados privados dos vendedores (só o Administrador escreve; as regras do servidor confirmam). */
+async function sincronizarPerfisPrivados(){
+  if(!isAdmin() || !window.fbGravarPerfil || modoCache) return;
+  const presentes = new Set();
+  for(const v of (DB.vendedores||[])){
+    if(!v.uid) continue;
+    presentes.add(v.uid);
+    const perfil = {
+      role:'vendedor', user:v.user, nome:v.nome||v.user, pontoVenda:v.pontoVenda||null,
+      status:v.status||'aceite',
+      ativo: v.ativo!==false && v.status!=='pendente' && v.status!=='rejeitado'
+    };
+    const sig = JSON.stringify(perfil);
+    if(PERFIL_GRAVADO[v.uid]!==sig){
+      try{ await window.fbGravarPerfil(v.uid, Object.assign({criadoEm: v.criadoEm||null}, perfil)); PERFIL_GRAVADO[v.uid] = sig; }
+      catch(e){ console.warn('Perfil não gravado:', e); falhaSync(window.fbClassificarErro(e)); }
     }
-  }catch(e){}
-  const json = JSON.stringify(DB);
-  localStorage.setItem(STORE_KEY, json);
-  /* O Firestore recusa documentos acima de ~1 MB. Como este sistema guarda
-     o DB inteiro (incluindo fotos de BI em base64) num único documento por
-     ponto de venda, avisamos com antecedência em vez de deixar a sincronização
-     falhar sem explicação quando o limite for atingido. */
+    const priv = {};
+    PRIV_CAMPOS.forEach(c=>{ const x = v[c]; if(x!==undefined && x!==null && x!=='') priv[c] = x; });
+    const psig = JSON.stringify(priv);
+    if(PRIV_GRAVADO[v.uid]!==psig){
+      try{ await window.fbGravarPrivado(v.uid, priv); PRIV_GRAVADO[v.uid] = psig; PRIV[v.uid] = priv; }
+      catch(e){ console.warn('Dados privados não gravados:', e); falhaSync(window.fbClassificarErro(e)); }
+    }
+  }
+  for(const uid of Object.keys(PERFIL_GRAVADO)){
+    if(presentes.has(uid)) continue;
+    try{ await window.fbApagarPerfil(uid); await window.fbApagarPrivado(uid); delete PERFIL_GRAVADO[uid]; delete PRIV_GRAVADO[uid]; delete PRIV[uid]; }
+    catch(e){ console.warn('Perfil não removido:', e); falhaSync(window.fbClassificarErro(e)); }
+  }
+}
+/* As gravações são feitas UMA DE CADA VEZ, por ordem. Antes, duas gravações seguidas partilhavam
+   o mesmo número de revisão e a segunda era tratada como "conflito" com o próprio dispositivo. */
+let saveFila = Promise.resolve();
+function saveDB(){
+  saveFila = saveFila.then(saveDBInterno).catch(e=>{ console.warn('saveDB:', e); });
+  return saveFila;
+}
+async function saveDBInterno(){
+  if(!DB || !session) return;
+  const pub = dbPublico();
+  const json = JSON.stringify(pub);
+  guardarCache(pub);
+  /* O Firestore recusa documentos acima de ~1 MiB. */
   const tamanhoBytes = new Blob([json]).size;
   if(tamanhoBytes > 850000 && !avisoTamanhoMostrado){
     avisoTamanhoMostrado = true;
-    toast('Aviso: os dados deste ponto de venda estão perto do limite do servidor online (' + Math.round(tamanhoBytes/1024) + ' KB de ~1000 KB). Arquive histórico antigo em Definições para continuar a sincronizar.');
+    toast('Aviso: os dados estão perto do limite do servidor online (' + Math.round(tamanhoBytes/1024) + ' KB de ~1000 KB). Arquive histórico antigo em Definições.');
   }
-  const instId = (DB.instanceInfo && DB.instanceInfo.pontoVendaId) ? ('ponto_'+DB.instanceInfo.pontoVendaId) : SICO_TESTE_INSTANCE_ID;
-  if(window.fbSaveDB){
-    const resultado = await window.fbSaveDB(DB, instId, dbRev);
-    if(resultado && resultado.ok){
-      dbRev = resultado.rev;
-    } else if(resultado && resultado.conflito){
-      /* Outro dispositivo gravou entretanto. Em vez de apagar essa gravação
-         (o que acontecia antes), buscamos a versão mais recente do servidor
-         e avisamos — a alteração feita agora neste dispositivo pode precisar
-         de ser repetida depois de rever os dados atualizados. */
-      toast('Outro dispositivo gravou dados ao mesmo tempo. A atualizar com a versão mais recente do servidor — confirme a sua última alteração.');
-      try{
-        const remoto = await window.fbLoadDB(instId);
-        if(remoto){
-          DB = remoto.dados;
-          dbRev = remoto.rev||0;
-          localStorage.setItem(STORE_KEY, JSON.stringify(DB));
-          if(typeof activeTab !== 'undefined' && activeTab) goTab(activeTab);
-        }
-      }catch(e){}
-    }
+  if(modoCache){
+    toast('Sem ligação ao servidor: esta alteração fica só neste dispositivo e NÃO será enviada. Recarregue quando houver ligação.');
+    return;
+  }
+  const instId = instanciaId();
+  if(!window.fbSaveDB) return;
+  const resultado = await window.fbSaveDB(pub, instId, dbRev);
+  if(resultado && resultado.ok){
+    dbRev = resultado.rev;
+    dbNovoNoServidor = false;
+    await sincronizarPerfisPrivados();
+  } else if(resultado && resultado.conflito){
+    toast('Outro dispositivo gravou ao mesmo tempo. A sua última alteração NÃO foi guardada: os dados foram atualizados com a versão do servidor — repita a alteração.');
+    try{
+      const remoto = await window.fbLoadDB(instId);
+      if(remoto){
+        DB = completarDB(remoto.dados); dbRev = remoto.rev||0;
+        aplicarPrivados(DB); guardarCache(dbPublico());
+        if(typeof activeTab !== 'undefined' && activeTab) goTab(activeTab);
+      }
+    }catch(e){}
+  } else {
+    falhaSync(resultado && resultado.tipo);
   }
 }
 
@@ -13657,220 +13852,209 @@ function pushHistory(type, itemName, code, desc, extra){
   saveDB();
 }
 
-/* ---------- Login ---------- */
-function adminRec(u){
-  /* Já não há conta "admin" pré-definida — só existe Administrador depois
-     de DB.adminCred ser criado na Configuração Inicial obrigatória. */
-  if(DB && DB.adminCred){
-    return u===DB.adminCred.user ? {hash:DB.adminCred.hash, level:'Administrador'} : null;
+/* ---------- Contas, sessão e arranque (Fase 1) ----------
+   A identidade vem do Firebase Authentication (email + palavra-passe, com recuperação por email).
+   A função (administrador/vendedor) e o estado (ativo/pendente) vêm de perfis/{uid}, no servidor,
+   e são impostos pelas regras do Firestore, não só pelo ecrã.
+   Estados de arranque distintos: a carregar · sem sessão · acesso negado · sem rede ·
+   falha de leitura · empresa por configurar. Uma falha NUNCA abre a configuração inicial. */
+function mostrarEcra(qual){
+  ['loginScreen','setupScreen','estadoScreen','app'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.classList.toggle('hidden', id!==qual);
+  });
+}
+function mostrarEstado(titulo, mensagem, botoes){
+  document.getElementById('estadoTitulo').textContent = titulo;
+  document.getElementById('estadoMsg').textContent = mensagem;
+  const ac = document.getElementById('estadoAcoes');
+  ac.innerHTML = '';
+  (botoes||[]).forEach(([texto, fn, tipo])=>{
+    const b = document.createElement('button');
+    b.className = 'btn ' + (tipo==='ghost' ? 'btn-ghost' : 'btn-brass') + ' btn-full';
+    b.textContent = texto;
+    b.addEventListener('click', fn);
+    ac.appendChild(b);
+  });
+  mostrarEcra('estadoScreen');
+}
+function estadoSemRede(){
+  mostrarEstado('Sem ligação ao servidor',
+    'Não foi possível contactar o servidor. Os seus dados não foram alterados nem apagados. Verifique a internet e tente novamente.',
+    [['Tentar novamente', ()=>arrancar()]]);
+}
+function estadoAcessoNegado(msg){
+  mostrarEstado('Acesso negado', msg || 'O servidor recusou o acesso a esta conta. Contacte o Administrador.',
+    [['Sair', ()=>doLogout()]]);
+}
+function estadoFalhaLeitura(){
+  mostrarEstado('Falha ao ler os dados',
+    'Não foi possível ler os dados da empresa. Nada foi alterado. Tente novamente; se continuar, contacte o Administrador.',
+    [['Tentar novamente', ()=>arrancar()], ['Sair', ()=>doLogout(), 'ghost']]);
+}
+function mostrarEstadoPorErro(e){
+  const est = e && e.estado;
+  if(est==='sem-rede') estadoSemRede();
+  else if(est==='acesso-negado') estadoAcessoNegado();
+  else estadoFalhaLeitura();
+}
+
+async function mostrarLogin(){
+  const lk = document.getElementById('linkPrimeiraConfig');
+  const ind = document.getElementById('fbStatusIndicator');
+  lk.classList.add('hidden');
+  mostrarEcra('loginScreen');
+  document.getElementById('loginPass').value = '';
+  ind.textContent = 'A verificar o servidor…'; ind.style.color = '';
+  try{
+    const est = await window.fbEmpresaEstado();
+    ind.textContent = '✓ Ligado ao servidor.'; ind.style.color = '#7fb897';
+    /* O link da primeira configuração só aparece se o servidor CONFIRMOU que a empresa não existe.
+       (As regras do servidor impõem isto também: esconder o botão não é a protecção.) */
+    if(est==='nao-configurada') lk.classList.remove('hidden');
+  }catch(e){
+    ind.textContent = '⚠ Não foi possível confirmar o estado do servidor. A configuração inicial fica indisponível até haver ligação.';
+    ind.style.color = '#c98a5a';
   }
-  return null;
 }
-async function submitAdminCred(){
-  const errBox = document.getElementById('credErro');
-  errBox.textContent = '';
-  const senhaAtual = document.getElementById('credSenhaAtual').value;
-  const novoUser = document.getElementById('credNovoUser').value.trim().toLowerCase();
-  const novaSenha = document.getElementById('credNovaSenha').value;
-  const confirmaSenha = document.getElementById('credConfirmaSenha').value;
-
-  if(!senhaAtual){ errBox.textContent = 'Digite a sua senha atual para confirmar.'; return; }
-  const hashAtual = await sha256Hex(senhaAtual);
-  const recAtual = adminRec(session.user);
-  if(!recAtual || recAtual.hash !== hashAtual){ errBox.textContent = 'Senha atual incorreta.'; return; }
-
-  if(!novoUser && !novaSenha){ errBox.textContent = 'Preencha o novo utilizador e/ou a nova senha.'; return; }
-  if(novoUser && !/^[a-z0-9._-]+$/.test(novoUser)){ errBox.textContent = 'Utilizador inválido. Use apenas letras minúsculas, números, ponto, traço ou underscore.'; return; }
-  if(novoUser && (novoUser==='operador' || DB.vendedores.some(v=>v.user===novoUser))){ errBox.textContent = 'Esse nome de utilizador já está em uso.'; return; }
-  if(novaSenha){
-    const erroSenha = senhaFraca(novaSenha);
-    if(erroSenha){ errBox.textContent = erroSenha; return; }
-    if(novaSenha !== confirmaSenha){ errBox.textContent = 'As senhas não coincidem.'; return; }
+async function arrancar(){
+  mostrarEstado('A carregar…', 'A verificar a sessão e a ligação ao servidor.');
+  if(window._fbIndisponivel || !window.fbEsperarAuth){ estadoSemRede(); return; }
+  let utilizador;
+  try{ utilizador = await window.fbEsperarAuth(15000); }
+  catch(e){ estadoSemRede(); return; }
+  if(!utilizador){ await mostrarLogin(); return; }
+  await entrarComUtilizador(utilizador);
+}
+async function entrarComUtilizador(utilizador){
+  mostrarEstado('A carregar…', 'A verificar a sua conta.');
+  let perfil;
+  try{ perfil = await window.fbObterPerfil(utilizador.uid); }
+  catch(e){
+    if(e && e.tipo==='permissao') estadoAcessoNegado();
+    else if(e && e.tipo==='rede') estadoSemRede();
+    else estadoFalhaLeitura();
+    return;
   }
+  if(!perfil){ estadoAcessoNegado('Esta conta existe mas não pertence a nenhuma empresa. Contacte o Administrador.'); return; }
+  if(perfil.ativo!==true){
+    const msg = perfil.status==='pendente' ? 'O seu registo ainda está Pendente de validação. Contacte o Administrador.'
+      : perfil.status==='rejeitado' ? 'O seu registo foi Rejeitado. Contacte o Administrador.'
+      : 'A sua conta está inativa. Contacte o Administrador.';
+    estadoAcessoNegado(msg); return;
+  }
+  session = { uid: utilizador.uid, user: perfil.user, level: perfil.role==='admin' ? 'Administrador' : 'Vendedor', pontoVenda: perfil.pontoVenda || null, email: utilizador.email };
+  try{ await boot(); }
+  catch(e){ session = null; mostrarEstadoPorErro(e); }
+}
 
-  const userFinal = novoUser || session.user;
-  const hashFinal = novaSenha ? await sha256Hex(novaSenha) : recAtual.hash;
-  DB.adminCred = { user: userFinal, hash: hashFinal };
-  pushAudit('Credenciais de administrador alteradas', `Utilizador: ${session.user} → ${userFinal}${novaSenha?' (senha também alterada)':''}`);
-  saveDB();
-  session.user = userFinal;
-  sessionStorage.setItem('acervo_session', JSON.stringify(session));
-  document.getElementById('userChip').textContent = session.user + ' · ' + session.level;
-  toast('Credenciais atualizadas com sucesso.');
-  goTab('config');
+/* Login por email e palavra-passe. */
+function mensagemErroAuth(codigo){
+  if(/invalid-credential|wrong-password|user-not-found|invalid-login/i.test(codigo)) return 'Email ou senha incorretos.';
+  if(/invalid-email/i.test(codigo)) return 'Email inválido.';
+  if(/network/i.test(codigo)) return 'Sem ligação à internet. Tente novamente.';
+  if(/too-many-requests/i.test(codigo)) return 'Demasiadas tentativas. Aguarde alguns minutos ou recupere a senha.';
+  if(/user-disabled/i.test(codigo)) return 'Esta conta foi desativada. Contacte o Administrador.';
+  if(/email-already-in-use/i.test(codigo)) return 'Já existe uma conta com esse email.';
+  if(/weak-password/i.test(codigo)) return 'Senha demasiado fraca.';
+  return 'Não foi possível concluir (' + codigo + ').';
 }
-/* Configuração inicial obrigatória: cria a primeira (e única) conta de
-   Administrador. Só corre enquanto DB.adminCred ainda não existir. */
-function mostrarLoginExistente(){
-  document.getElementById('setupScreen').classList.add('hidden');
-  document.getElementById('loginScreen').classList.remove('hidden');
-  const u=document.getElementById('loginUser'); if(u) u.focus();
+async function doLogin(){
+  const email = document.getElementById('loginUser').value.trim().toLowerCase();
+  const p = document.getElementById('loginPass').value;
+  const err = document.getElementById('loginError');
+  const btn = document.querySelector('#loginScreen .btn-brass');
+  err.textContent = '';
+  if(!email || !/^\S+@\S+\.\S+$/.test(email)){ err.textContent = 'Escreva o email da sua conta.'; return; }
+  if(!p){ err.textContent = 'Escreva a senha.'; return; }
+  btn.disabled = true;
+  try{
+    const r = await window.fbLogin(email, p);
+    if(!r.ok){ err.textContent = mensagemErroAuth(r.motivo); return; }
+    await entrarComUtilizador(r.utilizador);
+  }catch(e){
+    console.error('Erro no login:', e);
+    err.textContent = 'Não foi possível concluir o login. Verifique a ligação e tente novamente.';
+  }finally{ btn.disabled = false; }
 }
-function mostrarCriacaoConta(){
-  document.getElementById('loginScreen').classList.add('hidden');
-  document.getElementById('setupScreen').classList.remove('hidden');
+async function recuperarSenhaLogin(){
+  const err = document.getElementById('loginError');
+  const email = document.getElementById('loginUser').value.trim().toLowerCase();
+  if(!email || !/^\S+@\S+\.\S+$/.test(email)){ err.textContent = 'Escreva primeiro o seu email no campo acima.'; return; }
+  const r = await window.fbRecuperarSenha(email);
+  err.style.color = r.ok ? '#7fb897' : '';
+  err.textContent = r.ok ? 'Se existir uma conta com esse email, enviámos um link para redefinir a senha. O email chega em inglês ("Reset your password"), do remetente BOA CASTANHA. Veja também a pasta de spam.' : mensagemErroAuth(r.motivo);
 }
+
+/* Primeira configuração: só quando o servidor confirmou que a empresa não existe.
+   A protecção real está nas regras do servidor (empresa/config só pode ser criada uma vez). */
+async function mostrarCriacaoConta(){
+  document.getElementById('setupError').textContent = '';
+  try{
+    const est = await window.fbEmpresaEstado();
+    if(est!=='nao-configurada'){ document.getElementById('linkPrimeiraConfig').classList.add('hidden'); toast('A empresa já está configurada. Entre com a sua conta.'); return; }
+  }catch(e){ toast('Não foi possível confirmar o estado do servidor. Tente novamente com ligação.'); return; }
+  mostrarEcra('setupScreen');
+}
+function mostrarLoginExistente(){ mostrarLogin(); }
 async function submitConfiguracaoInicial(){
   const errBox = document.getElementById('setupError');
   errBox.textContent = '';
   const novoUser = document.getElementById('setupUser').value.trim().toLowerCase();
+  const email = document.getElementById('setupEmail').value.trim().toLowerCase();
   const novaSenha = document.getElementById('setupPass').value;
   const confirmaSenha = document.getElementById('setupPassConfirm').value;
-  if(!novoUser || !/^[a-z0-9._-]+$/.test(novoUser)){ errBox.textContent = 'Utilizador inválido. Use apenas letras minúsculas, números, ponto, traço ou underscore.'; return; }
+  if(!novoUser || !/^[a-z0-9._-]+$/.test(novoUser)){ errBox.textContent = 'Nome de utilizador inválido. Use apenas letras minúsculas, números, ponto, traço ou underscore.'; return; }
+  if(!email || !/^\S+@\S+\.\S+$/.test(email)){ errBox.textContent = 'Indique um email real. É com ele que recupera a senha.'; return; }
   const erroSenha = senhaFraca(novaSenha);
   if(erroSenha){ errBox.textContent = erroSenha; return; }
   if(novaSenha !== confirmaSenha){ errBox.textContent = 'As senhas não coincidem.'; return; }
-  if(!DB) DB = await loadDB();
-  if(DB.adminCred){ errBox.textContent = 'Já existe uma conta de Administrador configurada. Recarregue a página.'; return; }
-
-  const hash = await sha256Hex(novaSenha);
-  DB.adminCred = { user: novoUser, hash };
-  try{ localStorage.setItem('sico_admin_cred_v2', JSON.stringify(DB.adminCred)); }catch(e){}
-
-  /* IMPORTANTE: criar/autenticar primeiro no Firebase e só depois gravar o DB.
-     A versão anterior tentava salvar no Firestore antes de existir uma sessão
-     autenticada; por isso a primeira conta ficava apenas neste computador. */
-  let cloudOk = false;
-  if(window.fbCriarConta){
-    try{
-      const r = await window.fbCriarConta(novoUser, novaSenha);
-      if(r && r.ok) cloudOk = true;
-      else if(r && /email-already-in-use|already-in-use/i.test(String(r.motivo||'')) && window.fbLogin){
-        const l = await window.fbLogin(novoUser, novaSenha);
-        cloudOk = !!(l && l.ok);
-      }
-    }catch(e){}
-  }
-
-  session = { user: novoUser, level: 'Administrador', pontoVenda: null };
-  if(!DB.auditoria) DB.auditoria = [];
-  DB.auditoria.unshift({ id:'AUD'+Date.now()+Math.floor(Math.random()*1000), ts:new Date().toISOString(), user:novoUser, action:'Configuração inicial: conta de Administrador criada', detalhe:`Utilizador: ${novoUser}` });
-  if(DB.auditoria.length>500) DB.auditoria = DB.auditoria.slice(0,500);
-  sessionStorage.setItem('acervo_session', JSON.stringify(session));
-  document.getElementById('setupScreen').classList.add('hidden');
-
-  /* Agora a gravação acontece já autenticada, quando o Firebase estiver disponível. */
-  try{ await saveDB(); }catch(e){ console.warn('Conta criada localmente; sincronização online pendente.', e); }
-  if(!cloudOk && !window._fbIndisponivel){
-    console.warn('Administrador criado localmente; conta online não pôde ser confirmada neste momento.');
-  }
-  boot();
-}
-/* Login local sem bloqueio temporizado. A proteção de autenticação do servidor
-   deve ser feita pelo Firebase/Auth quando estiver configurado. */
-// O acesso do SICO não fica bloqueado por contador local.
-// O Firebase/Auth e as regras do servidor continuam responsáveis pela segurança.
-function loginBloqueadoAte(){
-  return 0;
-}
-function registarFalhaLogin(){
-  // Mantido como função compatível para versões antigas do SICO, sem bloquear o acesso.
-  localStorage.removeItem('acervo_login_bloqueio');
-}
-function limparFalhasLogin(){
-  localStorage.removeItem('acervo_login_falhas');
-  localStorage.removeItem('acervo_login_bloqueio');
-}
-async function doLogin(){
-  const u = document.getElementById('loginUser').value.trim().toLowerCase();
-  const p = document.getElementById('loginPass').value;
-  const err = document.getElementById('loginError');
-  const btn = document.querySelector('#loginScreen .btn-brass');
-  btn.disabled = true;
+  const btn = document.querySelector('#setupScreen .btn-brass'); btn.disabled = true;
   try{
-    if(!DB) DB = await loadDB();
-
-    /* Caso típico de um NOVO dispositivo: não existe DB local. Primeiro
-       autenticamos no Firebase; só depois lemos o DB central. Isto evita
-       que o segundo computador crie uma nova conta local. */
-    if(!DB.adminCred && (!DB.vendedores || DB.vendedores.length===0) && window.fbLogin){
-      try{
-        const cloudLogin = await window.fbLogin(u, p);
-        if(cloudLogin && cloudLogin.ok){
-          const remotoDepoisAuth = await window.fbLoadDB(SICO_TESTE_INSTANCE_ID);
-          if(remotoDepoisAuth && remotoDepoisAuth.dados){
-            dbRev = remotoDepoisAuth.rev||0;
-            DB = remotoDepoisAuth.dados;
-            if(DB && DB.adminCred) localStorage.setItem(STORE_KEY, JSON.stringify(DB));
-          } else {
-            err.textContent = 'Conta encontrada no servidor, mas a base de dados ainda não foi encontrada. Crie a conta no primeiro dispositivo e aguarde a sincronização.';
-          }
-        }
-      }catch(e){}
+    let est;
+    try{ est = await window.fbEmpresaEstado(); }
+    catch(e){ errBox.textContent = 'Sem ligação ao servidor. Não é possível configurar a empresa agora.'; return; }
+    if(est!=='nao-configurada'){ errBox.textContent = 'A empresa já está configurada. Volte atrás e entre com a sua conta.'; return; }
+    const r = await window.fbConfigurarEmpresa({ email, pass: novaSenha, user: novoUser });
+    if(!r.ok){
+      errBox.textContent = r.motivo==='ja-configurada'
+        ? 'A empresa acabou de ser configurada por outro dispositivo. Volte atrás e entre com a conta do Administrador.'
+        : mensagemErroAuth(r.motivo);
+      return;
     }
+    primeiraConfigPendente = true;
+    await entrarComUtilizador(r.utilizador);
+  }finally{ btn.disabled = false; }
+}
 
-    const hash = await sha256Hex(p);
-    let level = null;
-    let pontoVenda = null;
-    let bloqueioMsg = null;
-    const rec = adminRec(u);
-    if(rec && rec.hash === hash){
-      level = rec.level;
-    } else {
-      const vAny = (DB.vendedores||[]).find(x=>x.user===u);
-      if(vAny && vAny.hash === hash){
-        if(vAny.status==='pendente'){ bloqueioMsg = 'O seu registo ainda está Pendente de validação por email cooperativo.'; }
-        else if(vAny.status==='rejeitado'){ bloqueioMsg = 'O seu registo foi Rejeitado' + (vAny.motivoRejeicao?(': '+vAny.motivoRejeicao):'.') + ' Contacte o administrador para atualizar os dados.'; }
-        else if(vAny.ativo===false){ bloqueioMsg = 'A sua conta está inativa. Contacte o administrador.'; }
-        else { level = 'Vendedor'; pontoVenda = vAny.pontoVenda || null; }
-      }
-    }
-
-    /* Se havia credencial local, tentamos também autenticar no Firebase. Se a
-       conta online ainda não existir (caso da primeira versão), criamo-la.
-       Assim este dispositivo passa a poder publicar o DB para os outros. */
-    let cloudAutenticado = false;
-    if(level && window.fbLogin){
-      try{
-        const lr = await window.fbLogin(u, p);
-        cloudAutenticado = !!(lr && lr.ok);
-        if(!cloudAutenticado && level==='Administrador' && window.fbCriarConta){
-          const cr = await window.fbCriarConta(u, p);
-          cloudAutenticado = !!(cr && cr.ok);
-        }
-      }catch(e){}
-    }
-
-    if(level){
-      limparFalhasLogin();
-      session = { user:u, level, pontoVenda };
-      sessionStorage.setItem('acervo_session', JSON.stringify(session));
-      err.textContent='';
-      /* Se conseguimos autenticar online, garante que os dados locais são
-         enviados para o servidor. */
-      if(cloudAutenticado){ try{ await saveDB(); }catch(e){} }
-      await boot();
-    } else if(bloqueioMsg){
-      err.textContent = bloqueioMsg;
-    } else {
-      registarFalhaLogin();
-      err.textContent = 'Utilizador ou senha incorretos. Se este for um novo dispositivo, confirme que está a usar as credenciais do Administrador já criadas no sistema principal.';
-    }
-  }catch(e){
-    console.error('Erro no login:', e);
-    err.textContent = 'Não foi possível concluir o login. Verifique a ligação e tente novamente.';
-  }finally{
-    btn.disabled = false;
-  }
+function voltarAoLogin(){
+  session = null; DB = null; PRIV = {}; PRIV_GRAVADO = {}; PERFIL_GRAVADO = {}; modoCache = false;
+  if(fbUnsubscribeAtual){ try{ fbUnsubscribeAtual(); }catch(e){} fbUnsubscribeAtual = null; }
+  const b = document.getElementById('bannerSync'); if(b) b.classList.add('hidden');
+  mostrarLogin();
 }
 function doLogout(){
-  session = null;
-  sessionStorage.removeItem('acervo_session');
-  document.getElementById('app').classList.add('hidden');
-  document.getElementById('loginScreen').classList.remove('hidden');
-  document.getElementById('loginPass').value='';
-  if(fbUnsubscribeAtual){ fbUnsubscribeAtual(); fbUnsubscribeAtual = null; }
   if(window.fbLogout) window.fbLogout();
+  voltarAoLogin();
 }
 document.getElementById('loginPass').addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
 document.getElementById('loginUser').addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
 
 /* ---------- Boot ---------- */
 let fbUnsubscribeAtual = null;
+function aplicarRemoto(dados, rev){
+  DB = completarDB(dados);
+  dbRev = rev || 0;
+  guardarCache(DB);
+  aplicarPrivados(DB);
+  if(typeof activeTab !== 'undefined' && activeTab) goTab(activeTab);
+}
 async function boot(){
   DB = await loadDB();
-  document.getElementById('loginScreen').classList.add('hidden');
-  document.getElementById('app').classList.remove('hidden');
+  mostrarEcra('app');
+  const banner = document.getElementById('bannerSync');
+  if(modoCache){ banner.textContent = '⚠ Sem ligação ao servidor: a mostrar a última cópia lida. Alterações NÃO são enviadas até recarregar com ligação.'; banner.classList.remove('hidden'); }
+  else banner.classList.add('hidden');
   document.getElementById('userChip').textContent = session.user + ' · ' + session.level;
   const isPonto = DB.instanceInfo && DB.instanceInfo.tipo==='ponto';
   document.getElementById('brandTag').textContent = isPonto ? ('Ponto de Venda · ' + DB.instanceInfo.pontoVendaNome) : 'Castanha de Caju · Stock & Vendas';
@@ -13879,15 +14063,17 @@ async function boot(){
   renderTabs();
   goTab('dashboard');
   iniciarRelogioPainel();
-  const instId = (DB.instanceInfo && DB.instanceInfo.pontoVendaId) ? ('ponto_'+DB.instanceInfo.pontoVendaId) : SICO_TESTE_INSTANCE_ID;
-  if(window.fbEscutarDB && !fbUnsubscribeAtual){
-    fbUnsubscribeAtual = window.fbEscutarDB(instId, (dadosRecebidos, revRecebido)=>{
-      DB = dadosRecebidos;
-      dbRev = revRecebido||0;
-      localStorage.setItem(STORE_KEY, JSON.stringify(DB));
-      if(typeof activeTab !== 'undefined' && activeTab) goTab(activeTab);
+  if(primeiraConfigPendente && isAdmin()){
+    primeiraConfigPendente = false;
+    pushAudit('Configuração inicial: empresa e conta de Administrador criadas', `Utilizador: ${session.user}`);
+  }
+  if(dbNovoNoServidor && isAdmin()) await saveDB();   // cria o documento central na primeira utilização
+  if(window.fbEscutarDB && !fbUnsubscribeAtual && !modoCache){
+    fbUnsubscribeAtual = window.fbEscutarDB(instanciaId(), aplicarRemoto, (tipo)=>{
+      if(tipo==='permissao'){ voltarAoLogin(); estadoAcessoNegado(); }
     });
   }
+  processarLinkValidacao();
 }
 function iniciarRelogioPainel(){
   if(window._relogioPainelInterval) return;
@@ -13903,90 +14089,89 @@ function iniciarRelogioPainel(){
   atualizar();
   window._relogioPainelInterval = setInterval(atualizar, 1000);
 }
-(async function tryRestoreSession(){
-  if(window.fbAuthPronto) try{ await window.fbAuthPronto; }catch(e){}
-  DB = await loadDB();
-  // A Configuração Inicial só aparece se NÃO existir qualquer credencial
-  // persistida. Depois de criada, a conta permanece guardada entre sessões.
-  if(!DB.adminCred){
-    let adminSeguro = null;
-    try{
-      const rawAdmin = localStorage.getItem('sico_admin_cred_v2');
-      if(rawAdmin) adminSeguro = JSON.parse(rawAdmin);
-    }catch(e){}
-    if(adminSeguro && adminSeguro.user && adminSeguro.hash){
-      DB.adminCred = {user:adminSeguro.user, hash:adminSeguro.hash};
-      localStorage.setItem(STORE_KEY, JSON.stringify(DB));
-    }
-  }
-  if(!DB.adminCred){
-    /* Em qualquer dispositivo adicional, não criar outra conta. Mostra o
-       login e deixa o utilizador autenticar no Firebase para recuperar a
-       base central. A Configuração Inicial só deve ser usada quando não
-       existe conta nem base central disponível. */
-    document.getElementById('setupScreen').classList.add('hidden');
-    document.getElementById('loginScreen').classList.remove('hidden');
-    return;
-  }
-  // Se houver uma sessão antiga, só a restaura se continuar a corresponder
-  // a uma conta existente. Caso contrário, mostra o login normal.
-  const raw = sessionStorage.getItem('acervo_session');
-  if(raw){
-    try{
-      const sess = JSON.parse(raw);
-      const adminOk = sess && sess.level==='Administrador' && DB.adminCred && sess.user===DB.adminCred.user;
-      const vendOk = sess && sess.level==='Vendedor' && (DB.vendedores||[]).some(v=>v.user===sess.user && v.ativo!==false);
-      if(adminOk || vendOk){ session = sess; boot(); }
-      else sessionStorage.removeItem('acervo_session');
-    }catch(e){ sessionStorage.removeItem('acervo_session'); }
-  }
-})();
-(async function tratarLinkValidacao(){
-  const params = new URLSearchParams(location.search);
-  const token = params.get('validarVendedor');
-  if(!token) return;
-  if(window.fbAuthPronto) try{ await window.fbAuthPronto; }catch(e){}
-  DB = await loadDB();
+/* Se a sessão terminar noutro sítio (ou for revogada), volta ao login. */
+if(window.fbQuandoSessaoMuda){
+  window.fbQuandoSessaoMuda(u=>{ if(!u && session){ voltarAoLogin(); } });
+}
+arrancar();
+
+/* ---------- Validação de vendedor por link ----------
+   O link NÃO altera nada sozinho: só o Administrador autenticado o pode confirmar, e o link expira.
+   Quem abre o link sem sessão de Administrador é encaminhado para o login. */
+const VALIDACAO_DIAS = 14;
+function novoTokenValidacao(){
+  const a = new Uint8Array(16); crypto.getRandomValues(a);
+  return 'VAL' + Array.from(a).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+function processarLinkValidacao(){
+  const token = new URLSearchParams(location.search).get('validarVendedor');
+  if(!token || !isAdmin()) return;
   const v = (DB.vendedores||[]).find(x=>x.tokenValidacao===token);
   const box = document.createElement('div');
   box.style.cssText = 'position:fixed;inset:0;background:rgba(14,20,16,0.94);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;';
+  const fechar = `this.closest('div[style]').parentElement.remove(); history.replaceState({},'',location.pathname);`;
+  const cartao = (corpo)=>`<div style="max-width:380px;background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:28px;text-align:center;">${corpo}</div>`;
+  const expirado = v && v.criadoEm && (Date.now() - new Date(v.tokenCriadoEm || v.criadoEm).getTime() > VALIDACAO_DIAS*86400000);
   if(!v){
-    box.innerHTML = '<div style="max-width:380px;background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:28px;text-align:center;">'
-      + '<div style="font-size:15px;font-weight:600;margin-bottom:8px;">Link inválido ou já utilizado</div>'
-      + '<div style="font-size:12.5px;color:var(--text-dim);margin-bottom:16px;">Este link de validação não corresponde a nenhum registo pendente.</div>'
-      + '<button class="btn btn-brass" onclick="this.closest(\'div[style]\').parentElement.remove(); history.replaceState({},\'\',location.pathname);">Fechar</button>'
-      + '</div>';
+    box.innerHTML = cartao(`<div style="font-size:15px;font-weight:600;margin-bottom:8px;">Link inválido ou já utilizado</div><div style="font-size:12.5px;color:var(--text-dim);margin-bottom:16px;">Este link não corresponde a nenhum registo pendente.</div><button class="btn btn-brass" onclick="${fechar}">Fechar</button>`);
   } else if(v.status!=='pendente'){
-    box.innerHTML = '<div style="max-width:380px;background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:28px;text-align:center;">'
-      + '<div style="font-size:15px;font-weight:600;margin-bottom:8px;">' + v.nome + '</div>'
-      + '<div style="font-size:12.5px;color:var(--text-dim);margin-bottom:16px;">Este registo já foi ' + (v.status==='aceite'?'Aceite':'Rejeitado') + ' anteriormente.</div>'
-      + '<button class="btn btn-brass" onclick="this.closest(\'div[style]\').parentElement.remove(); history.replaceState({},\'\',location.pathname);">Fechar</button>'
-      + '</div>';
+    box.innerHTML = cartao(`<div style="font-size:15px;font-weight:600;margin-bottom:8px;">${esc(v.nome)}</div><div style="font-size:12.5px;color:var(--text-dim);margin-bottom:16px;">Este registo já foi ${v.status==='aceite'?'Aceite':'Rejeitado'} anteriormente.</div><button class="btn btn-brass" onclick="${fechar}">Fechar</button>`);
+  } else if(expirado){
+    box.innerHTML = cartao(`<div style="font-size:15px;font-weight:600;margin-bottom:8px;">Link expirado</div><div style="font-size:12.5px;color:var(--text-dim);margin-bottom:16px;">Este link tem mais de ${VALIDACAO_DIAS} dias. Valide o registo em Vendedores.</div><button class="btn btn-brass" onclick="${fechar}">Fechar</button>`);
   } else {
-    box.innerHTML = '<div style="max-width:380px;background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:28px;text-align:center;">'
-      + '<div style="font-size:15px;font-weight:600;margin-bottom:8px;">Validação de Registo de Vendedor</div>'
-      + '<div style="font-size:13px;margin-bottom:4px;">' + v.nome + ' <span style="color:var(--text-dim);font-size:11px;">(' + v.user + ')</span></div>'
-      + '<div style="font-size:12.5px;color:var(--text-dim);margin-bottom:18px;">Confirme a aceitação deste registo em nome da cooperativa.</div>'
-      + '<div style="display:flex;gap:10px;justify-content:center;">'
-      + '<button class="btn btn-ghost" onclick="this.closest(\'div[style]\').parentElement.remove(); history.replaceState({},\'\',location.pathname);">Cancelar</button>'
-      + '<button class="btn btn-brass" onclick="confirmarValidacaoPorLink(\'' + v.user + '\', this)">Aceitar Registo</button>'
-      + '</div></div>';
+    box.innerHTML = cartao(`<div style="font-size:15px;font-weight:600;margin-bottom:8px;">Validação de Registo de Vendedor</div><div style="font-size:13px;margin-bottom:4px;">${esc(v.nome)} <span style="color:var(--text-dim);font-size:11px;">(${esc(v.user)})</span></div><div style="font-size:12.5px;color:var(--text-dim);margin-bottom:18px;">Confirme a aceitação deste registo em nome da cooperativa.</div><div style="display:flex;gap:10px;justify-content:center;"><button class="btn btn-ghost" onclick="${fechar}">Cancelar</button><button class="btn btn-brass" onclick="confirmarValidacaoPorLink('${esc(v.user)}', this)">Aceitar Registo</button></div>`);
   }
   document.body.appendChild(box);
-})();
+}
 function confirmarValidacaoPorLink(user, btnEl){
+  if(!requireAdmin('validar vendedores')) return;
   const v = DB.vendedores.find(x=>x.user===user);
   if(v){
-    v.status = 'aceite'; v.ativo = true; v.motivoRejeicao = null;
+    v.status = 'aceite'; v.ativo = true; v.motivoRejeicao = null; v.tokenValidacao = null;
     pushAudit('Vendedor aceite (link de validação por email cooperativo)', 'Utilizador: ' + user);
     saveDB();
   }
   const overlay = btnEl.closest('div[style]').parentElement;
   overlay.innerHTML = '<div style="max-width:380px;background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:28px;text-align:center;">'
     + '<div style="font-size:15px;font-weight:600;margin-bottom:8px;color:#7fb897;">Registo Aceite ✓</div>'
-    + '<div style="font-size:12.5px;color:var(--text-dim);margin-bottom:16px;">' + (v?v.nome:'') + ' já pode entrar no sistema com o seu utilizador e senha.</div>'
+    + '<div style="font-size:12.5px;color:var(--text-dim);margin-bottom:16px;">' + esc(v?v.nome:'') + ' já pode entrar no sistema com o seu email e senha.</div>'
     + '<button class="btn btn-brass" onclick="this.closest(\'div[style]\').parentElement.remove(); history.replaceState({},\'\',location.pathname);">Fechar</button>'
     + '</div>';
+}
+
+function adminRec(u){ return (session && session.level==='Administrador' && u===session.user) ? {level:'Administrador'} : null; }
+async function submitAdminCred(){
+  const errBox = document.getElementById('credErro');
+  errBox.textContent = '';
+  const senhaAtual = document.getElementById('credSenhaAtual').value;
+  const novoUser = document.getElementById('credNovoUser').value.trim().toLowerCase();
+  const novaSenha = document.getElementById('credNovaSenha').value;
+  const confirmaSenha = document.getElementById('credConfirmaSenha').value;
+  if(!senhaAtual){ errBox.textContent = 'Digite a sua senha atual para confirmar.'; return; }
+  if(!novoUser && !novaSenha){ errBox.textContent = 'Preencha o novo utilizador e/ou a nova senha.'; return; }
+  if(novoUser && !/^[a-z0-9._-]+$/.test(novoUser)){ errBox.textContent = 'Utilizador inválido. Use apenas letras minúsculas, números, ponto, traço ou underscore.'; return; }
+  if(novoUser && (novoUser==='operador' || DB.vendedores.some(v=>v.user===novoUser))){ errBox.textContent = 'Esse nome de utilizador já está em uso.'; return; }
+  if(novaSenha){
+    const erroSenha = senhaFraca(novaSenha);
+    if(erroSenha){ errBox.textContent = erroSenha; return; }
+    if(novaSenha !== confirmaSenha){ errBox.textContent = 'As senhas não coincidem.'; return; }
+  }
+  const conf = await window.fbConfirmarSenha(senhaAtual);
+  if(!conf.ok){ errBox.textContent = /network/i.test(conf.motivo||'') ? 'Sem ligação ao servidor.' : 'Senha atual incorreta.'; return; }
+  if(novaSenha){
+    const r = await window.fbMudarSenha(senhaAtual, novaSenha);
+    if(!r.ok){ errBox.textContent = mensagemErroAuth(r.motivo); return; }
+  }
+  const userAntes = session.user;
+  if(novoUser){
+    try{ await window.fbGravarPerfil(session.uid, {user: novoUser}); }
+    catch(e){ errBox.textContent = 'Não foi possível guardar o novo utilizador no servidor.'; return; }
+    session.user = novoUser;
+  }
+  pushAudit('Credenciais de administrador alteradas', `Utilizador: ${userAntes} → ${session.user}${novaSenha?' (senha também alterada)':''}`);
+  document.getElementById('userChip').textContent = session.user + ' · ' + session.level;
+  toast('Credenciais atualizadas com sucesso.');
+  goTab('config');
 }
 
 function toggleTheme(){
@@ -14153,7 +14338,7 @@ function renderLabel(item){
         <div>${renderQRSVG(item.id, 110)}</div>
       </div>
       <div class="tag-code">${item.id}</div>
-      <div class="tag-item-name" style="color:${cor};">${item.produto}</div>
+      <div class="tag-item-name" style="color:${cor};">${esc(item.produto)}</div>
       <div class="tag-sub" style="font-weight:700;font-size:14px;">${fmtKg(item.peso)} · ${fmtMT(item.peso*item.precoKg)}</div>
       ${item.validade?`<div class="tag-sub" style="font-weight:600;">Validade: ${fmtDateOnly(item.validade)}</div>`:''}
     </div>`;
@@ -14222,7 +14407,7 @@ function gerarAlertas(){
 
   const stockBaixo = items.filter(i=>i.peso>0 && i.peso<=STOCK_BAIXO_KG);
   categorias.push({chave:'stock', label:'Stock Baixo', cor:'var(--danger)',
-    itens: stockBaixo.map(i=>({texto:`${i.produto} (${i.id}) — restam ${fmtKg(i.peso)}`, cor:'var(--danger)'}))});
+    itens: stockBaixo.map(i=>({texto:`${esc(i.produto)} (${i.id}) — restam ${fmtKg(i.peso)}`, cor:'var(--danger)'}))});
 
   if(isAdmin()){
     const validadeProxima = items.filter(i=>{
@@ -14233,7 +14418,7 @@ function gerarAlertas(){
     categorias.push({chave:'validade', label:'Validade Próxima', cor:'var(--brass)',
       itens: validadeProxima.map(i=>{
         const dias = Math.ceil((new Date(i.validade)-hoje)/86400000);
-        return {texto:`${i.produto} (${i.id}) — ${dias<0?'já venceu':'vence em '+dias+' dia(s)'}`, cor: dias<=7?'var(--danger)':'var(--brass)'};
+        return {texto:`${esc(i.produto)} (${i.id}) — ${dias<0?'já venceu':'vence em '+dias+' dia(s)'}`, cor: dias<=7?'var(--danger)':'var(--brass)'};
       })});
 
     const reposicao = previsaoReposicao();
@@ -14253,7 +14438,7 @@ function gerarAlertas(){
 
     const pendentes = (DB.vendedores||[]).filter(v=>v.status==='pendente');
     categorias.push({chave:'vendedores', label:'Vendedores Pendentes', cor:'var(--brass)',
-      itens: pendentes.map(v=>({texto:`${v.nome} (${v.user}) aguardando aprovação`, cor:'var(--brass)'}))});
+      itens: pendentes.map(v=>({texto:`${esc(v.nome)} (${esc(v.user)}) aguardando aprovação`, cor:'var(--brass)'}))});
 
     const precoItens = [];
     TIPOS.filter(t=>t!=='Outro' && DB.precosTipo && DB.precosTipo[t]).forEach(t=>{
@@ -14316,9 +14501,9 @@ function renderDashboard(){
   const dias = [];
   for(let i=6;i>=0;i--){
     const d = new Date(); d.setDate(d.getDate()-i);
-    const key = d.toISOString().slice(0,10);
+    const key = maputoISO(d);
     const label = d.toLocaleDateString('pt-PT',{day:'2-digit',month:'2-digit'});
-    const total = vendasScoped.filter(h=>h.ts.slice(0,10)===key).reduce((s,h)=>s+Number(h.subtotal||0),0);
+    const total = vendasScoped.filter(h=>maputoISO(new Date(h.ts))===key).reduce((s,h)=>s+Number(h.subtotal||0),0);
     dias.push({label, total});
   }
   const maxDia = Math.max(1, ...dias.map(d=>d.total));
@@ -14393,9 +14578,9 @@ function historyRow(h){
   return `<div class="history-item">
     <div class="history-dot" style="background:${historyDotColor(h.type)}"></div>
     <div>
-      <div><b>${h.itemName}</b> <span style="color:var(--text-dim);font-size:11px;">(${h.code})</span>${h.historico?' <span class="badge badge-grade" style="font-size:9px;">DO CADERNO</span>':''}</div>
-      <div style="font-size:12.5px;color:var(--text-dim);margin-top:2px;">${h.desc}</div>
-      <div class="history-meta">${h.user} · ${fmtDate(h.ts)}</div>
+      <div><b>${esc(h.itemName)}</b> <span style="color:var(--text-dim);font-size:11px;">(${h.code})</span>${h.historico?' <span class="badge badge-grade" style="font-size:9px;">DO CADERNO</span>':''}</div>
+      <div style="font-size:12.5px;color:var(--text-dim);margin-top:2px;">${esc(h.desc)}</div>
+      <div class="history-meta">${esc(h.user)} · ${fmtDate(h.ts)}</div>
     </div>
   </div>`;
 }
@@ -14692,7 +14877,7 @@ function drawInventoryTable(){
       const validadeCor = diasValidade!==null && diasValidade<=7 ? '#e08267' : (diasValidade!==null && diasValidade<=30 ? 'var(--brass)' : 'inherit');
       html += `<tr>
         <td style="font-family:'IBM Plex Mono',monospace;color:var(--brass);">${i.id}</td>
-        <td>${i.produto}</td>
+        <td>${esc(i.produto)}</td>
         <td><span class="badge badge-grade">${i.grau}</span></td>
         <td>${fmtKg(i.peso)}</td>
         <td>${fmtMT(i.precoKg)}</td>
@@ -14711,7 +14896,7 @@ function drawInventoryTable(){
 }
 function confirmDelete(id){
   const item = DB.items.find(i=>i.id===id);
-  openModal('Eliminar entrada', `Tem a certeza que deseja eliminar <b>${item.produto}</b> (${item.id})? Esta ação é permanente.`,
+  openModal('Eliminar entrada', `Tem a certeza que deseja eliminar <b>${esc(item.produto)}</b> (${item.id})? Esta ação é permanente.`,
     `<button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
      <button class="btn btn-danger" onclick="doDelete('${id}')">Eliminar</button>`);
 }
@@ -14734,7 +14919,7 @@ function exportCSV(){
   const valorTotal = items.reduce((s,i)=>s+Number(i.peso||0)*Number(i.precoKg||0),0);
   const totalsRow = ['TOTAL','','','', Number(pesoTotal.toFixed(2)), '', Number(valorTotal.toFixed(2)), '', '', '', ''];
   const subt = `${(DB.instanceInfo&&DB.instanceInfo.nome)||'Boa Castanha'} — Stock atual — Gerado em ${new Date().toLocaleDateString('pt-PT')} às ${new Date().toLocaleTimeString('pt-PT',{hour:'2-digit',minute:'2-digit'})}`;
-  downloadXLSX({sheetName:'Stock', headers, columnTypes, rows, totalsRow, title:'Relatório de Stock de Castanha de Caju', subtitle:subt}, `acervo_stock_${new Date().toISOString().slice(0,10)}.xlsx`);
+  downloadXLSX({sheetName:'Stock', headers, columnTypes, rows, totalsRow, title:'Relatório de Stock de Castanha de Caju', subtitle:subt}, `acervo_stock_${maputoISO()}.xlsx`);
   toast('Planilha de stock exportada, já formatada e pronta para imprimir.');
 }
 
@@ -14860,7 +15045,7 @@ function terminarConferencia(){
     </div>
     ${faltando.length ? `<div style="margin-top:10px;font-size:13px;font-weight:600;">Itens não escaneados:</div>
     ${faltando.map(i=>`<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--line);font-size:13px;">
-      <span>${i.produto} <span style="color:var(--text-dim);font-family:'IBM Plex Mono',monospace;">(${i.id})</span></span><span>${fmtKg(i.peso)}</span></div>`).join('')}` : ''}
+      <span>${esc(i.produto)} <span style="color:var(--text-dim);font-family:'IBM Plex Mono',monospace;">(${i.id})</span></span><span>${fmtKg(i.peso)}</span></div>`).join('')}` : ''}
     <button class="btn btn-ghost" style="margin-top:14px;" onclick="iniciarConferencia()">Nova Conferência</button>`;
 }
 function pushScanHistory(item){
@@ -14875,7 +15060,7 @@ function renderScanHistoryUI(){
   if(!scanHistorySession.length){ box.innerHTML = '<div class="empty-state">Nenhum item escaneado nesta sessão.</div>'; return; }
   box.innerHTML = scanHistorySession.map(h=>`
     <div onclick="lookupCode('${h.id}')" style="cursor:pointer;padding:7px 0;border-bottom:1px solid var(--line);font-size:12.5px;display:flex;justify-content:space-between;">
-      <span>${h.produto}</span><span style="color:var(--brass);font-family:'IBM Plex Mono',monospace;">${h.id}</span>
+      <span>${esc(h.produto)}</span><span style="color:var(--brass);font-family:'IBM Plex Mono',monospace;">${h.id}</span>
     </div>`).join('');
 }
 async function startCamera(){
@@ -15033,7 +15218,7 @@ function drawFornecedorDesempenho(){
   }).sort((a,b)=>a.media-b.media);
   box.innerHTML = linhas.length ? `
     <table><thead><tr><th>Fornecedor</th><th>Compras</th><th>Total Gasto</th><th>Valor Médio</th><th>Última Compra</th></tr></thead><tbody>
-    ${linhas.map((l,idx)=>`<tr><td>${idx===0?'🏆 ':''}${l.nome}</td><td>${l.n}</td><td>${fmtMT(l.total)}</td><td>${fmtMT(l.media)}</td><td>${fmtDateOnly(l.ultima)}</td></tr>`).join('')}
+    ${linhas.map((l,idx)=>`<tr><td>${idx===0?'🏆 ':''}${esc(l.nome)}</td><td>${l.n}</td><td>${fmtMT(l.total)}</td><td>${fmtMT(l.media)}</td><td>${fmtDateOnly(l.ultima)}</td></tr>`).join('')}
     </tbody></table>
     <div style="font-size:11px;color:var(--text-dim);margin-top:8px;">🏆 Menor valor médio por compra.</div>` : '<div class="empty-state">Nenhuma despesa ligada a fornecedores ainda. Ligue um fornecedor ao registar despesas de Matéria-Prima.</div>';
 }
@@ -15091,7 +15276,7 @@ function gerarDespesasRecorrentes(){
     const jaExiste = (DB.despesas||[]).some(d=>d.origemRecorrente===rec.id && (()=>{ const dd=new Date(d.data); return (dd.getFullYear()+'-'+dd.getMonth())===mesAno; })());
     if(!jaExiste){
       const dia = Math.min(rec.diaDoMes||1, 28);
-      const data = new Date(hoje.getFullYear(), hoje.getMonth(), dia).toISOString().slice(0,10);
+      const data = maputoISO(new Date(hoje.getFullYear(), hoje.getMonth(), dia, 12));
       DB.despesas.push({
         id:'DESP'+Date.now()+Math.floor(Math.random()*1000),
         categoria:rec.categoria, descricao:rec.descricao, fornecedor:rec.fornecedor||'', pontoVenda:rec.pontoVenda||'',
@@ -15106,8 +15291,8 @@ function gerarDespesasRecorrentes(){
 function renderDespesas(){
   gerarDespesasRecorrentes();
   const supOpts = DB.suppliers.map(s=>`<option value="${s.id}">${esc(s.nome)}</option>`).join('');
-  const pontoOpts = (DB.pontosVenda||[]).map(p=>`<option value="${p.id}">${p.nome}</option>`).join('');
-  const hoje = new Date().toISOString().slice(0,10);
+  const pontoOpts = (DB.pontosVenda||[]).map(p=>`<option value="${p.id}">${esc(p.nome)}</option>`).join('');
+  const hoje = maputoISO();
   const html = `
   <div class="step-hint">Σ Registe gastos com matéria-prima e despesas operacionais. Isto entra no cálculo do Lucro Líquido nos Relatórios.</div>
   <div class="two-col">
@@ -15219,7 +15404,7 @@ function submitDespesa(){
   const descricao = document.getElementById('dDescricao').value.trim();
   const fornecedor = document.getElementById('dFornecedor').value;
   const pontoVenda = document.getElementById('dPonto').value;
-  const data = document.getElementById('dData').value || new Date().toISOString().slice(0,10);
+  const data = document.getElementById('dData').value || maputoISO();
   if(!descricao){ toast('Indique uma descrição para a despesa.'); return; }
   if(valor==='' || isNaN(valor) || Number(valor)<=0){ toast('Indique um valor válido, maior que zero.'); return; }
   if(!DB.despesas) DB.despesas = [];
@@ -15264,7 +15449,7 @@ function drawRecorrentes(){
   if(!list.length){ box.innerHTML = '<div class="empty-state">Nenhuma despesa recorrente configurada.</div>'; return; }
   box.innerHTML = list.map(r=>`
     <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);font-size:12.5px;">
-      <div><b>${r.descricao}</b> — ${r.categoria} · ${fmtMT(r.valor)}/mês · dia ${r.diaDoMes}</div>
+      <div><b>${esc(r.descricao)}</b> — ${esc(r.categoria)} · ${fmtMT(r.valor)}/mês · dia ${r.diaDoMes}</div>
       <div style="display:flex;gap:6px;">
         <span class="badge ${r.ativa!==false?'badge-ok':'badge-off'}" style="cursor:pointer;" onclick="toggleRecorrente('${r.id}')">${r.ativa!==false?'Ativa':'Pausada'}</span>
         <button class="btn btn-danger" style="padding:4px 8px;font-size:11px;" onclick="deleteRecorrente('${r.id}')">✕</button>
@@ -15311,7 +15496,7 @@ function exportDespesasCSV(){
   const totalValor = despesas.reduce((s,d)=>s+Number(d.valor||0),0);
   const totalsRow = ['TOTAL','','','','', Number(totalValor.toFixed(2)), ''];
   const subt = `${(DB.instanceInfo&&DB.instanceInfo.nome)||'Boa Castanha'} — Gerado em ${new Date().toLocaleDateString('pt-PT')} às ${new Date().toLocaleTimeString('pt-PT',{hour:'2-digit',minute:'2-digit'})}`;
-  downloadXLSX({sheetName:'Despesas', headers, columnTypes, rows, totalsRow, title:'Relatório de Despesas', subtitle:subt}, `despesas_${new Date().toISOString().slice(0,10)}.xlsx`);
+  downloadXLSX({sheetName:'Despesas', headers, columnTypes, rows, totalsRow, title:'Relatório de Despesas', subtitle:subt}, `despesas_${maputoISO()}.xlsx`);
   toast('Planilha de despesas exportada, já formatada e pronta para imprimir.');
 }
 function verComprovativo(id){
@@ -15343,7 +15528,7 @@ function drawDespesas(){
       const ponto = (DB.pontosVenda||[]).find(p=>p.id===d.pontoVenda);
       return `<tr>
         <td>${fmtDateOnly(d.data)}</td>
-        <td><span class="badge badge-grade">${d.categoria}</span></td>
+        <td><span class="badge badge-grade">${esc(d.categoria)}</span></td>
         <td>${esc(d.descricao)}${d.comprovativo?` <span onclick="verComprovativo('${d.id}')" style="cursor:pointer;" title="Ver comprovativo">📎</span>`:''}${d.origemRecorrente?' <span style="color:var(--text-dim);font-size:10px;">(recorrente)</span>':''}</td>
         <td>${sup?sup.nome:'—'}</td>
         <td>${ponto?ponto.nome:'Central'}</td>
@@ -15457,7 +15642,7 @@ function verHistoricoCliente(key){
     <div style="margin-bottom:10px;font-size:13px;">Total gasto: <b>${fmtMT(total)}</b> em ${compras.length} compra(s)</div>
     <div style="max-height:300px;overflow-y:auto;">
     ${compras.map(c=>`<div style="padding:7px 0;border-bottom:1px solid var(--line);font-size:12.5px;display:flex;justify-content:space-between;">
-      <span>${c.itemName} — ${fmtKg(c.pesoVenda)}</span><span>${fmtMT(c.subtotal)}</span></div>`).join('') || '<div class="empty-state">Sem compras registadas.</div>'}
+      <span>${esc(c.itemName)} — ${fmtKg(c.pesoVenda)}</span><span>${fmtMT(c.subtotal)}</span></div>`).join('') || '<div class="empty-state">Sem compras registadas.</div>'}
     </div>`,
     `<button class="btn btn-ghost" onclick="closeModal()">Fechar</button>`);
 }
@@ -15478,10 +15663,10 @@ function drawAuditoria(){
   box.innerHTML = list.length ? list.map(a=>`
     <div style="padding:9px 0;border-bottom:1px solid var(--line);font-size:12.5px;">
       <div style="display:flex;justify-content:space-between;">
-        <span style="font-weight:600;">${a.action}</span>
+        <span style="font-weight:600;">${esc(a.action)}</span>
         <span style="color:var(--text-dim);">${fmtDate(a.ts)}</span>
       </div>
-      <div style="color:var(--text-dim);margin-top:2px;">${a.detalhe||''} · por <b>${a.user}</b></div>
+      <div style="color:var(--text-dim);margin-top:2px;">${esc(a.detalhe||'')} · por <b>${esc(a.user)}</b></div>
     </div>`).join('') : '<div class="empty-state">Nenhuma ação sensível registada ainda.</div>';
 }
 function renderVendedores(){
@@ -15501,7 +15686,7 @@ function renderVendedores(){
       </div>
       <div class="form-row"><div class="form-group">
         <label>Ponto de Venda</label>
-        <select id="vPonto"><option value="">Central / Sede</option>${(DB.pontosVenda||[]).map(p=>`<option value="${p.id}">${p.nome}</option>`).join('')}</select>
+        <select id="vPonto"><option value="">Central / Sede</option>${(DB.pontosVenda||[]).map(p=>`<option value="${p.id}">${esc(p.nome)}</option>`).join('')}</select>
       </div></div>
 
       <div class="card-title" style="margin-top:18px;"><span class="lbl">Dados do Bilhete de Identidade</span></div>
@@ -15601,24 +15786,24 @@ async function submitVendedor(){
   if(!user || !/^[a-z0-9._-]+$/.test(user)){ toast('Utilizador inválido. Use apenas letras minúsculas, números, ponto, traço ou underscore.'); return; }
   const erroSenha = senhaFraca(pass);
   if(erroSenha){ toast(erroSenha); return; }
-  if(!email){ toast('Indique o email de contacto — é para onde vai o link de validação da cooperativa.'); return; }
+  if(!email || !/^\S+@\S+\.\S+$/.test(email)){ toast('Indique um email válido do vendedor: é com ele que entra no sistema e recupera a senha, e para onde vai o link de validação.'); return; }
   if(!DB.vendedores) DB.vendedores = [];
   if(user==='operador' || adminRec(user) || DB.vendedores.some(v=>v.user===user)){ toast('Já existe um utilizador com esse nome.'); return; }
-  const hash = await sha256Hex(pass);
-  const tokenValidacao = 'VAL'+Date.now()+Math.floor(Math.random()*100000);
+  if(!window.fbCriarContaVendedor || modoCache){ toast('Sem ligação ao servidor. Não é possível criar o vendedor agora.'); return; }
+  /* A conta é criada numa segunda ligação ao Firebase: a sessão do Administrador não é tocada. */
+  const cr = await window.fbCriarContaVendedor(email.toLowerCase(), pass);
+  if(!cr.ok){ toast(mensagemErroAuth(cr.motivo)); return; }
+  const tokenValidacao = novoTokenValidacao();
   DB.vendedores.push({
-    user, nome, tel, email, hash, pontoVenda,
+    uid: cr.uid, user, nome, tel, email, authEmail: email.toLowerCase(), pontoVenda,
     bi, dataNasc, estadoCivil, nuit, filiacao, parentes, cidade, bairro, endereco,
     biFotoFrente: biFotoPendente.frente, biFotoVerso: biFotoPendente.verso,
-    status: 'pendente', motivoRejeicao: null, tokenValidacao,
+    status: 'pendente', motivoRejeicao: null, tokenValidacao, tokenCriadoEm: new Date().toISOString(),
     ativo: false,
     criadoEm: new Date().toISOString()
   });
   pushAudit('Vendedor registado (pendente de validação)', `Utilizador: ${user} (${nome})`);
   saveDB();
-  if(window.fbCriarConta){
-    window.fbCriarConta(user, pass).catch(()=>{}); // silencioso: conta técnica fica disponível assim que houver internet
-  }
   if(EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID && EMAILJS_PUBLIC_KEY){
     const linkAuto = location.origin + location.pathname + '?validarVendedor=' + tokenValidacao;
     enviarEmailValidacao({nome, email}, linkAuto).then(r=>{
@@ -15682,20 +15867,20 @@ function drawVendedores(){
     const status = v.status || 'aceite';
     return `<div style="padding:12px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;">
       <div>
-        <div style="font-weight:600;">${esc(v.nome)} <span style="font-size:11px;color:var(--text-dim);font-family:'IBM Plex Mono',monospace;">(${v.user})</span></div>
+        <div style="font-weight:600;">${esc(v.nome)} <span style="font-size:11px;color:var(--text-dim);font-family:'IBM Plex Mono',monospace;">(${esc(v.user)})</span></div>
         <div style="font-size:11.5px;color:var(--text-dim);margin-top:2px;">${v.tel?esc(v.tel)+' · ':''}${vendas} venda(s) registada(s) · <span class="badge badge-grade">${ponto?esc(ponto.nome):'Central / Sede'}</span> · ${statusVendedorBadge(v)}</div>
         ${status==='rejeitado' && v.motivoRejeicao ? `<div style="font-size:11px;color:#e08267;margin-top:4px;">Motivo: ${esc(v.motivoRejeicao)}</div>` : ''}
         <div style="margin-top:6px;">${metaBarHTML(vendasMesUser(v.user), meta)}</div>
         <div style="margin-top:6px;display:flex;gap:6px;align-items:center;">
-          <input type="number" min="0" step="100" placeholder="Meta mensal (MT)" value="${meta||''}" style="width:150px;font-size:11px;background:var(--bg);border:1px solid var(--line);border-radius:3px;color:var(--text);padding:5px 8px;" onchange="setMetaVendedor('${v.user}', this.value)">
+          <input type="number" min="0" step="100" placeholder="Meta mensal (MT)" value="${meta||''}" style="width:150px;font-size:11px;background:var(--bg);border:1px solid var(--line);border-radius:3px;color:var(--text);padding:5px 8px;" onchange="setMetaVendedor('${esc(v.user)}', this.value)">
         </div>
       </div>
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-        <span class="badge ${v.ativo!==false?'badge-ok':'badge-off'}" style="cursor:pointer;" onclick="toggleVendedorAtivo('${v.user}')" title="Clique para ativar/desativar">${v.ativo!==false?'Ativo':'Inativo'}</span>
-        <button class="btn btn-ghost" style="padding:5px 9px;font-size:11px;" onclick="verDadosVendedor('${v.user}')">Ver dados</button>
-        <button class="btn btn-ghost" style="padding:5px 9px;font-size:11px;" onclick="editarVendedor('${v.user}')">Atualizar dados</button>
-        <button class="btn btn-ghost" style="padding:5px 9px;font-size:11px;" onclick="resetVendedorPass('${v.user}')">Redefinir senha</button>
-        <button class="btn btn-danger" style="padding:5px 9px;font-size:11px;" onclick="deleteVendedor('${v.user}')">✕</button>
+        <span class="badge ${v.ativo!==false?'badge-ok':'badge-off'}" style="cursor:pointer;" onclick="toggleVendedorAtivo('${esc(v.user)}')" title="Clique para ativar/desativar">${v.ativo!==false?'Ativo':'Inativo'}</span>
+        <button class="btn btn-ghost" style="padding:5px 9px;font-size:11px;" onclick="verDadosVendedor('${esc(v.user)}')">Ver dados</button>
+        <button class="btn btn-ghost" style="padding:5px 9px;font-size:11px;" onclick="editarVendedor('${esc(v.user)}')">Atualizar dados</button>
+        <button class="btn btn-ghost" style="padding:5px 9px;font-size:11px;" onclick="resetVendedorPass('${esc(v.user)}')">Redefinir senha</button>
+        <button class="btn btn-danger" style="padding:5px 9px;font-size:11px;" onclick="deleteVendedor('${esc(v.user)}')">✕</button>
       </div>
     </div>`;
   }).join('');
@@ -15895,7 +16080,7 @@ function salvarEdicaoVendedor(user){
   v.biFotoFrente = editBiFotoPendente.frente;
   v.biFotoVerso = editBiFotoPendente.verso;
   const eraRejeitado = v.status === 'rejeitado';
-  if(eraRejeitado){ v.status = 'pendente'; v.ativo = false; v.motivoRejeicao = null; v.tokenValidacao = 'VAL'+Date.now()+Math.floor(Math.random()*100000); }
+  if(eraRejeitado){ v.status = 'pendente'; v.ativo = false; v.motivoRejeicao = null; v.tokenValidacao = novoTokenValidacao(); v.tokenCriadoEm = new Date().toISOString(); }
   pushAudit('Dados do vendedor atualizados', 'Utilizador: ' + user);
   saveDB(); closeModal(); drawVendedores();
   toast(eraRejeitado ? 'Dados atualizados. Registo voltou a Pendente — gere um novo link de validação.' : 'Dados do vendedor atualizados.');
@@ -15909,27 +16094,21 @@ function toggleVendedorAtivo(user){
   toast(v.ativo ? 'Vendedor reativado.' : 'Vendedor desativado — deixa de conseguir entrar no sistema.');
 }
 function resetVendedorPass(user){
-  openModal('Redefinir senha', `Defina uma nova senha para <b>${user}</b>:
-    <div class="field" style="margin-top:12px;"><input id="newPassInput" type="password" placeholder="Nova senha (mín. 6 caracteres, com letras e números)" style="width:100%;background:var(--bg);border:1px solid var(--line);border-radius:3px;color:var(--text);padding:9px 10px;font-size:14px;"></div>`,
-    `<button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
-     <button class="btn btn-brass" onclick="confirmResetPass('${user}')">Guardar</button>`);
-}
-async function confirmResetPass(user){
-  const val = document.getElementById('newPassInput').value;
-  const erroSenha = senhaFraca(val);
-  if(erroSenha){ toast(erroSenha); return; }
   const v = DB.vendedores.find(x=>x.user===user);
   if(!v) return;
-  v.hash = await sha256Hex(val);
-  pushAudit('Senha redefinida', `Utilizador: ${user}`);
-  saveDB(); closeModal();
-  /* Nota: a senha técnica no Firebase Authentication não é alterada aqui —
-     o Firebase não permite mudar a senha de outra conta a partir do browser
-     por segurança. O login continua a funcionar porque a validação real é
-     feita contra este hash local. Se precisares de sincronizar isso também
-     no Firebase Auth, é preciso uma função de servidor (Cloud Function) —
-     falamos disso se for necessário. */
-  toast('Senha atualizada.');
+  const para = v.authEmail || v.email;
+  if(!v.uid || !para){ toast('Este vendedor tem uma conta antiga, sem email de acesso. Remova-o e registe-o de novo.'); return; }
+  openModal('Redefinir senha', `Vai ser enviado um email para <b>${esc(para)}</b> com um link para o vendedor escolher uma nova senha. O Administrador nunca vê a senha.`,
+    `<button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
+     <button class="btn btn-brass" onclick="enviarResetVendedor('${esc(user)}')">Enviar email</button>`);
+}
+async function enviarResetVendedor(user){
+  const v = DB.vendedores.find(x=>x.user===user);
+  if(!v) return;
+  const r = await window.fbRecuperarSenha(v.authEmail || v.email);
+  closeModal();
+  if(r.ok){ pushAudit('Redefinição de senha enviada por email', `Utilizador: ${user}`); toast('Email de redefinição enviado.'); }
+  else toast(mensagemErroAuth(r.motivo));
 }
 function deleteVendedor(user){
   openModal('Remover vendedor', `Tem a certeza que deseja remover o acesso de <b>${user}</b>? O histórico de vendas dele é mantido, mas ele deixa de conseguir entrar no sistema.`,
@@ -15992,13 +16171,13 @@ function drawTransferForm(){
   box.innerHTML = `
     <div class="form-row"><div class="form-group">
       <label>Lote (stock central)</label>
-      <select id="trItem">${centralItems.map(i=>`<option value="${i.id}">${i.id} — ${i.produto} (${fmtKg(i.peso)} disponível)</option>`).join('')}</select>
+      <select id="trItem">${centralItems.map(i=>`<option value="${i.id}">${i.id} — ${esc(i.produto)} (${fmtKg(i.peso)} disponível)</option>`).join('')}</select>
     </div></div>
     <div class="form-row">
       <div class="form-group"><label>Peso a transferir (kg)</label><input id="trPeso" type="number" min="0" step="0.1"></div>
       <div class="form-group">
         <label>Destino</label>
-        <select id="trPonto">${pontos.map(p=>`<option value="${p.id}">${p.nome}</option>`).join('')}</select>
+        <select id="trPonto">${pontos.map(p=>`<option value="${p.id}">${esc(p.nome)}</option>`).join('')}</select>
       </div>
     </div>
     <button class="btn btn-sage" onclick="doTransfer()">Transferir Stock</button>`;
@@ -16023,7 +16202,7 @@ function doTransfer(){
     { pontoVenda: ponto.id, pontoNome: ponto.nome, pesoTransferido: peso });
   toast(`${fmtKg(peso)} transferido(s) para "${ponto.nome}".`);
   document.getElementById('transferLabel').innerHTML = `
-    <div class="step-hint">🏷 Imprima esta etiqueta com QR code e envie-a junto com a castanha para "${ponto.nome}". O vendedor irá escanear este código para registar a venda.</div>
+    <div class="step-hint">🏷 Imprima esta etiqueta com QR code e envie-a junto com a castanha para "${esc(ponto.nome)}". O vendedor irá escanear este código para registar a venda.</div>
     ${renderLabel(novoItem)}
     <div style="margin-top:14px;"><button class="btn btn-ghost" onclick="window.print()">Imprimir Etiqueta</button></div>`;
   drawTransferForm();
@@ -16048,7 +16227,7 @@ function drawPontosVenda(){
     const meta = (DB.metas&&DB.metas.pontos) ? DB.metas.pontos[p.id] : null;
     return `<div style="padding:14px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;">
       <div>
-        <div style="font-weight:600;">${p.nome}</div>
+        <div style="font-weight:600;">${esc(p.nome)}</div>
         <div style="font-size:11.5px;color:var(--text-dim);margin-top:2px;">${p.local?p.local+' · ':''}${fmtKg(stock)} em stock · ${vendedoresPonto} vendedor(es) · ${vendas} venda(s) sincronizada(s)</div>
         <div style="font-size:11px;color:var(--text-dim);margin-top:2px;">Última sincronização: ${p.ultimaSincronizacao?fmtDate(p.ultimaSincronizacao):'nunca'} · ${fmtKg(totalTransferido)} transferido(s) ao todo (${transferencias.length}x)</div>
         <div style="margin-top:6px;">${metaBarHTML(vendasMesPonto(p.id), meta)}</div>
@@ -16071,13 +16250,13 @@ function verTransferenciasPonto(pontoId){
   if(!p) return;
   const transferencias = DB.history.filter(h=>h.type==='Transferência' && h.pontoVenda===pontoId).sort((a,b)=>new Date(b.ts)-new Date(a.ts));
   const total = transferencias.reduce((s,h)=>s+Number(h.pesoTransferido||0),0);
-  openModal(`Transferências — ${p.nome}`, `
+  openModal(`Transferências — ${esc(p.nome)}`, `
     <div style="margin-bottom:10px;font-size:13px;">Total já transferido: <b>${fmtKg(total)}</b> em ${transferencias.length} transferência(s)</div>
     <div style="max-height:340px;overflow-y:auto;">
     ${transferencias.length ? transferencias.map(h=>`
       <div style="padding:8px 0;border-bottom:1px solid var(--line);font-size:12.5px;">
-        <div style="display:flex;justify-content:space-between;"><b>${h.itemName}</b><span>${fmtKg(h.pesoTransferido||0)}</span></div>
-        <div style="color:var(--text-dim);font-size:11px;margin-top:2px;">${fmtDate(h.ts)} · por ${h.user} · código ${h.code}</div>
+        <div style="display:flex;justify-content:space-between;"><b>${esc(h.itemName)}</b><span>${fmtKg(h.pesoTransferido||0)}</span></div>
+        <div style="color:var(--text-dim);font-size:11px;margin-top:2px;">${fmtDate(h.ts)} · por ${esc(h.user)} · código ${h.code}</div>
       </div>`).join('') : '<div class="empty-state">Nenhuma transferência feita para este ponto ainda.</div>'}
     </div>`,
     `<button class="btn btn-ghost" onclick="closeModal()">Fechar</button>`);
@@ -16129,7 +16308,7 @@ function exportPacoteInicial(pontoId){
   const blob = new Blob([JSON.stringify(pkg,null,2)], {type:'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = `pacote_inicial_${ponto.nome.replace(/\s+/g,'_').toLowerCase()}_${new Date().toISOString().slice(0,10)}.json`;
+  a.download = `pacote_inicial_${ponto.nome.replace(/\s+/g,'_').toLowerCase()}_${maputoISO()}.json`;
   a.click();
   toast(`Pacote inicial de "${ponto.nome}" exportado. Leve este ficheiro até ao dispositivo do ponto e importe em Definições.`);
 }
@@ -16138,8 +16317,8 @@ function exportPacoteInicial(pontoId){
    TAB: HISTÓRICO
    ========================================================= */
 function renderHistorico(){
-  const vendedorOpts = (DB.vendedores||[]).map(v=>`<option value="${v.user}">${esc(v.nome)} (${v.user})</option>`).join('');
-  const hoje = new Date().toISOString().slice(0,10);
+  const vendedorOpts = (DB.vendedores||[]).map(v=>`<option value="${esc(v.user)}">${esc(v.nome)} (${esc(v.user)})</option>`).join('');
+  const hoje = maputoISO();
   const html = `
   ${isAdmin() ? `<div class="card" style="margin-bottom:16px;">
     <div class="card-title"><span class="lbl">Registar Venda Antiga (do caderno)</span></div>
@@ -16162,7 +16341,7 @@ function renderHistorico(){
       <div class="form-group"><label>Cliente (opcional)</label><input id="hCliente" placeholder="Nome do cliente" list="buyerListHist"><datalist id="buyerListHist">${(DB.buyers||[]).map(b=>`<option value="${esc(b.nome)}">`).join('')}</datalist></div>
       <div class="form-group">
         <label>Vendedor responsável</label>
-        <select id="hVendedor"><option value="${session.user}">${session.user} (eu)</option>${vendedorOpts}</select>
+        <select id="hVendedor"><option value="${esc(session.user)}">${esc(session.user)} (eu)</option>${vendedorOpts}</select>
       </div>
     </div>
     <button class="btn btn-brass" onclick="submitVendaAntiga()">Registar Venda Antiga</button>
@@ -16463,9 +16642,9 @@ function addToCartByCode(code){
 function renderReceipt(r){
   const total = r.linhas.reduce((s,l)=>s+l.subtotal,0);
   return `
-    <div style="font-size:13px;color:var(--text-dim);margin-bottom:10px;">Cliente: <b style="color:var(--text);">${r.buyer}</b> · ${fmtDate(r.ts)} · Vendedor: ${r.vendedor}</div>
+    <div style="font-size:13px;color:var(--text-dim);margin-bottom:10px;">Cliente: <b style="color:var(--text);">${esc(r.buyer)}</b> · ${fmtDate(r.ts)} · Vendedor: ${r.vendedor}</div>
     <table><thead><tr><th>Produto</th><th>Embalagem</th><th>Peso</th><th>Preço/kg</th><th>Subtotal</th></tr></thead><tbody>
-    ${r.linhas.map(l=>`<tr><td>${l.produto}<div style="font-size:11px;color:var(--text-dim);">${l.id}</div></td><td>${l.grau}</td><td>${fmtKg(l.peso)}</td><td>${fmtMT(l.precoKg)}</td><td>${fmtMT(l.subtotal)}</td></tr>`).join('')}
+    ${r.linhas.map(l=>`<tr><td>${esc(l.produto)}<div style="font-size:11px;color:var(--text-dim);">${l.id}</div></td><td>${l.grau}</td><td>${fmtKg(l.peso)}</td><td>${fmtMT(l.precoKg)}</td><td>${fmtMT(l.subtotal)}</td></tr>`).join('')}
     </tbody></table>
     <div style="display:flex;justify-content:space-between;padding:14px 0 0;font-size:14px;font-weight:700;"><span>Total</span><span style="color:var(--brass);">${fmtMT(total)}</span></div>`;
 }
@@ -16502,7 +16681,7 @@ function drawSaleAvailable(){
   box.innerHTML = available.length ? available.map(i=>`
     <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--line);">
       <div>
-        <div style="font-weight:600;font-size:13.5px;">${i.produto}</div>
+        <div style="font-weight:600;font-size:13.5px;">${esc(i.produto)}</div>
         <div style="font-size:11.5px;color:var(--text-dim);">${i.id} · ${i.grau} · ${fmtKg(i.peso)} disponível · ${fmtMT(i.precoKg)}/kg</div>
       </div>
       <button class="btn btn-sage" style="padding:6px 13px;font-size:11.5px;" onclick="addToCart('${i.id}')">+ Adicionar</button>
@@ -16534,7 +16713,7 @@ function drawSaleCart(keepFocus){
   box.innerHTML = saleCart.map(c=>`
     <div style="padding:9px 0;border-bottom:1px solid var(--line);">
       <div style="display:flex;justify-content:space-between;align-items:center;">
-        <div><div style="font-size:13px;font-weight:600;">${c.produto}</div><div style="font-size:11px;color:var(--text-dim);">${c.id} · disponível: ${fmtKg(c.pesoDisponivel)}</div></div>
+        <div><div style="font-size:13px;font-weight:600;">${esc(c.produto)}</div><div style="font-size:11px;color:var(--text-dim);">${c.id} · disponível: ${fmtKg(c.pesoDisponivel)}</div></div>
         <button class="btn btn-danger" style="padding:4px 9px;font-size:11px;" onclick="removeFromCart('${c.id}')">✕</button>
       </div>
       <div style="display:flex;gap:8px;margin-top:8px;">
@@ -16679,7 +16858,7 @@ function exportVendasXLSX(){
   const somaLiquido = somaTotal - somaComissao;
   const totalsRow = ['TOTAL','','','', Number(somaPeso.toFixed(2)), '', Number(somaTotal.toFixed(2)), Number(somaComissao.toFixed(2)), Number(somaLiquido.toFixed(2))];
   const subt = `${(DB.instanceInfo&&DB.instanceInfo.nome)||'Boa Castanha'} — ${isAdmin()?'Todos os vendedores':nomeVendedorGlobal(session.user)} — Gerado em ${new Date().toLocaleDateString('pt-PT')} às ${new Date().toLocaleTimeString('pt-PT',{hour:'2-digit',minute:'2-digit'})}`;
-  downloadXLSX({sheetName:'Vendas', headers, columnTypes, rows, totalsRow, title:'Relatório de Vendas', subtitle:subt}, `vendas_${new Date().toISOString().slice(0,10)}.xlsx`);
+  downloadXLSX({sheetName:'Vendas', headers, columnTypes, rows, totalsRow, title:'Relatório de Vendas', subtitle:subt}, `vendas_${maputoISO()}.xlsx`);
   toast('Planilha de vendas exportada, já formatada e pronta para imprimir.');
 }
 function exportComissoesXLSX(){
@@ -16700,7 +16879,7 @@ function exportComissoesXLSX(){
   const rows = entries.map(([user,g])=>[nomeVendedorGlobal(user), g.n, Number(g.peso.toFixed(2)), Number(g.receita.toFixed(2)), Number(g.comissao.toFixed(2))]);
   const totalsRow = ['TOTAL', entries.reduce((s,[,g])=>s+g.n,0), Number(entries.reduce((s,[,g])=>s+g.peso,0).toFixed(2)), Number(entries.reduce((s,[,g])=>s+g.receita,0).toFixed(2)), Number(entries.reduce((s,[,g])=>s+g.comissao,0).toFixed(2))];
   const subt = `${(DB.instanceInfo&&DB.instanceInfo.nome)||'Boa Castanha'} — Gerado em ${new Date().toLocaleDateString('pt-PT')} às ${new Date().toLocaleTimeString('pt-PT',{hour:'2-digit',minute:'2-digit'})}`;
-  downloadXLSX({sheetName:'Comissões', headers, columnTypes, rows, totalsRow, title:'Relatório de Comissões por Vendedor', subtitle:subt}, `comissoes_${new Date().toISOString().slice(0,10)}.xlsx`);
+  downloadXLSX({sheetName:'Comissões', headers, columnTypes, rows, totalsRow, title:'Relatório de Comissões por Vendedor', subtitle:subt}, `comissoes_${maputoISO()}.xlsx`);
   toast('Planilha de comissões exportada, já formatada e pronta para imprimir.');
 }
 function gerarFechamentoMensal(){
@@ -16750,7 +16929,7 @@ function gerarFechamentoMensal(){
     </div>
     <h2>Ranking de Pontos de Venda</h2>
     <table><thead><tr><th>#</th><th>Ponto</th><th>Receita</th></tr></thead><tbody>
-      ${rankingPontos.map((p,i)=>`<tr><td>${i+1}</td><td>${p.nome}</td><td>${fmtMT(p.receita)}</td></tr>`).join('')}
+      ${rankingPontos.map((p,i)=>`<tr><td>${i+1}</td><td>${esc(p.nome)}</td><td>${fmtMT(p.receita)}</td></tr>`).join('')}
     </tbody></table>
     <h2>Despesas por Categoria</h2>
     <table><thead><tr><th>Categoria</th><th>Valor</th></tr></thead><tbody>
@@ -16866,7 +17045,7 @@ function drawReports(){
     const medalha = ['🥇','🥈','🥉'];
     document.getElementById('repPontos').innerHTML = linhas.length ? `
       <table><thead><tr><th>#</th><th>Ponto de Venda</th><th>Transações</th><th>Peso Vendido</th><th>Receita</th><th>Última Sincronização</th></tr></thead><tbody>
-      ${linhas.map(([k,g],idx)=>`<tr><td>${medalha[idx]||(idx+1)}</td><td>${g.nome}</td><td>${g.n}</td><td>${fmtKg(g.peso)}</td><td>${fmtMT(g.receita)}</td><td>${k==='central'?'—':(g.ultima?fmtDate(g.ultima):'nunca')}</td></tr>`).join('')}
+      ${linhas.map(([k,g],idx)=>`<tr><td>${medalha[idx]||(idx+1)}</td><td>${esc(g.nome)}</td><td>${g.n}</td><td>${fmtKg(g.peso)}</td><td>${fmtMT(g.receita)}</td><td>${k==='central'?'—':(g.ultima?fmtDate(g.ultima):'nunca')}</td></tr>`).join('')}
       </tbody></table>` : '<div class="empty-state">Nenhum ponto de venda cadastrado ainda.</div>';
 
     const vendedoresMap = {};
@@ -16898,7 +17077,7 @@ function drawReports(){
     ];
     document.getElementById('repMetas').innerHTML = linhasMetas.length ? linhasMetas.map(m=>`
       <div style="padding:8px 0;border-bottom:1px solid var(--line);">
-        <div style="font-size:12.5px;font-weight:600;margin-bottom:4px;">${m.nome}</div>
+        <div style="font-size:12.5px;font-weight:600;margin-bottom:4px;">${esc(m.nome)}</div>
         ${metaBarHTML(m.vendido, m.meta)}
       </div>`).join('') : '<div class="empty-state">Nenhuma meta definida ainda — configure nas abas Vendedores e Pontos de Venda.</div>';
   }
@@ -17042,7 +17221,7 @@ function renderConfig(){
       <p style="font-size:12.5px;color:var(--text-dim);margin-bottom:14px;line-height:1.5;">
         Troque o utilizador e/ou a senha de administrador deste dispositivo. Precisa de confirmar a senha atual.
       </p>
-      <div class="field"><label style="font-size:11.5px;color:var(--text-dim);">Utilizador atual: <b style="color:var(--text);">${session.user}</b></label></div>
+      <div class="field"><label style="font-size:11.5px;color:var(--text-dim);">Utilizador atual: <b style="color:var(--text);">${esc(session.user)}</b></label></div>
       <div class="field" style="margin-top:10px;">
         <label style="font-size:11.5px;color:var(--text-dim);">Senha atual *</label>
         <input id="credSenhaAtual" type="password" style="width:100%;background:var(--bg);border:1px solid var(--line);border-radius:3px;color:var(--text);padding:9px 10px;margin-top:4px;">
@@ -17068,7 +17247,7 @@ function renderConfig(){
         <div><b style="color:var(--text);">SICO</b> — Boa Castanha Moz Lda · Controlo de Vendas de Castanha de Caju</div>
         <div>Versão 1.1 · 100% offline · dados em localStorage</div>
         <div>Este dispositivo: ${isPonto?('Ponto de Venda — '+DB.instanceInfo.pontoVendaNome):'Central / Sede'}</div>
-        <div>Sessão atual: ${session.user} (${session.level})</div>
+        <div>Sessão atual: ${esc(session.user)} (${session.level})</div>
         <div>Última cópia de segurança: ${localStorage.getItem('acervo_last_backup')?fmtDate(localStorage.getItem('acervo_last_backup')):'nunca'}</div>
         <div>Entradas de stock: ${DB.items.length}</div>
         <div>Fornecedores: ${DB.suppliers.length}</div>
@@ -17088,7 +17267,7 @@ function exportJSON(){
   const blob = new Blob([JSON.stringify(DB,null,2)], {type:'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = `acervo_backup_${new Date().toISOString().slice(0,10)}.json`;
+  a.download = `acervo_backup_${maputoISO()}.json`;
   a.click();
   localStorage.setItem('acervo_last_backup', new Date().toISOString());
   toast('Cópia de segurança exportada.');
@@ -17110,7 +17289,7 @@ function exportPacoteSincronizacao(){
   const blob = new Blob([JSON.stringify(pkg,null,2)], {type:'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = `sync_${DB.instanceInfo.pontoVendaNome.replace(/\s+/g,'_').toLowerCase()}_${new Date().toISOString().slice(0,10)}.json`;
+  a.download = `sync_${DB.instanceInfo.pontoVendaNome.replace(/\s+/g,'_').toLowerCase()}_${maputoISO()}.json`;
   a.click();
   localStorage.setItem('acervo_last_sync_sent', new Date().toISOString());
   toast('Pacote de sincronização gerado. Envie este ficheiro ao Administrador.');
@@ -17193,8 +17372,9 @@ function importJSON(evt){
       if(!data.buyers) data.buyers = [];
       if(!data.metas) data.metas = { vendedores:{}, pontos:{} };
       if(!data.auditoria) data.auditoria = [];
-      if(data.adminCred===undefined) data.adminCred = null;
-      DB = data;
+      delete data.adminCred;
+      data.vendedores.forEach(v=>{ delete v.hash; });
+      DB = completarDB(data); aplicarPrivados(DB);
       pushAudit('Cópia de segurança importada', `${(data.items||[]).length} item(ns), ${(data.history||[]).length} evento(s) de histórico`);
       saveDB();
       toast('Dados importados com sucesso.');
@@ -17226,10 +17406,9 @@ async function doWipeData(){
   const errBox = document.getElementById('wipeError');
   if(confirmText !== 'APAGAR'){ errBox.textContent = 'Digite "APAGAR" exatamente (maiúsculas) para confirmar.'; return; }
   if(!pass){ errBox.textContent = 'Digite a sua senha de administrador.'; return; }
-  const hash = await sha256Hex(pass);
-  const userRec = adminRec(session.user);
-  const senhaValida = userRec && userRec.hash === hash;
-  if(!senhaValida){ errBox.textContent = 'Senha incorreta. Os dados não foram apagados.'; return; }
+  if(modoCache){ errBox.textContent = 'Sem ligação ao servidor. Os dados não foram apagados.'; return; }
+  const conf = await window.fbConfirmarSenha(pass);
+  if(!conf.ok){ errBox.textContent = 'Senha incorreta. Os dados não foram apagados.'; return; }
   const executor = session.user;
   DB = {items:[],suppliers:[],history:[],nextCode:1,vendedores:[],pontosVenda:[],despesas:[],despesasRecorrentes:[],orcamentos:{},buyers:[],metas:{vendedores:{},pontos:{}},auditoria:[],adminCred:null,turnos:[],turnosAtivos:{},precosTipo:{},historicoPrecos:[],margemAlvo:30,instanceInfo:null};
   pushAudit('TODOS OS DADOS APAGADOS', `Ação executada por ${executor} após confirmação de senha e palavra "APAGAR".`);
@@ -17251,7 +17430,7 @@ function onGlobalSearch(){
     i.tipo.toLowerCase().includes(q) || i.grau.toLowerCase().includes(q)
   ).slice(0,8);
   drop.classList.remove('hidden');
-  drop.innerHTML = results.length ? results.map(i=>`<div onclick="goToItem('${i.id}')"><b style="color:var(--brass);">${i.id}</b> — ${i.produto}</div>`).join('')
+  drop.innerHTML = results.length ? results.map(i=>`<div onclick="goToItem('${i.id}')"><b style="color:var(--brass);">${i.id}</b> — ${esc(i.produto)}</div>`).join('')
     : '<div class="empty">Sem resultados.</div>';
 }
 function goToItem(id){
