@@ -773,6 +773,35 @@ try{
     }
   };
 
+  /* Operação atómica sobre o documento central: lê o estado ATUAL do servidor, aplica `mutador` a essa
+     cópia, valida e grava, tudo numa transacção. O pedido leva um opId: se já foi aplicado
+     (repetição após falha de rede), não se aplica outra vez. `mutador(d)` devolve {ok,erro,extra}. */
+  window.fbTransaccao = async function(instanceId, opId, mutador){
+    const ref = F('instancias/'+instanceId);
+    try{
+      let resultado;
+      await fbDb.runTransaction(async (tx)=>{
+        const snap = await tx.get(ref);
+        if(!snap.exists || !snap.data().dados){ resultado = { ok:false, erro:'Os dados da empresa não foram encontrados no servidor.' }; return; }
+        const d = JSON.parse(snap.data().dados);
+        const rev = snap.data().rev || 0;
+        d.operacoes = d.operacoes || {};
+        if(d.operacoes[opId]){ resultado = { ok:true, repetida:true, dados:d, rev, extra:d.operacoes[opId].extra }; return; }
+        const r = mutador(d);
+        if(!r || !r.ok){ resultado = { ok:false, erro:(r && r.erro) || 'Operação recusada.' }; return; }
+        d.operacoes[opId] = { ts: Date.now(), extra: r.extra || null };
+        const ids = Object.keys(d.operacoes);
+        if(ids.length > 400){ ids.sort((a,b)=>d.operacoes[a].ts - d.operacoes[b].ts).slice(0, ids.length-400).forEach(k=>{ delete d.operacoes[k]; }); }
+        tx.set(ref, { dados: JSON.stringify(d), rev: rev+1, atualizadoEm: firebase.firestore.FieldValue.serverTimestamp() });
+        resultado = { ok:true, dados:d, rev:rev+1, extra:r.extra };
+      });
+      return resultado;
+    }catch(e){
+      console.warn('Transacção falhou:', e);
+      return { ok:false, tipo: classificar(e) };
+    }
+  };
+
   /* Lê o DB do servidor. null = o documento ainda não existe (verdadeiramente vazio).
      Qualquer falha de leitura é LANÇADA ({tipo}) — nunca é confundida com "vazio". */
   window.fbLoadDB = async function(instanceId){
@@ -13333,6 +13362,7 @@ function completarDB(d){
   if(!Array.isArray(d.suppliers)) d.suppliers = [];
   if(!Array.isArray(d.history)) d.history = [];
   if(!d.nextCode) d.nextCode = 1;
+  if(!d.operacoes || typeof d.operacoes !== 'object') d.operacoes = {};
   if(!d.vendedores) d.vendedores = [];
   if(!d.pontosVenda) d.pontosVenda = [];
   if(!d.despesas) d.despesas = [];
@@ -13654,22 +13684,22 @@ function buildXLSX(opts){
 <sheetFormatPr baseColWidth="8" defaultRowHeight="18"/>
 <cols>${cols}</cols>
 <sheetData>${sheetRows}</sheetData>
-${mergeXml}
 <autoFilter ref="A${headerRowNum}:${lastCol}${headerRowNum}"/>
+${mergeXml}
 <pageMargins left="0.75" right="0.75" top="1" bottom="1" header="0.5" footer="0.5"/>
 <pageSetup paperSize="9" orientation="${orientation}" fitToWidth="1" fitToHeight="0"/>
 </worksheet>`;
 
   const stylesXml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">
-<numFmts count="2"><numFmt numFmtId="164" formatCode="#,##0.00"/><numFmt numFmtId="165" formatCode="#,##0.00\ [$MT-pt-MZ]"/></numFmts>
+<numFmts count="2"><numFmt numFmtId="164" formatCode="#,##0.00"/><numFmt numFmtId="165" formatCode="#,##0.00&quot; MT&quot;"/></numFmts>
 <fonts count="4">
 <font><name val="Calibri"/><family val="2"/><sz val="11"/></font>
 <font><name val="Calibri"/><family val="2"/><b val="1"/><sz val="15"/></font>
 <font><name val="Calibri"/><family val="2"/><i val="1"/><sz val="10"/><color rgb="FF666666"/></font>
 <font><name val="Calibri"/><family val="2"/><b val="1"/><sz val="11"/><color rgb="FFFFFFFF"/></font>
 </fonts>
-<fills count="3"><fill><patternFill/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FF2F5233"/><bgColor indexed="64"/></patternFill></fill></fills>
+<fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FF2F5233"/><bgColor indexed="64"/></patternFill></fill></fills>
 <borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border><border><left style="thin"><color rgb="FFB7B7B7"/></left><right style="thin"><color rgb="FFB7B7B7"/></right><top style="thin"><color rgb="FFB7B7B7"/></top><bottom style="thin"><color rgb="FFB7B7B7"/></bottom><diagonal/></border></borders>
 <cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>
 <cellXfs count="8">
@@ -16741,44 +16771,88 @@ function drawSaleCart(keepFocus){
     </div>
     <button class="btn btn-brass btn-full" onclick="confirmSale()">Confirmar Venda</button>`;
 }
+let vendaClientePendente = '';
+let vendaPendente = null;   // {assinatura, opId}: repetir a MESMA venda reutiliza o mesmo opId (não duplica)
 function confirmSale(){
   const buyer = document.getElementById('buyerName').value.trim();
   if(!buyer){ toast('Indique o nome do cliente.'); return; }
   if(saleCart.length===0){ toast('Adicione ao menos um item.'); return; }
   if(saleCart.some(c=>c.pesoVenda<=0)){ toast('O peso a vender deve ser maior que zero.'); return; }
   const total = saleCart.reduce((s,c)=>s+c.pesoVenda*c.precoKg,0);
-  openModal('Confirmar venda', `Confirma a venda de ${saleCart.length} item(ns), total de <b>${fmtMT(total)}</b>, para <b>${buyer}</b>?`,
+  vendaClientePendente = buyer;
+  openModal('Confirmar venda', `Confirma a venda de ${saleCart.length} item(ns), total de <b>${fmtMT(total)}</b>, para <b>${esc(buyer)}</b>?`,
     `<button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
-     <button class="btn btn-brass" onclick="doSale('${buyer.replace(/'/g,"\\'")}')">Confirmar</button>`);
+     <button class="btn btn-brass" id="btnConfirmarVenda" onclick="doSale()">Confirmar</button>`);
 }
-function doSale(buyer){
-  const recibo = { buyer, ts:new Date().toISOString(), vendedor:session.user, linhas:[] };
-  saleCart.forEach(c=>{
-    const item = DB.items.find(i=>i.id===c.id);
-    const subtotal = c.pesoVenda*c.precoKg;
-    const comissao = Number((subtotal*COMISSAO_PCT).toFixed(2));
-    const liquido = Number((subtotal-comissao).toFixed(2));
-    pushHistory('Venda', item.produto, item.id, `Vendido ${fmtKg(c.pesoVenda)} a ${buyer} · ${fmtMT(c.precoKg)}/kg · Total ${fmtMT(subtotal)}`,
-      { buyer, pesoVenda:c.pesoVenda, precoKg:c.precoKg, subtotal, comissao, liquido });
-    recibo.linhas.push({produto:item.produto, id:item.id, grau:item.grau, peso:c.pesoVenda, precoKg:c.precoKg, subtotal});
-    item.peso = Math.max(0, item.peso - c.pesoVenda);
-    if(item.peso <= 0.001){
-      DB.items = DB.items.filter(i=>i.id!==item.id);
-    }
+/* Aplica uma venda a um DB (o ESTADO ATUAL DO SERVIDOR, dentro da transacção). Valida stock e
+   permissões, abate o stock, calcula a comissão em centavos inteiros e regista o histórico. */
+function aplicarVendaNoDB(d, v){
+  completarDB(d);
+  const linhasOk = [];
+  for(const l of v.linhas){
+    const item = d.items.find(i=>i.id===l.id);
+    if(!item) return { ok:false, erro:`O lote ${l.id} já não existe (foi vendido ou removido noutro dispositivo). Atualize e tente de novo.` };
+    if(!v.admin && (item.pontoVenda||null) !== (v.pontoVenda||null)) return { ok:false, erro:`O lote ${l.id} não pertence ao seu ponto de venda.` };
+    if(!(l.pesoVenda > 0)) return { ok:false, erro:'O peso a vender deve ser maior que zero.' };
+    if(l.pesoVenda > item.peso + 0.0005) return { ok:false, erro:`Stock insuficiente em ${item.produto} (${l.id}): disponível ${fmtKg(item.peso)}.` };
+    if(!(l.precoKg >= 0)) return { ok:false, erro:'Preço inválido.' };
+    linhasOk.push({ item, l });
+  }
+  const recibo = { buyer:v.buyer, ts:v.ts, vendedor:v.vendedor, linhas:[] };
+  linhasOk.forEach(({item, l})=>{
+    const subCent = Math.round(l.pesoVenda * l.precoKg * 100);        // dinheiro em centavos inteiros
+    const comCent = Math.round(subCent * COMISSAO_PCT);
+    const subtotal = subCent/100, comissao = comCent/100, liquido = (subCent-comCent)/100;
+    d.history.unshift({
+      id: Date.now()+Math.random(), type:'Venda', itemName:item.produto, code:item.id,
+      desc:`Vendido ${fmtKg(l.pesoVenda)} a ${v.buyer} · ${fmtMT(l.precoKg)}/kg · Total ${fmtMT(subtotal)}`,
+      user:v.vendedor, ts:v.ts, buyer:v.buyer, pesoVenda:l.pesoVenda, precoKg:l.precoKg, subtotal, comissao, liquido,
+      pontoVenda:item.pontoVenda||null, opId:v.opId
+    });
+    recibo.linhas.push({ produto:item.produto, id:item.id, grau:item.grau, peso:l.pesoVenda, precoKg:l.precoKg, subtotal });
+    item.peso = Number(Math.max(0, item.peso - l.pesoVenda).toFixed(3));
+    if(item.peso <= 0.001) d.items = d.items.filter(i=>i.id!==item.id);
   });
-  registerBuyer(buyer);
-  saveDB();
+  registerBuyerIn(d, v.buyer, v.ts);
+  return { ok:true, extra:{ recibo } };
+}
+async function doSale(){
+  const buyer = vendaClientePendente;
+  if(!buyer || saleCart.length===0) return;
+  if(modoCache || !window.fbTransaccao){ toast('Sem ligação ao servidor. A venda NÃO foi registada.'); return; }
+  const linhas = saleCart.map(c=>({ id:c.id, pesoVenda:c.pesoVenda, precoKg:c.precoKg }));
+  const assinatura = JSON.stringify([buyer, linhas]);
+  if(!vendaPendente || vendaPendente.assinatura !== assinatura){
+    const a = new Uint8Array(8); crypto.getRandomValues(a);
+    vendaPendente = { assinatura, opId:'VND-'+Date.now()+'-'+Array.from(a).map(b=>b.toString(16).padStart(2,'0')).join(''), ts:new Date().toISOString() };
+  }
+  const venda = { opId:vendaPendente.opId, buyer, ts:vendaPendente.ts, vendedor:session.user, pontoVenda:session.pontoVenda||null, admin:isAdmin(), linhas };
+  const btn = document.getElementById('btnConfirmarVenda'); if(btn) btn.disabled = true;
+  const r = await window.fbTransaccao(instanciaId(), venda.opId, d=>aplicarVendaNoDB(d, venda));
+  if(btn) btn.disabled = false;
+  if(!r.ok){
+    if(r.erro){ vendaPendente = null; toast(r.erro); closeModal(); aplicarEstadoServidor(); }
+    else toast(r.tipo==='permissao' ? 'O servidor recusou a venda (sem permissão). A venda NÃO foi registada.' : 'Sem ligação ao servidor. A venda NÃO foi registada. Pode tentar de novo: não será duplicada.');
+    return;
+  }
+  vendaPendente = null;
+  lastReceipt = (r.extra && r.extra.recibo) || null;
+  aplicarRemoto(r.dados, r.rev);
   closeModal();
-  toast('Venda registada com sucesso.');
-  lastReceipt = recibo;
+  toast(r.repetida ? 'Esta venda já tinha sido registada.' : 'Venda registada com sucesso.');
   renderVendas();
 }
+/* Depois de uma venda recusada, mostra o stock real do servidor. */
+async function aplicarEstadoServidor(){
+  try{ const rem = await window.fbLoadDB(instanciaId()); if(rem) aplicarRemoto(rem.dados, rem.rev); }catch(e){}
+}
 /* Clientes recorrentes */
-function registerBuyer(name, dataISO){
-  if(!DB.buyers) DB.buyers = [];
+function registerBuyer(name, dataISO){ registerBuyerIn(DB, name, dataISO); }
+function registerBuyerIn(d, name, dataISO){
+  if(!d.buyers) d.buyers = [];
   const key = name.trim().toLowerCase();
-  let b = DB.buyers.find(x=>x.key===key);
-  if(!b){ b = {key, nome:name.trim(), compras:0}; DB.buyers.push(b); }
+  let b = d.buyers.find(x=>x.key===key);
+  if(!b){ b = {key, nome:name.trim(), compras:0}; d.buyers.push(b); }
   b.compras++;
   const data = dataISO || new Date().toISOString();
   if(!b.ultima || new Date(data) > new Date(b.ultima)) b.ultima = data;
