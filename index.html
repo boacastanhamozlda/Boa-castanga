@@ -725,6 +725,19 @@ try{
     catch(e){ return { ok:false, motivo: e.code || String(e) }; }
   };
 
+  /* Configuração partilhada (preços, margem): config/{id}. Todos os utilizadores activos leem; só o Administrador grava. */
+  window.fbLerConfig = async function(id){
+    try{
+      const s = await F('config/'+id).get({source:'server'});
+      return s.exists ? s.data() : null;
+    }catch(e){ throw {tipo: classificar(e), e}; }
+  };
+  window.fbGravarConfig = function(id, dados){ return F('config/'+id).set(dados); };
+  window.fbEscutarConfig = function(id, onChange){
+    try{ return F('config/'+id).onSnapshot(snap=>{ if(snap.exists) onChange(snap.data()); }, ()=>{}); }
+    catch(e){ return null; }
+  };
+
   /* Perfis (função e estado de cada conta) e dados privados (BI, fotos…). Só o Administrador escreve. */
   window.fbGravarPerfil = function(uid, dados){ return F('perfis/'+uid).set(dados, {merge:true}); };
   window.fbApagarPerfil = function(uid){ return F('perfis/'+uid).delete(); };
@@ -13352,6 +13365,50 @@ let PRIV_GRAVADO = {};    // uid -> assinatura do último estado privado gravado
 let PERFIL_GRAVADO = {};  // uid -> assinatura do último perfil gravado
 let modoCache = false;    // true = a mostrar a cache porque o servidor não respondeu
 let primeiraConfigPendente = false;
+/* Preços, histórico de preços e margem vivem em config/precos (só o Administrador grava).
+   Em memória continuam em DB.precosTipo / DB.historicoPrecos / DB.margemAlvo, como sempre. */
+const PRECOS_CAMPOS = ['precosTipo','historicoPrecos','margemAlvo'];
+let PRECOS_ATUAL = null;     // último estado lido/gravado em config/precos
+let PRECOS_GRAVADO = '';     // assinatura do último estado gravado
+function precosDe(d){ const o = {}; PRECOS_CAMPOS.forEach(c=>{ o[c] = d[c]; }); return o; }
+function aplicarPrecos(d){
+  if(!d || !PRECOS_ATUAL) return;
+  PRECOS_CAMPOS.forEach(c=>{ if(PRECOS_ATUAL[c]!==undefined) d[c] = JSON.parse(JSON.stringify(PRECOS_ATUAL[c])); });
+  completarDB(d);
+}
+async function carregarPrecos(d){
+  if(!window.fbLerConfig) return;
+  const cfg = await window.fbLerConfig('precos');   // lança erro de rede/permissão (tratado em loadDB)
+  if(cfg){
+    PRECOS_ATUAL = cfg; PRECOS_GRAVADO = JSON.stringify(precosDe(Object.assign({}, d, cfg)));
+    aplicarPrecos(d);
+  } else if(isAdmin()){
+    /* Migração sem perda: ainda não existe config/precos; os preços actuais vêm do documento central.
+       O Administrador copia-os para config/precos ANTES de o documento central deixar de os ter. */
+    completarDB(d);
+    const atuais = precosDe(d);
+    await window.fbGravarConfig('precos', atuais);
+    PRECOS_ATUAL = JSON.parse(JSON.stringify(atuais)); PRECOS_GRAVADO = JSON.stringify(atuais);
+  } else {
+    PRECOS_ATUAL = precosDe(completarDB(d));   // vendedor, antes da migração: usa o que vem no documento central
+  }
+}
+/* O Administrador grava os preços alterados em config/precos. Devolve false se falhar. */
+async function sincronizarPrecos(){
+  if(!isAdmin() || !window.fbGravarConfig || modoCache) return true;
+  const atuais = precosDe(DB);
+  const sig = JSON.stringify(atuais);
+  if(sig === PRECOS_GRAVADO) return true;
+  try{
+    await window.fbGravarConfig('precos', atuais);
+    PRECOS_ATUAL = JSON.parse(sig); PRECOS_GRAVADO = sig;
+    return true;
+  }catch(e){
+    console.warn('Preços não gravados:', e);
+    falhaSync(window.fbClassificarErro(e));
+    return false;
+  }
+}
 let dbNovoNoServidor = false; // o documento central ainda não existe: o Administrador tem de o criar
 
 function SicoErro(estado, detalhe){ const e = new Error(estado); e.estado = estado; e.detalhe = detalhe; return e; }
@@ -13399,11 +13456,14 @@ function dbPublico(){
   });
   const pub = Object.assign({}, DB, { vendedores: vend });
   delete pub.adminCred;
+  PRECOS_CAMPOS.forEach(c=>{ delete pub[c]; });   // os preços vivem em config/precos
   return pub;
 }
 function guardarCache(d){
   try{
-    localStorage.setItem(STORE_KEY, JSON.stringify(d));
+    const c = Object.assign({}, d);
+    if(PRECOS_ATUAL) PRECOS_CAMPOS.forEach(k=>{ if(PRECOS_ATUAL[k]!==undefined) c[k] = PRECOS_ATUAL[k]; });
+    localStorage.setItem(STORE_KEY, JSON.stringify(c));
     localStorage.setItem(STORE_UID_KEY, (session && session.uid) || '');
   }catch(e){}
 }
@@ -13450,7 +13510,7 @@ async function loadDB(){
     if(tipo==='permissao') throw SicoErro('acesso-negado');
     if(tipo==='rede'){
       /* Sem ligação: mostramos a última cópia lida (se houver), claramente assinalada. */
-      if(local){ modoCache = true; return local; }
+      if(local){ modoCache = true; PRECOS_ATUAL = precosDe(local); return local; }
       throw SicoErro('sem-rede');
     }
     throw SicoErro('falha-leitura', e);
@@ -13459,6 +13519,13 @@ async function loadDB(){
   if(remoto && remoto.dados){
     dbRev = remoto.rev || 0;
     const d = completarDB(remoto.dados);
+    try{ await carregarPrecos(d); }   // preços: config/precos (migra do documento central se ainda não existir)
+    catch(e){
+      const t = e && e.tipo;
+      if(t==='permissao') throw SicoErro('acesso-negado');
+      if(t==='rede') throw SicoErro('sem-rede');
+      throw SicoErro('falha-leitura', e);
+    }
     guardarCache(d);            // a cache guarda só a versão pública
     await carregarPrivados(d);  // e os dados privados juntam-se só em memória
     return d;
@@ -13837,6 +13904,9 @@ function saveDB(){
 }
 async function saveDBInterno(){
   if(!DB || !session) return;
+  /* Os preços vão PRIMEIRO para config/precos. Se isto falhar, nada mais é gravado, para nunca
+     perder preços (o documento central já não os guarda). */
+  if(!(await sincronizarPrecos())) return;
   const pub = dbPublico();
   const json = JSON.stringify(pub);
   guardarCache(pub);
@@ -13863,7 +13933,7 @@ async function saveDBInterno(){
       const remoto = await window.fbLoadDB(instId);
       if(remoto){
         DB = completarDB(remoto.dados); dbRev = remoto.rev||0;
-        aplicarPrivados(DB); guardarCache(dbPublico());
+        aplicarPrecos(DB); aplicarPrivados(DB); guardarCache(dbPublico());
         if(typeof activeTab !== 'undefined' && activeTab) goTab(activeTab);
       }
     }catch(e){}
@@ -14058,7 +14128,8 @@ async function submitConfiguracaoInicial(){
 }
 
 function voltarAoLogin(){
-  session = null; DB = null; PRIV = {}; PRIV_GRAVADO = {}; PERFIL_GRAVADO = {}; modoCache = false;
+  session = null; DB = null; PRIV = {}; PRIV_GRAVADO = {}; PERFIL_GRAVADO = {}; modoCache = false; PRECOS_ATUAL = null; PRECOS_GRAVADO = '';
+  if(fbUnsubscribePrecos){ try{ fbUnsubscribePrecos(); }catch(e){} fbUnsubscribePrecos = null; }
   if(fbUnsubscribeAtual){ try{ fbUnsubscribeAtual(); }catch(e){} fbUnsubscribeAtual = null; }
   const b = document.getElementById('bannerSync'); if(b) b.classList.add('hidden');
   mostrarLogin();
@@ -14072,9 +14143,11 @@ document.getElementById('loginUser').addEventListener('keydown', e=>{ if(e.key==
 
 /* ---------- Boot ---------- */
 let fbUnsubscribeAtual = null;
+let fbUnsubscribePrecos = null;
 function aplicarRemoto(dados, rev){
   DB = completarDB(dados);
   dbRev = rev || 0;
+  aplicarPrecos(DB);
   guardarCache(DB);
   aplicarPrivados(DB);
   if(typeof activeTab !== 'undefined' && activeTab) goTab(activeTab);
@@ -14101,6 +14174,14 @@ async function boot(){
   if(window.fbEscutarDB && !fbUnsubscribeAtual && !modoCache){
     fbUnsubscribeAtual = window.fbEscutarDB(instanciaId(), aplicarRemoto, (tipo)=>{
       if(tipo==='permissao'){ voltarAoLogin(); estadoAcessoNegado(); }
+    });
+  }
+  if(window.fbEscutarConfig && !fbUnsubscribePrecos && !modoCache){
+    fbUnsubscribePrecos = window.fbEscutarConfig('precos', (cfg)=>{
+      if(JSON.stringify(precosDe(Object.assign({}, DB, cfg))) === JSON.stringify(precosDe(DB))) return;  // eco do próprio gravar
+      PRECOS_ATUAL = cfg; PRECOS_GRAVADO = JSON.stringify(precosDe(Object.assign({}, DB, cfg)));
+      aplicarPrecos(DB); guardarCache(dbPublico());
+      if(typeof activeTab !== 'undefined' && activeTab) goTab(activeTab);
     });
   }
   processarLinkValidacao();
